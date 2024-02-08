@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useRef } from 'react'
+import { Fragment, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { matchPath, useLocation, Link } from 'react-router-dom'
 
@@ -22,14 +22,15 @@ import { tutorRoutes } from '~/router/constants/tutorRoutes'
 import { useSelector } from 'react-redux'
 import { student, tutor } from '~/constants'
 import { styles } from '~/containers/layout/navbar/NavBar.styles'
-import ScrollToTop from '~/components/scroll-to-top/ScrollToTop'
+import { useMainWithFooterRef } from '~/context/main-with-footer-context'
 
 const Navbar = () => {
   const { userRole } = useSelector((state) => state.appMain)
   const { openDrawer, closeDrawer, isOpen } = useDrawer()
   const { pathname } = useLocation()
   const { t } = useTranslation()
-  const logoButtonRef = useRef(null)
+  const mainWithFooterRef = useMainWithFooterRef()
+  console.log(mainWithFooterRef)
 
   const homePath = userRole ? guestRoutes[userRole].path : guestRoutes.home.path
 
@@ -52,7 +53,9 @@ const Navbar = () => {
   }
 
   const handleLogoButtonClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (mainWithFooterRef.current) {
+      mainWithFooterRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   const navigationList = navigationItems.map((item, idx, array) => {
@@ -80,13 +83,11 @@ const Navbar = () => {
       <Button
         component={Link}
         onClick={handleLogoButtonClick}
-        ref={logoButtonRef}
         size={'small'}
         sx={styles.logoButton}
         to={homePath}
       >
         <Logo />
-        <ScrollToTop element={logoButtonRef} />
       </Button>
 
       <List sx={styles.navList}>{navigationList}</List>
