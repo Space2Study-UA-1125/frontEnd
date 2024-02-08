@@ -20,7 +20,8 @@ const SignupForm = ({
   handleBlur,
   data,
   errors,
-  closeModal
+  closeModal,
+  isValid
 }) => {
   const { t } = useTranslation()
   const { privacyPolicy, termOfUse } = guestRoutes
@@ -137,7 +138,7 @@ const SignupForm = ({
       </Box>
 
       <AppButton
-        disabled={!isAgreementChecked}
+        disabled={!isValid || !isAgreementChecked}
         loading={authLoading}
         sx={styles.signupButton}
         type='submit'
