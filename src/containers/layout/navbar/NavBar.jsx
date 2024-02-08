@@ -1,4 +1,4 @@
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { matchPath, useLocation, Link } from 'react-router-dom'
 
@@ -22,12 +22,14 @@ import { tutorRoutes } from '~/router/constants/tutorRoutes'
 import { useSelector } from 'react-redux'
 import { student, tutor } from '~/constants'
 import { styles } from '~/containers/layout/navbar/NavBar.styles'
+import ScrollToTop from '~/components/scroll-to-top/ScrollToTop'
 
 const Navbar = () => {
   const { userRole } = useSelector((state) => state.appMain)
   const { openDrawer, closeDrawer, isOpen } = useDrawer()
   const { pathname } = useLocation()
   const { t } = useTranslation()
+  const logoButtonRef = useRef(null)
 
   const homePath = userRole ? guestRoutes[userRole].path : guestRoutes.home.path
 
@@ -49,6 +51,10 @@ const Navbar = () => {
 
   const handleOpenSidebar = () => {
     openDrawer()
+  }
+
+  const handleLogoButtonClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const navigationList = navigationItems.map((item, idx, array) => {
@@ -80,6 +86,7 @@ const Navbar = () => {
         to={isOnHomePage ? guestRoutes.welcome.path : homePath}
       >
         <Logo />
+        <ScrollToTop element={logoButtonRef} />
       </Button>
 
       <List sx={styles.navList}>{navigationList}</List>
