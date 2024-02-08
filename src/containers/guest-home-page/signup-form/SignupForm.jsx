@@ -66,7 +66,7 @@ const SignupForm = ({
   )
 
   return (
-    <Box component='form' onSubmit={handleSubmit}>
+    <Box component='form' onSubmit={handleSubmit} sx={styles.form}>
       <Box sx={{ display: { md: 'block', lg: 'flex' }, gap: '15px' }}>
         <AppTextField
           autoFocus

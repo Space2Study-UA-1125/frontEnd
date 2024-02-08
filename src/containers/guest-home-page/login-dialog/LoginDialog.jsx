@@ -48,7 +48,7 @@ const LoginDialog = () => {
         <Typography sx={styles.title} variant='h2'>
           {t('login.head')}
         </Typography>
-        <Box sx={styles.form}>
+        <Box sx={styles.form} width={styles.form.maxWidth}>
           <LoginForm
             data={data}
             errors={errors}

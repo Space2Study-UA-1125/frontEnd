@@ -37,8 +37,8 @@ const style = {
     lineHeight: '48px'
   },
   form: {
-    overflow: 'auto',
-    maxWidth: { xs: '315px', md: '343px' },
+    overflow: 'visible',
+    maxWidth: { xs: '340px', md: '340px' },
     pt: '16px',
     pr: { xs: '8px', sm: '96px', md: '80px', lg: '96px' },
     pb: { xs: '24px', sm: '64px' },
