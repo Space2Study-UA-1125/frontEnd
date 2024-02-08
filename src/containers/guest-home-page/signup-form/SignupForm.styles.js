@@ -1,6 +1,12 @@
 export const styles = {
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: { xs: '340px', md: '320px' }
+  },
   input: {
-    maxWidth: '343px'
+    maxWidth: '340px',
+    overflow: 'visible'
   },
   checkboxContainer: {
     mb: '20px'
