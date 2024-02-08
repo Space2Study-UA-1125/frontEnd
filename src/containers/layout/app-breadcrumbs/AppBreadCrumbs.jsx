@@ -23,19 +23,22 @@ const AppBreadCrumbs = () => {
         component={component}
         data-testid='breadCrumb'
         key={crumb.name}
-        sx={isLast ? styles.link : styles.previous}
+        // sx={isLast ? styles.link : styles.previous}
+        sx={isLast ? { ...styles.link, alignItems: 'center' } : styles.previous}
+        {...(isLast ? {} : { to: crumb.path })}
         to={crumb.path}
       >
         {crumb.name}
       </Typography>
     )
   })
-
   const separator = <Typography sx={styles.separator} />
-
   return crumbs.length > 1 ? (
     <Container maxWidth='xl' sx={styles.root}>
-      <Breadcrumbs separator={separator} sx={styles.breadCrumbs}>
+      <Breadcrumbs
+        separator={separator}
+        sx={{ ...styles.breadCrumbs, alignItems: 'center' }}
+      >
         {breadCrumbs}
       </Breadcrumbs>
     </Container>
