@@ -21,8 +21,8 @@ const LoginDialog = () => {
   const { setAlert } = useSnackBarContext()
   const dispatch = useDispatch()
 
-  const { handleSubmit, handleInputChange, handleBlur, data, errors } = useForm(
-    {
+  const { handleSubmit, handleInputChange, handleBlur, data, errors, isValid } =
+    useForm({
       onSubmit: async () => {
         try {
           await dispatch(loginUser(data)).unwrap()
@@ -36,8 +36,7 @@ const LoginDialog = () => {
       },
       initialValues: { email: '', password: '' },
       validations: { email }
-    }
-  )
+    })
 
   return (
     <Box sx={styles.root}>
@@ -56,6 +55,7 @@ const LoginDialog = () => {
             handleBlur={handleBlur}
             handleChange={handleInputChange}
             handleSubmit={handleSubmit}
+            isValid={isValid}
           />
           <GoogleLogin buttonWidth={styles.form.maxWidth} type={login} />
         </Box>
