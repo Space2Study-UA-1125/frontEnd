@@ -58,13 +58,12 @@ const ForgotPassword = () => {
     }
   }
 
-  const { handleSubmit, handleInputChange, handleBlur, errors, data } = useForm(
-    {
+  const { handleSubmit, handleInputChange, handleBlur, errors, data, isValid } =
+    useForm({
       onSubmit: async () => sendEmail(data),
       initialValues: { email: '' },
       validations: { email }
-    }
-  )
+    })
 
   const description = (
     <Typography component='span'>
@@ -98,7 +97,12 @@ const ForgotPassword = () => {
           type='email'
           value={data.email}
         />
-        <AppButton loading={loading} sx={styles.sentPassword} type='submit'>
+        <AppButton
+          disabled={!isValid}
+          loading={loading}
+          sx={styles.sentPassword}
+          type='submit'
+        >
           {t('login.sendPassword')}
         </AppButton>
       </Box>
