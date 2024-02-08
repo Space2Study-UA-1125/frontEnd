@@ -30,40 +30,47 @@ const SignupDialog = ({ type }) => {
 
   const signupImg = { student, tutor }
 
-  const { handleSubmit, handleInputChange, handleBlur, data, isDirty, errors } =
-    useForm({
-      onSubmit: async () => {
-        try {
-          await dispatch(signupUser({ ...data, role: type })).unwrap()
-          openModal(
-            {
-              component: (
-                <NotificationModal
-                  buttonTitle={t('common.confirmButton')}
-                  description={description}
-                  img={info}
-                  onClose={closeModal}
-                  title={t('signup.confirmEmailTitle')}
-                />
-              )
-            },
-            5000
-          )
-        } catch (e) {
-          setAlert({
-            severity: snackbarVariants.error,
-            message: `errors.${e}`
-          })
-        }
-      },
-      initialValues: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
+  const {
+    handleSubmit,
+    handleInputChange,
+    handleBlur,
+    data,
+    isDirty,
+    errors,
+    isValid
+  } = useForm({
+    onSubmit: async () => {
+      try {
+        await dispatch(signupUser({ ...data, role: type })).unwrap()
+        openModal(
+          {
+            component: (
+              <NotificationModal
+                buttonTitle={t('common.confirmButton')}
+                description={description}
+                img={info}
+                onClose={closeModal}
+                title={t('signup.confirmEmailTitle')}
+              />
+            )
+          },
+          5000
+        )
+      } catch (e) {
+        setAlert({
+          severity: snackbarVariants.error,
+          message: `errors.${e}`
+        })
       }
-    })
+    },
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    }
+  })
 
   const description = (
     <Typography component='span'>
@@ -101,6 +108,7 @@ const SignupDialog = ({ type }) => {
             handleBlur={handleBlur}
             handleChange={handleInputChange}
             handleSubmit={handleSubmit}
+            isValid={isValid}
           />
           <GoogleLogin
             buttonWidth={styles.form.maxWidth}

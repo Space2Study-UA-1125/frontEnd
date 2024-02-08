@@ -13,6 +13,10 @@ export const useForm = ({
   const [errors, setErrors] = useState(initialErrors)
   const [isTouched, setTouched] = useState(getEmptyValues(initialValues, false))
 
+  const isValid = Object.entries(data).every(
+    ([key, value]) => value && !errors[key]
+  )
+
   const validateValue = (key, value) => {
     if (validations && validations[key]) {
       return validations[key]?.(value, data)
@@ -99,6 +103,7 @@ export const useForm = ({
     data,
     isDirty,
     errors,
+    isValid,
     handleInputChange,
     handleNonInputValueChange,
     handleBlur,
