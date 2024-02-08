@@ -26,6 +26,7 @@ const SignupForm = ({
   const { t } = useTranslation()
   const { privacyPolicy, termOfUse } = guestRoutes
   const [isAgreementChecked, setIsAgreementChecked] = useState(false)
+  const [confirmPasswordClicked, setConfirmPasswordClicked] = useState(false)
   const { inputVisibility: passwordVisibility, showInputText: showPassword } =
     useInputVisibility(errors.password)
   const {
@@ -37,6 +38,16 @@ const SignupForm = ({
   const handleOnAgreementChange = () => {
     setIsAgreementChecked((prev) => !prev)
   }
+
+  const handleOnInput = () => {
+    setConfirmPasswordClicked(true)
+  }
+
+  const confirmPasswordDoesNotMatchError =
+    confirmPasswordClicked &&
+    data.confirmPassword !== '' &&
+    data.password !== data.confirmPassword &&
+    t('common.errorMessages.passwordsDontMatch')
 
   const policyAgreement = (
     <Box sx={styles.box}>
@@ -118,9 +129,15 @@ const SignupForm = ({
       <AppTextField
         InputProps={confirmPasswordVisibility}
         fullWidth
+        helperText={
+          <span style={{ color: 'red' }}>
+            {confirmPasswordDoesNotMatchError}
+          </span>
+        }
         label={t('common.labels.confirmPassword')}
         onBlur={handleBlur('confirmPassword')}
         onChange={handleChange('confirmPassword')}
+        onInput={handleOnInput}
         required
         type={showConfirmPassword ? 'text' : 'password'}
         value={data.confirmPassword}
