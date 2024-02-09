@@ -11,8 +11,6 @@ import AppBreadCrumbs from '~/containers/layout/app-breadcrumbs/AppBreadCrumbs'
 import Footer from '~/containers/layout/footer/Footer'
 import { checkAuth } from '~/redux/reducer'
 
-import { MainWithFooterProvider } from '~/context/main-with-footer-context'
-
 const AppMain = () => {
   const mainWithFooter = useRef(null)
   const { loading } = useSelector((state) => state.appMain)
@@ -28,17 +26,15 @@ const AppMain = () => {
   }
 
   return (
-    <MainWithFooterProvider>
-      <Box ref={mainWithFooter} sx={styles.content}>
-        <Suspense fallback={<Loader pageLoad />}>
-          <AppBreadCrumbs />
-          <ScrollToTop element={mainWithFooter} />
-          <Outlet context={{ pageRef: mainWithFooter }} />
-          <ScrollToTopButton element={mainWithFooter} />
-          <Footer />
-        </Suspense>
-      </Box>
-    </MainWithFooterProvider>
+    <Box ref={mainWithFooter} sx={styles.content}>
+      <Suspense fallback={<Loader pageLoad />}>
+        <AppBreadCrumbs />
+        <ScrollToTop element={mainWithFooter} />
+        <Outlet context={{ pageRef: mainWithFooter }} />
+        <ScrollToTopButton element={mainWithFooter} />
+        <Footer />
+      </Suspense>
+    </Box>
   )
 }
 

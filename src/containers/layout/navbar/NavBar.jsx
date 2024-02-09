@@ -22,15 +22,17 @@ import { tutorRoutes } from '~/router/constants/tutorRoutes'
 import { useSelector } from 'react-redux'
 import { student, tutor } from '~/constants'
 import { styles } from '~/containers/layout/navbar/NavBar.styles'
-import { useMainWithFooterRef } from '~/context/main-with-footer-context'
+
+// import { useRefContext } from '~/context/wellcome-context'
 
 const Navbar = () => {
   const { userRole } = useSelector((state) => state.appMain)
   const { openDrawer, closeDrawer, isOpen } = useDrawer()
   const { pathname } = useLocation()
   const { t } = useTranslation()
-  const mainWithFooterRef = useMainWithFooterRef()
-  console.log(mainWithFooterRef)
+
+  // const { wellcomeRef } = useRefContext()
+  // console.log(wellcomeRef.current)
 
   const homePath = userRole ? guestRoutes[userRole].path : guestRoutes.home.path
 
@@ -50,12 +52,6 @@ const Navbar = () => {
 
   const handleOpenSidebar = () => {
     openDrawer()
-  }
-
-  const handleLogoButtonClick = () => {
-    if (mainWithFooterRef.current) {
-      mainWithFooterRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
   }
 
   const navigationList = navigationItems.map((item, idx, array) => {
@@ -82,7 +78,6 @@ const Navbar = () => {
     <Box sx={styles.header}>
       <Button
         component={Link}
-        onClick={handleLogoButtonClick}
         size={'small'}
         sx={styles.logoButton}
         to={homePath}
