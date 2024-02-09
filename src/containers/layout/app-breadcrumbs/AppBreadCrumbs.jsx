@@ -23,7 +23,6 @@ const AppBreadCrumbs = () => {
         component={component}
         data-testid='breadCrumb'
         key={crumb.name}
-        // sx={isLast ? styles.link : styles.previous}
         sx={isLast ? { ...styles.link, alignItems: 'center' } : styles.previous}
         {...(isLast ? {} : { to: crumb.path })}
         to={crumb.path}
