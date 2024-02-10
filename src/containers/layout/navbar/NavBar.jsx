@@ -51,10 +51,6 @@ const Navbar = () => {
     openDrawer()
   }
 
-  // scrollToTheTop(() => {
-  //   wellcomeRef.current?.scrollTo(0, 0)
-  // })
-
   const navigationList = navigationItems.map((item, idx, array) => {
     const isLast = array.length - 1 === idx
     const isActive = Boolean(matchPath(item.path, pathname))
