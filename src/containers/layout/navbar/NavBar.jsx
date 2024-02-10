@@ -23,18 +23,15 @@ import { useSelector } from 'react-redux'
 import { student, tutor } from '~/constants'
 import { styles } from '~/containers/layout/navbar/NavBar.styles'
 
-// import { useRefContext } from '~/context/wellcome-context'
-
 const Navbar = () => {
   const { userRole } = useSelector((state) => state.appMain)
   const { openDrawer, closeDrawer, isOpen } = useDrawer()
   const { pathname } = useLocation()
   const { t } = useTranslation()
 
-  // const { wellcomeRef } = useRefContext()
-  // console.log(wellcomeRef.current)
-
   const homePath = userRole ? guestRoutes[userRole].path : guestRoutes.home.path
+
+  const isOnHomePage = homePath === pathname
 
   const navigationItems = useMemo(() => {
     if (userRole === student) {
@@ -53,10 +50,6 @@ const Navbar = () => {
   const handleOpenSidebar = () => {
     openDrawer()
   }
-
-  // scrollToTheTop(() => {
-  //   wellcomeRef.current?.scrollTo(0, 0)
-  // })
 
   const navigationList = navigationItems.map((item, idx, array) => {
     const isLast = array.length - 1 === idx
@@ -81,11 +74,10 @@ const Navbar = () => {
   return (
     <Box sx={styles.header}>
       <Button
-        component={Link}
-        // onClick={scrollToTheTop}
+        component={isOnHomePage ? HashLink : Link}
         size={'small'}
         sx={styles.logoButton}
-        to={homePath}
+        to={isOnHomePage ? guestRoutes.welcome.path : homePath}
       >
         <Logo />
       </Button>

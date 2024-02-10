@@ -16,8 +16,6 @@ import WhoWeAre from '~/containers/guest-home-page/who-we-are/WhoWeAre'
 import { useModalContext } from '~/context/modal-context'
 import { styles } from '~/pages/guest-home-page/GuestHome.styles'
 
-import { RefProvider } from '~/context/wellcome-context'
-
 const GuestHomePage = () => {
   const { openModal } = useModalContext()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -48,10 +46,7 @@ const GuestHomePage = () => {
 
   return (
     <Box sx={styles.root}>
-      <RefProvider>
-        <Welcome />
-      </RefProvider>
-
+      <Welcome />
       <PageWrapper sx={styles.sectionsWrapper}>
         <FeatureBlock items={descriptionTimes} />
         <WhatCanYouDo />

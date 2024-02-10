@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useRefContext } from '~/context/wellcome-context'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -18,10 +17,6 @@ const Welcome = () => {
   const { t } = useTranslation()
   const { isLaptopAndAbove, isTablet, isMobile } = useBreakpoints()
 
-  const { wellcomeRef } = useRefContext()
-
-  console.log(wellcomeRef)
-
   const image = useMemo(() => {
     if (isLaptopAndAbove) return titleMd
     if (isTablet) return titleSm
@@ -29,7 +24,11 @@ const Welcome = () => {
   }, [isLaptopAndAbove, isTablet, isMobile])
 
   return (
-    <Box className='section' ref={wellcomeRef} sx={styles.container}>
+    <Box
+      className='section'
+      id={guestRoutes.welcome.route}
+      sx={styles.container}
+    >
       <Box alt='Title' component='img' src={image} sx={styles.title} />
       <Typography sx={styles.subtitle}>
         {t('guestHomePage.welcomeBlock.description')}
