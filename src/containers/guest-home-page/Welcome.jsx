@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useRefContext } from '~/context/wellcome-context'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -17,10 +16,6 @@ import { styles } from '~/containers/guest-home-page/styles/Welcome.styles.js'
 const Welcome = () => {
   const { t } = useTranslation()
   const { isLaptopAndAbove, isTablet, isMobile } = useBreakpoints()
-
-  const { wellcomeRef } = useRefContext()
-
-  console.log(wellcomeRef)
 
   const image = useMemo(() => {
     if (isLaptopAndAbove) return titleMd
