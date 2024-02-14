@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import LanguageStep from '../../../../../src/containers/tutor-home-page/language-step/LanguageStep'
+import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageStep'
 
 describe('LanguageStep Component', () => {
   // Scenario: Container should be rendered
