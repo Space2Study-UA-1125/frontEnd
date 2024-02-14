@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Categories from '../../../../src/pages/categories/Categories'
-import { ModalProvider } from '../../../../src/context/modal-context'
+import Categories from '~/pages/categories/Categories'
+import { ModalProvider } from '~/context/modal-context'
 
-vi.mock('../../../../src/context/modal-context', () => ({
+vi.mock('~context/modal-context', () => ({
   useModalContext: () => ({
     closeModal: vi.fn()
   }),
