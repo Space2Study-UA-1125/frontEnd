@@ -3,8 +3,7 @@ import '@testing-library/jest-dom'
 import Subjects from '~/pages/subjects/Subjects'
 import { ModalProvider } from '~/context/modal-context'
 
-// Mock the modal context and ModalProvider similarly to how you did for the Categories component
-vi.mock('../../../../src/context/modal-context', () => ({
+vi.mock('~/context/modal-context', () => ({
   useModalContext: () => ({
     closeModal: vi.fn()
   }),
