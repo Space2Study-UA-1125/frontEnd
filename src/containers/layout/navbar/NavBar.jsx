@@ -30,6 +30,7 @@ const Navbar = () => {
   const { t } = useTranslation()
 
   const homePath = userRole ? guestRoutes[userRole].path : guestRoutes.home.path
+  const isOnHomePage = homePath === pathname
 
   const navigationItems = useMemo(() => {
     if (userRole === student) {
@@ -72,10 +73,10 @@ const Navbar = () => {
   return (
     <Box sx={styles.header}>
       <Button
-        component={Link}
+        component={isOnHomePage ? HashLink : Link}
         size={'small'}
         sx={styles.logoButton}
-        to={homePath}
+        to={isOnHomePage ? guestRoutes.welcome.path : homePath}
       >
         <Logo />
       </Button>
