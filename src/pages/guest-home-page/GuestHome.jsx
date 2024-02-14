@@ -47,6 +47,7 @@ const GuestHomePage = () => {
   return (
     <Box sx={styles.root}>
       <Welcome />
+
       <PageWrapper sx={styles.sectionsWrapper}>
         <FeatureBlock items={descriptionTimes} />
         <WhatCanYouDo />
