@@ -1,10 +1,11 @@
-import { describe } from 'vitest'
 import { screen, render } from '@testing-library/react'
-import VideoBox from '~/components/video-box/VideoBox.jsx'
+import VideoBox from '~/components/video-box/VideoBox'
 
 describe('VideoBox component test', () => {
+  const video = '~/assets/img/guest-home-page/videoImg.png'
+
   beforeEach(() => {
-    render(<VideoBox />)
+    render(<VideoBox video={video} />)
   })
 
   it('should have videoBox container', () => {
