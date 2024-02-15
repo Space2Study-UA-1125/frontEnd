@@ -1,101 +1,90 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import useInputVisibility from '~/hooks/use-input-visibility'
 import { useSelector } from 'react-redux'
-import HashLink from '~/components/hash-link/HashLink'
 
 import Box from '@mui/material/Box'
-import Checkbox from '@mui/material/Checkbox'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Typography from '@mui/material/Typography'
-import AppButton from '~/components/app-button/AppButton'
 import AppTextField from '~/components/app-text-field/AppTextField'
-import useInputVisibility from '~/hooks/use-input-visibility'
-import { guestRoutes } from '~/router/constants/guestRoutes'
+import AppButton from '~/components/app-button/AppButton'
+import { useForm } from '~/hooks/use-form'
+import { validations } from '~/utils/validations/common'
 
 import { styles } from '~/containers/guest-home-page/signup-form/SignupForm.styles'
 
-const SignupForm = ({
-  handleSubmit,
-  handleChange,
-  handleBlur,
-  data,
-  errors,
-  closeModal
-}) => {
+const SignupForm = () => {
   const { t } = useTranslation()
-  const { privacyPolicy, termOfUse } = guestRoutes
-  const [isAgreementChecked, setIsAgreementChecked] = useState(false)
+  const { authLoading } = useSelector((state) => state.appMain)
+
+  const onSubmit = () => {
+    console.log('Form submitted')
+  }
+
+  const formValidations = {
+    firstName: validations.nameField,
+    lastName: validations.nameField,
+    email: validations.email,
+    password: validations.password,
+    confirmPassword: (value, data) => {
+      if (value !== data.password) {
+        return 'common.errorMessages.passwordsDontMatch'
+      }
+      return ''
+    }
+  }
+
+  const { data, errors, handleInputChange, handleBlur, handleSubmit } = useForm(
+    {
+      initialValues: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      },
+      validations: formValidations,
+      onSubmit
+    }
+  )
+
   const { inputVisibility: passwordVisibility, showInputText: showPassword } =
     useInputVisibility(errors.password)
   const {
     inputVisibility: confirmPasswordVisibility,
     showInputText: showConfirmPassword
   } = useInputVisibility(errors.confirmPassword)
-  const { authLoading } = useSelector((state) => state.appMain)
-
-  const handleOnAgreementChange = () => {
-    setIsAgreementChecked((prev) => !prev)
-  }
-
-  const policyAgreement = (
-    <Box sx={styles.box}>
-      <Typography variant='subtitle2'>{t('signup.iAgree')}</Typography>
-      <Typography
-        component={HashLink}
-        onClick={closeModal}
-        sx={styles.underlineText}
-        to={termOfUse.path}
-        variant='subtitle2'
-      >
-        {t('common.labels.terms')}
-      </Typography>
-      <Typography sx={{ ml: '5px' }} variant='subtitle2'>
-        {t('signup.and')}
-      </Typography>
-      <Typography
-        component={HashLink}
-        onClick={closeModal}
-        sx={styles.underlineText}
-        to={privacyPolicy.path}
-        variant='subtitle2'
-      >
-        {t('common.labels.privacyPolicy')}
-      </Typography>
-    </Box>
-  )
 
   return (
-    <Box component='form' onSubmit={handleSubmit}>
-      <Box sx={{ display: { md: 'block', lg: 'flex' }, gap: '15px' }}>
-        <AppTextField
-          autoFocus
-          fullWidth
-          label={t('common.labels.firstName')}
-          onBlur={handleBlur('firstName')}
-          onChange={handleChange('firstName')}
-          required
-          sx={{ mb: '5px' }}
-          type='text'
-          value={data.firstName}
-        />
-
-        <AppTextField
-          fullWidth
-          label={t('common.labels.lastName')}
-          onBlur={handleBlur('lastName')}
-          onChange={handleChange('lastName')}
-          required
-          sx={{ mb: '5px' }}
-          type='text'
-          value={data.lastName}
-        />
-      </Box>
+    <Box component='form' onSubmit={handleSubmit} sx={styles.form}>
+      <AppTextField
+        autoFocus
+        errorMsg={errors.firstName && t(errors.firstName)}
+        fullWidth
+        label={t('common.labels.firstName')}
+        onBlur={handleBlur('firstName')}
+        onChange={handleInputChange('firstName')}
+        required
+        sx={{ mb: '5px' }}
+        type='text'
+        value={data.firstName}
+      />
 
       <AppTextField
+        errorMsg={errors.lastName && t(errors.lastName)}
+        fullWidth
+        label={t('common.labels.lastName')}
+        onBlur={handleBlur('lastName')}
+        onChange={handleInputChange('lastName')}
+        required
+        sx={{ mb: '5px' }}
+        type='text'
+        value={data.lastName}
+      />
+
+      <AppTextField
+        errorMsg={errors.email && t(errors.email)}
         fullWidth
         label={t('common.labels.email')}
         onBlur={handleBlur('email')}
-        onChange={handleChange('email')}
+        onChange={handleInputChange('email')}
         required
         sx={{ mb: '5px' }}
         type='email'
@@ -104,10 +93,11 @@ const SignupForm = ({
 
       <AppTextField
         InputProps={passwordVisibility}
+        errorMsg={errors.password && t(errors.password)}
         fullWidth
         label={t('common.labels.password')}
         onBlur={handleBlur('password')}
-        onChange={handleChange('password')}
+        onChange={handleInputChange('password')}
         required
         sx={{ mb: '5px' }}
         type={showPassword ? 'text' : 'password'}
@@ -116,28 +106,19 @@ const SignupForm = ({
 
       <AppTextField
         InputProps={confirmPasswordVisibility}
+        errorMsg={errors.confirmPassword && t(errors.confirmPassword)}
         fullWidth
         label={t('common.labels.confirmPassword')}
         onBlur={handleBlur('confirmPassword')}
-        onChange={handleChange('confirmPassword')}
+        onChange={handleInputChange('confirmPassword')}
         required
+        sx={{ mb: '5px' }}
         type={showConfirmPassword ? 'text' : 'password'}
         value={data.confirmPassword}
       />
 
-      <Box sx={styles.checkboxContainer}>
-        <FormControlLabel
-          control={<Checkbox />}
-          label={policyAgreement}
-          labelPlacement='end'
-          onChange={handleOnAgreementChange}
-          sx={styles.checkboxLabel}
-          value={isAgreementChecked}
-        />
-      </Box>
-
       <AppButton
-        disabled={!isAgreementChecked}
+        disabled={authLoading}
         loading={authLoading}
         sx={styles.signupButton}
         type='submit'

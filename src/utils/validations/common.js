@@ -1,4 +1,4 @@
-const validations = {
+export const validations = {
   nameField: (value) => {
     if (value.length > 30) {
       return 'common.errorMessages.nameLength'
