@@ -1,24 +1,25 @@
-import { render, cleanup } from '@testing-library/react'
+import { render, cleanup, screen } from '@testing-library/react'
+import { beforeEach, describe } from 'vitest'
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
 
-afterEach(() => {
-  cleanup()
-})
-
-it('renders children correctly', () => {
+describe('PageWrapper test', () => {
   const childText = 'Test Child Component'
+  beforeEach(() => {
+    render(
+      <PageWrapper>
+        <div>{childText}</div>
+      </PageWrapper>
+    )
+  })
 
-  const { getByText } = render(
-    <PageWrapper>
-      <div>{childText}</div>
-    </PageWrapper>
-  )
-
-  expect(getByText(childText)).toBeInTheDocument()
-})
-
-it('closes modal on unmount', () => {
-  const { unmount } = render(<PageWrapper>Test Content</PageWrapper>)
-
-  unmount()
+  afterEach(() => {
+    cleanup()
+  })
+  it('renders children correctly', () => {
+    expect(screen.getByText(childText)).toBeInTheDocument()
+  })
+  it('closes modal on unmount', () => {
+    cleanup()
+    expect(screen.queryByText(childText)).not.toBeInTheDocument()
+  })
 })
