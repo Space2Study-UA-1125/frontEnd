@@ -2,6 +2,36 @@ import { screen, render, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
 import AppContentSwitcher from '~/components/app-content-switcher/AppContentSwitcher'
 
+vi.mock('@mui/material', async () => {
+  const actual = await vi.importActual('@mui/material')
+  return {
+    ...actual,
+    Typography: vi.fn(({ children, sx }) => <p style={sx}>{children}</p>)
+  }
+})
+
+vi.mock('@mui/material/Stack', () => ({
+  default: vi.fn(({ children, sx }) => <div style={sx}>{children}</div>)
+}))
+
+vi.mock('@mui/material/Switch', () => ({
+  default: vi.fn(({ checked, onChange, sx }) => (
+    <input
+      checked={checked}
+      data-testid='switch'
+      onChange={onChange}
+      style={sx}
+      type='checkbox'
+    />
+  ))
+}))
+
+vi.mock('@mui/material/Tooltip', () => ({
+  default: vi.fn(({ title, children }) => (
+    <div aria-label={title}>{children}</div>
+  ))
+}))
+
 const onChange = vi.fn()
 
 const switchOptions = {
