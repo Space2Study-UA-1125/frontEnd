@@ -14,9 +14,7 @@ const SignupForm = () => {
   const { t } = useTranslation()
   const { authLoading } = useSelector((state) => state.appMain)
 
-  const onSubmit = () => {
-    console.log('Form submitted')
-  }
+  const onSubmit = () => {}
 
   const formValidations = {
     firstName: validations.nameField,
