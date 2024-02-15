@@ -18,8 +18,10 @@ describe('PageWrapper test', () => {
   it('renders children correctly', () => {
     expect(screen.getByText(childText)).toBeInTheDocument()
   })
-  it('closes modal on unmount', () => {
-    cleanup()
-    expect(screen.queryByText(childText)).not.toBeInTheDocument()
+  it('closes modal on unmount', async () => {
+    const { unmount } = render(<PageWrapper>Test Content</PageWrapper>)
+    unmount()
+
+    expect(screen.queryByText(childText)).not.toHaveTextContent()
   })
 })
