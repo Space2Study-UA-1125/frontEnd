@@ -14,6 +14,13 @@ import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
 import NotificationModal from '~/containers/guest-home-page/notification-modal/NotificationModal'
 import SignupForm from '~/containers/guest-home-page/signup-form/SignupForm'
 import { signupUser } from '~/redux/reducer'
+import {
+  email,
+  password,
+  firstName,
+  lastName,
+  confirmPassword
+} from '~/utils/validations/login'
 
 import info from '~/assets/img/guest-home-page/info.svg'
 import student from '~/assets/img/signup-dialog/student.svg'
@@ -69,7 +76,8 @@ const SignupDialog = ({ type }) => {
       email: '',
       password: '',
       confirmPassword: ''
-    }
+    },
+    validations: { email, password, firstName, lastName, confirmPassword }
   })
 
   const description = (
