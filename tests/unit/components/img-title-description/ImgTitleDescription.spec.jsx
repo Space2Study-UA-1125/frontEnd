@@ -1,9 +1,20 @@
 import { screen, render } from '@testing-library/react'
 import ImgTitleDescription from '~/components/img-title-description/ImgTitleDescription'
 
+vi.mock('~/components/title-with-description/TitleWithDescription', () => ({
+  __esModule: true,
+  default: function (props) {
+    return (
+      <div>
+        <span>{props.title}</span>
+        <span>{props.description}</span>
+      </div>
+    )
+  }
+}))
+
 describe('ImgTitleDescription component', () => {
   const props = {
-    img: 'image',
     title: 'Title For Unit Test',
     description: 'Description For Unit Test'
   }
@@ -13,7 +24,7 @@ describe('ImgTitleDescription component', () => {
   })
 
   it('renders image', () => {
-    const image = screen.getByText(props.img)
+    const image = screen.getByAltText('info')
     expect(image).toBeInTheDocument()
   })
   it('renders title', () => {
@@ -24,5 +35,4 @@ describe('ImgTitleDescription component', () => {
     const description = screen.getByText(props.description)
     expect(description).toBeInTheDocument()
   })
-
 })
