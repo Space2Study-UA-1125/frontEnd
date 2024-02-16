@@ -4,7 +4,7 @@ import { style } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.
 
 const AddPhotoStep = ({ btnsBox }) => {
   return (
-    <Box sx={style.root}>
+    <Box data-testid='AddPhotoStepContainer' sx={style.root}>
       AddPhoto step
       {btnsBox}
     </Box>
