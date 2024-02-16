@@ -1,5 +1,4 @@
 import { render, cleanup, screen } from '@testing-library/react'
-import { beforeEach, describe } from 'vitest'
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
 
 describe('PageWrapper test', () => {
