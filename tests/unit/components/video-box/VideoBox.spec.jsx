@@ -1,11 +1,9 @@
-import { screen, render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import VideoBox from '~/components/video-box/VideoBox'
 
 describe('VideoBox component test', () => {
-  const video = '~/assets/img/guest-home-page/videoImg.png'
-
   beforeEach(() => {
-    render(<VideoBox video={video} />)
+    render(<VideoBox />)
   })
 
   it('should have videoBox container', () => {
@@ -19,7 +17,7 @@ describe('VideoBox component test', () => {
   })
 
   it('should have Video img', () => {
-    const video = screen.getByAltText('Video')
-    expect(video).toBeInTheDocument()
+    const videoImg = screen.getByAltText('Video')
+    expect(videoImg).toBeInTheDocument()
   })
 })
