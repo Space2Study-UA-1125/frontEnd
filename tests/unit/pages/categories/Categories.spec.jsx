@@ -1,22 +1,21 @@
-import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Categories from '../../../../src/pages/categories/Categories'
-import { ModalProvider } from '../../../../src/context/modal-context'
-
-vi.mock('../../../../src/context/modal-context', () => ({
-  useModalContext: () => ({
-    closeModal: vi.fn()
-  }),
-  ModalProvider: vi.fn(({ children }) => <div>{children}</div>) // Mock the provider
-}))
+import { screen } from '@testing-library/react'
+import Categories from '~/pages/categories/Categories'
+import { renderWithProviders } from '../../../test-utils'
 
 describe('Categories Component', () => {
-  test('renders "Categories" text within the PageWrapper', () => {
-    render(
-      <ModalProvider>
-        <Categories />
-      </ModalProvider>
-    )
+  it('renders "Categories" text within the PageWrapper', () => {
+    renderWithProviders(<Categories />)
     expect(screen.getByText(/Categories/i)).toBeInTheDocument()
+  })
+
+  it('is wrapped within a PageWrapper component with a specific class', () => {
+    const { container } = renderWithProviders(<Categories />)
+
+    // Using container.querySelector to target the class name
+    const pageWrapper = container.querySelector(
+      '.MuiContainer-root.MuiContainer-maxWidthXl'
+    )
+    expect(pageWrapper).toContainHTML('Categories')
   })
 })
