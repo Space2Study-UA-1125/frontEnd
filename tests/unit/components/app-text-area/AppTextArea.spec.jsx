@@ -9,11 +9,20 @@ vi.mock('~/components/app-text-field/AppTextField', () => ({
   }
 }))
 
+vi.mock('@mui/material', async () => {
+  const actual = await vi.importActual('@mui/material')
+  return {
+    ...actual,
+    Typography: vi.fn(({ children }) => <p>{children}</p>)
+  }
+})
+
 describe('AppTextArea test', () => {
   const props = {
     title: 'Title For Unit Test',
     maxLength: 100,
-    value: 'Value'
+    value: 'Value',
+    color: 'Color'
   }
 
   it('should render title if title prop is passed', () => {
