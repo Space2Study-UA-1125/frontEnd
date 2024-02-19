@@ -1,40 +1,43 @@
-// import React from 'react'
-// import { render, screen } from '@testing-library/react'
-// import '@testing-library/jest-dom/extend-expect'
-// import LanguageStep from '../../../../../src/containers/tutor-home-page/language-step/LanguageStep'
-//
-// describe('LanguageStep Component', () => {
-//   test('renders the "Language step" text', () => {
-//     render(<LanguageStep />)
-//     const textElement = screen.getByText(/Language step/i)
-//     expect(textElement).toBeInTheDocument()
-//   })
-//
-//   test('renders the content passed through the btnsBox prop', () => {
-//     const btnsBoxContent = <div>Test Button</div>
-//     render(<LanguageStep btnsBox={btnsBoxContent} />)
-//     const btnBoxElement = screen.getByText(/Test Button/i)
-//     expect(btnBoxElement).toBeInTheDocument()
-//   })
-// })
-import React from 'react'
+import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
-import LanguageStep from '../../../../../src/containers/tutor-home-page/language-step/LanguageStep'
+import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageStep'
+import { vi } from 'vitest'
+
+vi.mock('@mui/material/Box', () => ({
+  __esModule: true,
+  default: ({ children }) => <div data-testid='mock-box'>{children}</div>
+}))
+
+vi.mock(
+  '~/containers/tutor-home-page/language-step/LanguageStep.styles',
+  () => ({
+    styles: {
+      container: {}
+    }
+  })
+)
 
 describe('LanguageStep Component', () => {
-  // Scenario: Container should be rendered
-  test('renders the LanguageStep container', () => {
+  it('should render the language step container with text', () => {
     render(<LanguageStep />)
-    const containerElement = screen.getByTestId('language-step-container')
-    expect(containerElement).toBeInTheDocument()
+    const container = screen.getByTestId('language-step-container')
+    expect(container).toBeInTheDocument()
+    expect(container).toHaveTextContent('Language step')
   })
 
-  // Scenario: Check if the buttons passed in props are in the document
-  test('renders the buttons passed through the btnsBox prop', () => {
-    const btnsBoxContent = <button>Test Button</button> // Updated for button specificity
-    render(<LanguageStep btnsBox={btnsBoxContent} />)
-    const btnBoxElement = screen.getByRole('button', { name: /Test Button/i })
-    expect(btnBoxElement).toBeInTheDocument()
+  it('should render button elements passed through btnsBox prop', () => {
+    const mockButtons = (
+      <div>
+        <button>Button 1</button>
+        <button>Button 2</button>
+      </div>
+    )
+
+    render(<LanguageStep btnsBox={mockButtons} />)
+    const button1 = screen.getByText('Button 1')
+    const button2 = screen.getByText('Button 2')
+
+    expect(button1).toBeInTheDocument()
+    expect(button2).toBeInTheDocument()
   })
 })
