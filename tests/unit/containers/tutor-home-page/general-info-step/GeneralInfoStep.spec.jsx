@@ -17,7 +17,7 @@ describe('GeneralInfoStep test', () => {
     expect(containerElement).toBeInTheDocument()
   })
 
-  it('The buttons passed in props is in the document', () => {
+  it('Should check if buttons passed in props is in the document', () => {
     const buttonElement = screen.getByText(/Mock Button/i)
     expect(buttonElement).toBeInTheDocument()
   })
