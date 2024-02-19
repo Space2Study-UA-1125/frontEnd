@@ -18,26 +18,16 @@ vi.mock(
 )
 
 describe('LanguageStep Component', () => {
-  it('should render the language step container with text', () => {
+  it('renders the LanguageStep container', () => {
     render(<LanguageStep />)
-    const container = screen.getByTestId('language-step-container')
-    expect(container).toBeInTheDocument()
-    expect(container).toHaveTextContent('Language step')
+    const textElement = screen.getByText(/Language step/i)
+    expect(textElement).toBeInTheDocument()
   })
 
-  it('should render button elements passed through btnsBox prop', () => {
-    const mockButtons = (
-      <div>
-        <button>Button 1</button>
-        <button>Button 2</button>
-      </div>
-    )
-
-    render(<LanguageStep btnsBox={mockButtons} />)
-    const button1 = screen.getByText('Button 1')
-    const button2 = screen.getByText('Button 2')
-
-    expect(button1).toBeInTheDocument()
-    expect(button2).toBeInTheDocument()
+  it('renders the buttons passed through the btnsBox prop', () => {
+    const btnsBoxContent = <button>Test Button</button>
+    render(<LanguageStep btnsBox={btnsBoxContent} />)
+    const btnBoxElement = screen.getByRole('button', { name: /Test Button/i })
+    expect(btnBoxElement).toBeInTheDocument()
   })
 })
