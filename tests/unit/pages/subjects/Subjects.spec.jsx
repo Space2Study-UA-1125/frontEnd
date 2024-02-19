@@ -7,8 +7,16 @@ vi.mock('~/context/modal-context', () => ({
   useModalContext: () => ({
     closeModal: vi.fn()
   }),
-  ModalProvider: vi.fn(({ children }) => <div>{children}</div>) // Mock the provider
+  ModalProvider: vi.fn(({ children }) => <div>{children}</div>)
 }))
+
+vi.mock('~/components/page-wrapper/PageWrapper', () => {
+  const PageWrapperMock = ({ children }) => <div>{children}</div>
+  return {
+    __esModule: true,
+    default: vi.fn().mockImplementation(PageWrapperMock)
+  }
+})
 
 describe('Subjects Component', () => {
   test('renders "Subjects" text within the PageWrapper', () => {
