@@ -25,10 +25,18 @@ describe('AccordionWithImage test', () => {
     { title: 'Title 2', description: 'Description 2', image: MapLogo }
   ]
 
+  it('should not render Description 2 before click', () => {
+    const { queryByText } = render(<AccordionWithImage items={items} />)
+    expect(queryByText('Description 2')).not.toBeInTheDocument()
+  })
+
   it('should open content on title click', () => {
-    const { getByText } = render(<AccordionWithImage items={items} />)
+    const { getByText, queryByText } = render(
+      <AccordionWithImage items={items} />
+    )
 
     fireEvent.click(getByText('Title 2'))
     expect(getByText('Description 2')).toBeInTheDocument()
+    expect(queryByText('Description 1')).not.toBeInTheDocument()
   })
 })
