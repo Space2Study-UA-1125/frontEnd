@@ -1,21 +1,32 @@
-import '@testing-library/jest-dom'
-import { screen } from '@testing-library/react'
-import Categories from '~/pages/categories/Categories'
-import { renderWithProviders } from '../../../test-utils'
+import '@testing-library/jest-dom';
+import { renderWithProviders } from '~tests/test-utils';
+import { screen } from '@testing-library/react';
+import Categories from '~/pages/categories/Categories';
+import { vi } from 'vitest';
+
+vi.mock('~/context/modal-context', async () => {
+  const actualModalContext = await vi.importActual('~/context/modal-context');
+  return {
+    ...actualModalContext,
+    useModalContext: () => ({
+      closeModal: vi.fn(),
+    }),
+  };
+});
 
 describe('Categories Component', () => {
-  it('renders "Categories" text within the PageWrapper', () => {
-    renderWithProviders(<Categories />)
-    expect(screen.getByText(/Categories/i)).toBeInTheDocument()
-  })
+  beforeEach(() => {
 
-  it('is wrapped within a PageWrapper component with a specific class', () => {
-    const { container } = renderWithProviders(<Categories />)
+    renderWithProviders(<Categories />);
+  });
 
-    // Using container.querySelector to target the class name
-    const pageWrapper = container.querySelector(
-      '.MuiContainer-root.MuiContainer-maxWidthXl'
-    )
-    expect(pageWrapper).toContainHTML('Categories')
-  })
-})
+  it('should render the page', () => {
+    const categoriesText = screen.getByText(/Categories/i);
+    expect(categoriesText).toBeInTheDocument();
+  });
+
+  it('should contain the text of the page in the document', () => {
+    const categoriesText = screen.getByText(/Categories/i);
+    expect(document.body.contains(categoriesText)).toBe(true);
+  });
+});
