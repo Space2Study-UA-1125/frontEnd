@@ -20,7 +20,7 @@ vi.mock('~/components/page-wrapper/PageWrapper', () => {
 })
 
 describe('Subjects Component', () => {
-  test('renders "Subjects" text within the PageWrapper', () => {
+  it('renders "Subjects" text within the PageWrapper', () => {
     render(
       <ModalProvider>
         <Subjects />
