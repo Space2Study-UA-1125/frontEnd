@@ -7,7 +7,7 @@ import { styles } from '~/components/input-with-icon/InputWithIcon.styles'
 
 const InputWithIcon = ({ value, onClear, startIcon, sx, ...props }) => {
   return (
-    <Box sx={[styles.root, sx]}>
+    <Box data-testid='inputWithIconContainer' sx={[styles.root, sx]}>
       {startIcon}
       <InputBase sx={styles.input} value={value} {...props} />
       {value && (
