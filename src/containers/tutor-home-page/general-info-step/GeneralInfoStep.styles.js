@@ -19,7 +19,8 @@ export const styles = {
     maxWidth: { md: '370px', lg: '472px' },
     maxHeight: 'inherit',
     display: { xs: 'none', md: 'flex' },
-    pl: '-96px'
+    pl: '-96px',
+    pb: '20px'
   },
   img: {
     objectFit: 'contain',
@@ -32,9 +33,9 @@ export const styles = {
     boxSizing: 'border-box',
     borderTop: { xs: '1px solid', sm: 'none' },
     borderColor: { xs: 'primary.100' },
-    pt: { xs: '24px', sm: '10px', lg: '0px' },
-    pl: { xs: '8px', sm: '96px', md: '16px' },
-    width: '100%'
+    pt: { xs: '24px', sm: '10px', lg: '1px' },
+    pl: { xs: '8px', sm: '96px', md: '40px' },
+    maWwidth: '100%'
   },
   dataContainer: {
     display: 'grid',
@@ -49,7 +50,8 @@ export const styles = {
     pb: '10px'
   },
   helperText: {
-    pt: '90px'
+    pt: '20px',
+    pb: '80px'
   },
   countVords: {
     display: 'flex',
