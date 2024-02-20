@@ -11,9 +11,9 @@ const CategoryItemCard = ({ icon, title, offerCount, to }) => {
           <Typography sx={styles.title} variant='h6'>
             {title}
           </Typography>
-          <Typography
-            sx={styles.description}
-          >{`${offerCount} offers`}</Typography>
+          <Typography sx={styles.description}>
+            {`${offerCount} offers`}
+          </Typography>
         </div>
       </CardContent>
     </Card>
