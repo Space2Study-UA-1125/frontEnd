@@ -5,7 +5,9 @@ import { vi } from 'vitest'
 
 vi.mock('@mui/material/Box', () => ({
   __esModule: true,
-  default: ({ children }) => <div data-testid='mock-box'>{children}</div>
+  default: ({ children }) => (
+    <div data-testid='language-step-container'>{children}</div>
+  )
 }))
 
 vi.mock(
