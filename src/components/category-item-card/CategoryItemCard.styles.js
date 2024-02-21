@@ -7,7 +7,7 @@ import {
 
 export const styles = {
   card: {
-    width: { xs: '288px', md: '360px' },
+    width: { xs: '288px', md: '336px', lg: '360' },
     textDecoration: 'none',
     background: 'rgba(255,255,255,0.8)',
     boxShadow: commonShadow,
