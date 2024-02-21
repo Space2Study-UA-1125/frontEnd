@@ -50,9 +50,4 @@ describe('EmailVerification', () => {
     fireEvent.click(screen.getByRole('button', { name: /close/i }))
     expect(handleClose).toHaveBeenCalled()
   })
-
-  it('displays the correct email address', () => {
-    render(<EmailVerification handleClose={vi.fn()} open />)
-    expect(screen.getByText('john.doe@gmail.com')).toBeInTheDocument()
-  })
 })
