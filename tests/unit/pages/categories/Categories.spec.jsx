@@ -3,6 +3,7 @@ import { renderWithProviders } from '~tests/test-utils'
 import { screen } from '@testing-library/react'
 import Categories from '~/pages/categories/Categories'
 
+
 vi.mock('~/components/page-wrapper/PageWrapper', () => {
   return {
     __esModule: true,
