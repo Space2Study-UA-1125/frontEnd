@@ -11,17 +11,6 @@ vi.mock('~/components/page-wrapper/PageWrapper', () => {
   }
 })
 
-
-vi.mock('~/context/modal-context', async () => {
-  const actualModalContext = await vi.importActual('~/context/modal-context')
-  return {
-    ...actualModalContext,
-    useModalContext: () => ({
-      closeModal: vi.fn()
-    })
-  }
-})
-
 describe('Categories Component', () => {
   beforeEach(() => {
     renderWithProviders(<Categories />)
