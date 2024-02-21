@@ -1,4 +1,3 @@
-import { fadeAnimation } from '~/styles/app-theme/custom-animations'
 import { scrollbar } from '~/styles/app-theme/custom-scrollbar'
 
 export const styles = {
@@ -10,7 +9,6 @@ export const styles = {
     alignItems: 'center',
     gap: { lg: '53px', md: '30px' },
     maxHeight: { xs: 'calc(100vh - 56px)', sm: 'calc(100vh - 64px)' },
-    ...fadeAnimation,
     ...scrollbar
   },
 
@@ -18,7 +16,7 @@ export const styles = {
     width: '100%',
     maxWidth: { md: '370px', lg: '472px' },
     maxHeight: 'inherit',
-    display: { xs: 'none', md: 'flex' },
+    display: { xs: 'flex', md: 'flex' },
     pl: '-96px',
     pb: '20px'
   },
@@ -40,7 +38,7 @@ export const styles = {
   dataContainer: {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gap: '20px'
+    gap: '0 20px'
   },
   profSummaryContainer: {
     marginTop: '20px',
@@ -51,7 +49,7 @@ export const styles = {
   },
   helperText: {
     pt: '20px',
-    pb: '80px'
+    pb: { xs: '20px', sm: '48px', md: '64px' }
   },
   countVords: {
     display: 'flex',

@@ -10,5 +10,3 @@ export const LocationService = {
     return axiosClient.get(createUrlPath(URLs.location.getCities, country))
   }
 }
-
-console.log(LocationService.getCountries())

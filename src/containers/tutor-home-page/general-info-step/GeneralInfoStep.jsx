@@ -2,32 +2,70 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
 import generalInfo from '~/assets/img/tutor-home-page/become-tutor/general-info.svg'
 import AppTextField from '~/components/app-text-field/AppTextField'
-
-import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
-import { initialValues } from '~/components/user-steps-wrapper/constants'
-import { LocationService } from '~/services/location-service'
 import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete'
+import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
+import { LocationService } from '~/services/location-service'
+import { userService } from '~/services/user-service'
 
 const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState(initialValues)
-  const [selectedCountry, setSelectedCountry] = useState('')
 
-  useEffect(() => {
-    setFormData(initialValues)
-  }, [])
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [country, setCountry] = useState(null)
+  const [city, setCity] = useState(null)
+  const [textField, setTextField] = useState('')
+  const [charCount, setCharCount] = useState(0)
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target
-    setFormData({ ...formData, [name]: value })
+  const store = useSelector((state) => state.appMain)
+  console.log(store.userId)
+  console.log(store.userRole)
+
+  const countryTextFieldProps = {
+    label: t('common.labels.country')
+  }
+  const cityTextFieldProps = {
+    label: t('common.labels.city')
   }
 
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value)
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = await userService.getUserById({
+          userId: store.userId,
+          userRole: store.userRole
+        })
+        console.log(userData)
+        setFirstName(userData.firstName)
+        setLastName(userData.lastName)
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      }
+    }
+
+    fetchUserData()
+  }, [])
+
+  const handleTextFieldChange = (event) => {
+    const inputValue = event.target.value
+    if (inputValue.length <= 100) {
+      setTextField(inputValue)
+      setCharCount(inputValue.length)
+    }
+  }
+
+  const handleCountryChange = (value) => {
+    setCountry(value)
+    setCity(null)
+  }
+
+  const handleCityChange = (value) => {
+    setCity(value)
   }
 
   return (
@@ -49,32 +87,27 @@ const GeneralInfoStep = ({ btnsBox }) => {
             autoFocus
             label='First Name *'
             name='firstName'
-            onChange={handleInputChange}
-            value={formData.firstName}
+            // onChange={handleFirstNameChange}
+            value={firstName}
           />
           <AppTextField
             autoFocus
             label='Last Name *'
             name='lastName'
-            onChange={handleInputChange}
-            value={formData.lastName}
+            // onChange={handleLastNameChange}
+            value={lastName}
           />
           <AsyncAutocomplete
-            autoFocus
-            labelField={t('common.labels.country')}
-            onChange={handleCountryChange}
-            service={() => LocationService.getCountries()}
-            type='text'
-            value={selectedCountry}
-            // valueField='_id'
+            onChange={(_e, newValue) => handleCountryChange(newValue)}
+            service={LocationService.getCountries}
+            textFieldProps={countryTextFieldProps}
+            value={country ? country : null}
           />
-          <AppTextField
-            autoFocus
-            label={t('common.labels.city')}
-            name='city'
-            onChange={handleInputChange}
-            type='text'
-            value={formData.city}
+          <AsyncAutocomplete
+            onChange={(_e, newValue) => handleCityChange(newValue)}
+            service={country ? () => LocationService.getCities(country) : null}
+            textFieldProps={cityTextFieldProps}
+            value={city ? city : null}
           />
         </Box>
         <Box sx={styles.profSummaryContainer}>
@@ -84,14 +117,14 @@ const GeneralInfoStep = ({ btnsBox }) => {
             label={t('becomeTutor.generalInfo.textFieldLabel')}
             multiline
             name='professionalSummary'
-            onChange={handleInputChange}
+            onChange={handleTextFieldChange}
             rows={4}
             type='text'
-            value={formData.professionalSummary}
+            value={textField}
           />
         </Box>
         <Typography sx={styles.countVords} variant='body2'>
-          0/100
+          {charCount}/{100 - charCount}
         </Typography>
         <Typography sx={styles.helperText} variant='body2'>
           {t('becomeTutor.generalInfo.helperText')}
