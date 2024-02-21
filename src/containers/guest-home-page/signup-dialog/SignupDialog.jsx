@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
@@ -27,6 +27,7 @@ import student from '~/assets/img/signup-dialog/student.svg'
 import tutor from '~/assets/img/signup-dialog/tutor.svg'
 
 import { styles } from '~/containers/guest-home-page/signup-dialog/SignupDialog.styles'
+import ConfirmDialog from '~/components/confirm-dialog/ConfirmDialog'
 
 const SignupDialog = ({ type }) => {
   const { t } = useTranslation()
@@ -34,6 +35,14 @@ const SignupDialog = ({ type }) => {
   const { openModal, closeModal } = useModalContext()
   const { setAlert } = useSnackBarContext()
   const dispatch = useDispatch()
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+
+  const handleConfirmClose = (shouldClose) => {
+    setIsConfirmOpen(false)
+    if (shouldClose) {
+      closeModal()
+    }
+  }
 
   const signupImg = { student, tutor }
 
@@ -124,6 +133,7 @@ const SignupDialog = ({ type }) => {
             type={signup}
           />
         </Box>
+        {isConfirmOpen && <ConfirmDialog onConfirm={handleConfirmClose} />}
       </Box>
     </Box>
   )
