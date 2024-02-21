@@ -1,15 +1,20 @@
 import { blueGrey } from '@mui/material/colors'
+import appTypography from '~/styles/app-theme/app.typography'
+import {
+  commonShadow,
+  commonHoverShadow
+} from '~/styles/app-theme/custom-shadows'
 
 export const styles = {
   card: {
     width: { xs: '288px', md: '360px' },
     textDecoration: 'none',
     background: 'rgba(255,255,255,0.8)',
-    boxShadow: '0px 3px 16px 2px #90A4AE1F',
+    boxShadow: commonShadow,
     transition: 'background-color, box-shadow 0.3s ease',
     '&:hover': {
       background: 'rgba(255, 255, 255, 1)',
-      boxShadow: '0px 3px 16px 2px #90A4AE8F'
+      boxShadow: commonHoverShadow
     }
   },
   cardContent: {
@@ -25,11 +30,11 @@ export const styles = {
     marginRight: '24px'
   },
   title: {
-    variant: 'h6',
+    variant: appTypography.h6,
     marginBottom: '4px'
   },
   description: {
-    variant: 'body2',
+    variant: appTypography.body2,
     color: blueGrey[500]
   }
 }

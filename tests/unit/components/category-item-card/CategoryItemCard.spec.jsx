@@ -1,6 +1,6 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, useNavigate } from 'react-router-dom'
 import CategoryItemCard from '~/components/category-item-card/CategoryItemCard'
 
 const mockCategory = {
@@ -9,6 +9,17 @@ const mockCategory = {
   offerCount: 5,
   to: '/mock-category'
 }
+
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    useNavigate: vi.fn()
+  }
+})
+
+const navigate = vi.fn()
+useNavigate.mockReturnValue(navigate)
 
 describe('CategoryItemCard test', () => {
   beforeEach(() => {
@@ -31,13 +42,16 @@ describe('CategoryItemCard test', () => {
     expect(offerCountElement).toBeInTheDocument()
   })
 
-  it('redirects to the correct route on card click', () => {
+  it('redirects to the correct route on card click', async () => {
     const cardLink = screen.getByRole('link')
 
     expect(cardLink).toBeInTheDocument()
 
     userEvent.click(cardLink)
 
-    expect(window.location.pathname).toBe('/mock-category')
+    await waitFor(() => {
+      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toHaveBeenCalledWith('/mock-category')
+    })
   })
 })
