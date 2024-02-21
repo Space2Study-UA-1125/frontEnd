@@ -4,6 +4,7 @@ import { screen } from '@testing-library/react'
 import Categories from '~/pages/categories/Categories'
 import { vi } from 'vitest'
 
+
 vi.mock('~/components/page-wrapper/PageWrapper', () => {
   return {
     __esModule: true,
