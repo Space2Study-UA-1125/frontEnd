@@ -25,7 +25,10 @@ const AppPopover = ({
 
   return (
     <Box ref={anchorEl}>
-      <Box sx={{ ...hideElement, ...initialItemsWrapperStyle }}>
+      <Box
+        data-testid='initialItemsContainer'
+        sx={{ ...hideElement, ...initialItemsWrapperStyle }}
+      >
         {initialItems}
         <Box onClick={openPopover} sx={{ display: 'inline-block' }}>
           {showMoreElem}
