@@ -10,7 +10,6 @@ vi.mock('~/components/page-wrapper/PageWrapper', () => {
     default: ({ children }) => <div>{children}</div>
   }
 })
-
 describe('Categories Component', () => {
   beforeEach(() => {
     renderWithProviders(<Categories />)
