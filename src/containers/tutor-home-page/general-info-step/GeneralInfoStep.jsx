@@ -12,9 +12,12 @@ import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralIn
 import { LocationService } from '~/services/location-service'
 import { userService } from '~/services/user-service'
 
+const getEmptyData = () => {
+  return { data: [] }
+}
+
 const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
-
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [country, setCountry] = useState(null)
@@ -22,34 +25,29 @@ const GeneralInfoStep = ({ btnsBox }) => {
   const [textField, setTextField] = useState('')
   const [charCount, setCharCount] = useState(0)
 
-  const store = useSelector((state) => state.appMain)
-  console.log(store.userId)
-  console.log(store.userRole)
-
   const countryTextFieldProps = {
     label: t('common.labels.country')
   }
   const cityTextFieldProps = {
     label: t('common.labels.city')
   }
+  const store = useSelector((state) => state.appMain)
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userData = await userService.getUserById({
-          userId: store.userId,
-          userRole: store.userRole
-        })
-        console.log(userData)
-        setFirstName(userData.firstName)
-        setLastName(userData.lastName)
+        const userData = await userService.getUserById(
+          store.userId,
+          store.userRole
+        )
+        setFirstName(userData.data.firstName)
+        setLastName(userData.data.lastName)
       } catch (error) {
         console.error('Error fetching user data:', error)
       }
     }
-
     fetchUserData()
-  }, [])
+  }, [store.userId, store.userRole])
 
   const handleTextFieldChange = (event) => {
     const inputValue = event.target.value
@@ -69,7 +67,7 @@ const GeneralInfoStep = ({ btnsBox }) => {
   }
 
   return (
-    <Box sx={styles.root}>
+    <Box data-testid='gen-info-step' sx={styles.container}>
       <Box sx={styles.imgContainer}>
         <Box
           alt='generalInfo'
@@ -78,23 +76,24 @@ const GeneralInfoStep = ({ btnsBox }) => {
           sx={styles.img}
         />
       </Box>
+
+      <Typography sx={styles.title} variant='subtitle1'>
+        {t('becomeTutor.generalInfo.title')}
+      </Typography>
       <Box sx={styles.formContainer}>
-        <Typography sx={styles.title} variant='subtitle1'>
-          {t('becomeTutor.generalInfo.title')}
-        </Typography>
         <Box sx={styles.dataContainer}>
           <AppTextField
             autoFocus
             label='First Name *'
             name='firstName'
-            // onChange={handleFirstNameChange}
+            onChange={(event) => setFirstName(event.target.value)}
             value={firstName}
           />
           <AppTextField
             autoFocus
             label='Last Name *'
             name='lastName'
-            // onChange={handleLastNameChange}
+            onChange={(event) => setLastName(event.target.value)}
             value={lastName}
           />
           <AsyncAutocomplete
@@ -105,7 +104,9 @@ const GeneralInfoStep = ({ btnsBox }) => {
           />
           <AsyncAutocomplete
             onChange={(_e, newValue) => handleCityChange(newValue)}
-            service={country ? () => LocationService.getCities(country) : null}
+            service={
+              country ? () => LocationService.getCities(country) : getEmptyData
+            }
             textFieldProps={cityTextFieldProps}
             value={city ? city : null}
           />
@@ -123,7 +124,11 @@ const GeneralInfoStep = ({ btnsBox }) => {
             value={textField}
           />
         </Box>
-        <Typography sx={styles.countVords} variant='body2'>
+        <Typography
+          data-testid='char-count'
+          sx={styles.countVords}
+          variant='body2'
+        >
           {charCount}/{100 - charCount}
         </Typography>
         <Typography sx={styles.helperText} variant='body2'>

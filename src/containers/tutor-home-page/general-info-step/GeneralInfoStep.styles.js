@@ -1,24 +1,28 @@
 import { scrollbar } from '~/styles/app-theme/custom-scrollbar'
+import { fadeAnimation } from '~/styles/app-theme/custom-animations'
 
 export const styles = {
-  root: {
+  container: {
     maxWidth: { sm: 'sm', md: 'md', lg: 'lg' },
-    mt: { xs: '56px', sm: 0 },
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: { lg: '53px', md: '30px' },
-    maxHeight: { xs: 'calc(100vh - 56px)', sm: 'calc(100vh - 64px)' },
-    ...scrollbar
+    display: 'grid',
+    gridTemplateColumns: { xs: 'auto', md: 'auto 432px' },
+    columnGap: { md: '60px', lg: '114px' },
+    rowGap: { xs: '16px', sm: '20px' },
+    gridTemplateRows: {
+      xs: 'min-content min-content 1fr',
+      sm: 'min-content 1fr'
+    },
+    height: { sm: '485px' },
+    ...scrollbar,
+    ...fadeAnimation
   },
 
   imgContainer: {
-    width: '100%',
-    maxWidth: { md: '370px', lg: '472px' },
-    maxHeight: 'inherit',
-    display: { xs: 'flex', md: 'flex' },
-    pl: '-96px',
-    pb: '20px'
+    display: { sm: 'none', md: 'block' },
+    maxHeight: { xs: 'calc(100vh - 56px)', sm: 'calc(100vh - 64px)' },
+    maxWidth: { xs: '180px', md: '370px', lg: '472px' },
+    gridRow: { xs: '2/3', sm: 'span 2' },
+    placeSelf: { xs: 'center', sm: 'center', lg: 'start' }
   },
   img: {
     objectFit: 'contain',
@@ -31,9 +35,7 @@ export const styles = {
     boxSizing: 'border-box',
     borderTop: { xs: '1px solid', sm: 'none' },
     borderColor: { xs: 'primary.100' },
-    pt: { xs: '24px', sm: '10px', lg: '1px' },
-    pl: { xs: '8px', sm: '96px', md: '40px' },
-    maWwidth: '100%'
+    maxWidth: '100%'
   },
   dataContainer: {
     display: 'grid',
