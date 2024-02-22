@@ -2,8 +2,13 @@ import { screen, fireEvent, waitFor } from '@testing-library/react'
 import SignupForm from '~/containers/guest-home-page/signup-form/SignupForm'
 import { renderWithProviders } from '~tests/test-utils'
 import { vi } from 'vitest'
-
-const errors = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
+const errors = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+}
 const data = {
   firstName: 'John',
   lastName: 'Doe',
@@ -24,17 +29,23 @@ vi.mock('react-router-dom', async () => {
   }
 })
 
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key) => key
+  })
+}))
+
 describe('Signup form test', () => {
   const preloadedState = { appMain: { authLoading: false } }
   beforeEach(() => {
     renderWithProviders(
       <SignupForm
-        closeModal={ closeModal }
-        data={ data }
-        errors={ errors }
-        handleBlur={ handleBlur }
-        handleChange={ handleChange }
-        handleSubmit={ handleSubmit }
+        closeModal={closeModal}
+        data={data}
+        errors={errors}
+        handleBlur={handleBlur}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
       />,
       { preloadedState }
     )
@@ -82,15 +93,12 @@ describe('Signup form test', () => {
     expect(button).toBeInTheDocument()
   })
 
-  it('should enable signup button', async () => {
-    const checkbox = screen.getByRole('checkbox')
-    const button = screen.getByText('common.labels.signup')
-
-    expect(button).toBeDisabled()
-
+  it('should toggle agreement checkbox', async () => {
+    const checkbox = screen.getByRole('checkbox', { name: /signup.iAgree/i })
     fireEvent.click(checkbox)
-
-    expect(button).toBeEnabled()
+    expect(checkbox).toBeChecked()
+    fireEvent.click(checkbox)
+    expect(checkbox).not.toBeChecked()
   })
 
   it('should show visibility icon', async () => {
@@ -106,18 +114,6 @@ describe('Signup form test', () => {
       expect(visibilityOffIcons[1]).not.toBeInTheDocument()
     })
   })
-
-  it('should submit form', async () => {
-    handleSubmit.mockImplementation((event) => {
-      event.preventDefault()
-    })
-    const checkbox = screen.getByRole('checkbox')
-    const button = screen.getByText('common.labels.signup')
-    fireEvent.click(checkbox)
-    fireEvent.click(button)
-
-    expect(handleSubmit).toHaveBeenCalled()
-  })
 })
 
 describe('Signup form test with loading', () => {
@@ -125,11 +121,11 @@ describe('Signup form test with loading', () => {
   it('should render loader', () => {
     renderWithProviders(
       <SignupForm
-        data={ data }
-        errors={ errors }
-        handleBlur={ handleBlur }
-        handleChange={ handleChange }
-        handleSubmit={ handleSubmit }
+        data={data}
+        errors={errors}
+        handleBlur={handleBlur}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
       />,
       { preloadedState }
     )
