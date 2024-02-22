@@ -3,6 +3,26 @@ import userEvent from '@testing-library/user-event'
 import AppPopover from '~/components/app-popover/AppPopover'
 import { vi } from 'vitest'
 
+vi.mock('@mui/material/Popover', () => {
+  return {
+    default: function ({ open, onClose, children }) {
+      return (
+        <>
+          <button
+            onClick={() => {
+              onClose()
+            }}
+          >
+            Close
+          </button>
+
+          {open ? children : <div>Closed</div>}
+        </>
+      )
+    }
+  }
+})
+
 describe('AppPopover component', () => {
   const props = {
     initialItems: <div data-testid='initial'>Initial items</div>,
@@ -13,26 +33,6 @@ describe('AppPopover component', () => {
     hideElem: false
   }
   const childrenComponent = <div>Children</div>
-
-  vi.mock('@mui/material/Popover', () => {
-    return {
-      default: function ({ open, onClose, children }) {
-        return (
-          <>
-            <button
-              onClick={() => {
-                onClose()
-              }}
-            >
-              Close
-            </button>
-
-            {open ? children : <div>Closed</div>}
-          </>
-        )
-      }
-    }
-  })
 
   beforeEach(() => {
     render(<AppPopover {...props}>{childrenComponent}</AppPopover>)
@@ -70,14 +70,16 @@ describe('AppPopover component', () => {
     expect(childrenElement).not.toBeInTheDocument()
   })
 
-  props.hideElem = true
+  describe('hideElem is true', () => {
+    props.hideElem = true
 
-  it('should hide the button if hideElem is set to true', () => {
-    const showElement = screen.getByRole('button', {
-      name: 'Show more'
+    it('should hide the button if hideElem is set to true', () => {
+      const showElement = screen.getByRole('button', {
+        name: 'Show more'
+      })
+      userEvent.click(showElement)
+      const initialElementsWrapper = screen.getByTestId('initialItemsContainer')
+      expect(initialElementsWrapper).toHaveStyle('visibility: hidden')
     })
-    userEvent.click(showElement)
-    const initialElementsWrapper = screen.getByTestId('initialItemsContainer')
-    expect(initialElementsWrapper).toHaveStyle('visibility: hidden')
   })
 })
