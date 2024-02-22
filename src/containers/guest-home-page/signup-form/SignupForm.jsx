@@ -81,6 +81,7 @@ const SignupForm = ({
       <Box sx={{ display: { md: 'block', lg: 'flex' }, gap: '15px' }}>
         <AppTextField
           autoFocus
+          data-testid='firstName-input'
           errorMsg={t(errors.firstName)}
           fullWidth
           label={t('common.labels.firstName')}
@@ -150,7 +151,7 @@ const SignupForm = ({
 
       <Box sx={styles.checkboxContainer}>
         <FormControlLabel
-          control={<Checkbox />}
+          control={<Checkbox data-testid='agreement-checkbox' />}
           label={policyAgreement}
           labelPlacement='end'
           onChange={handleOnAgreementChange}
@@ -160,6 +161,7 @@ const SignupForm = ({
       </Box>
 
       <AppButton
+        data-testid='signup-button'
         disabled={!isValid || !isAgreementChecked}
         loading={authLoading}
         sx={styles.signupButton}
