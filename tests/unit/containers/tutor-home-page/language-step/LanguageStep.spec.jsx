@@ -1,13 +1,10 @@
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageStep'
 import { vi } from 'vitest'
 
 vi.mock('@mui/material/Box', () => ({
   __esModule: true,
-  default: ({ children }) => (
-    <div data-testid='language-step-container'>{children}</div>
-  )
+  default: ({ children }) => <div>{children}</div>
 }))
 
 vi.mock(
