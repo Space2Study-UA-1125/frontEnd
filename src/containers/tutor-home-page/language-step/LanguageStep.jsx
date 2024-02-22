@@ -1,21 +1,85 @@
-import { Typography } from '@mui/material'
-import Box from '@mui/material/Box'
-// import { languages } from './constants'
+import {
+  Box,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography
+} from '@mui/material'
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
+import { languages } from './constants'
+import translations from '~/constants/translations/en/become-tutor.json'
 import languageStepImg from '~/assets/img/tutor-home-page/become-tutor/languages.svg'
 import { styles } from '~/containers/tutor-home-page/language-step/LanguageStep.styles'
+import { useState } from 'react'
+
+const {
+  languages: { title, autocompleteLabel }
+} = translations
 
 const LanguageStep = ({ btnsBox }) => {
+  const [selectedLanguage, setSelectedLanguage] = useState('')
+
+  const handleChange = (event) => {
+    setSelectedLanguage(event.target.value)
+  }
+
+  const handleClear = () => {
+    setSelectedLanguage('')
+  }
+
   return (
     <Box sx={styles.container}>
-      <Box sx={styles.image}>
-        <img alt='Language Step Image' src={languageStepImg} />
+      <Box sx={styles.languageImage}>
+        <img
+          alt='Language Step Image'
+          src={languageStepImg}
+          style={styles.img}
+        />
       </Box>
-      <Box>
-        <Typography sx={styles.infoContainer}>
-          Velit officia consequat duis enim velit mollit. Other categories you
-          can add in your account settings later.
-        </Typography>
-        {btnsBox}
+      <Box sx={styles.infoWrapper}>
+        <Box>
+          <Typography sx={styles.infoDescription}>{title}</Typography>
+          <Box sx={styles.smallLanguageImage}>
+            <img
+              alt='Language Step Image'
+              src={languageStepImg}
+              style={styles.img}
+            />
+          </Box>
+          <FormControl fullWidth>
+            <InputLabel id='nativeLanguageLabel'>
+              {autocompleteLabel}
+            </InputLabel>
+            <Select
+              endAdornment={
+                selectedLanguage && (
+                  <IconButton
+                    aria-label='Clear'
+                    edge='end'
+                    onClick={handleClear}
+                    sx={styles.clearIconButton}
+                  >
+                    <ClearRoundedIcon />
+                  </IconButton>
+                )
+              }
+              id='nativeLanguageSelect'
+              label={autocompleteLabel}
+              labelId='nativeLanguageLabel'
+              onChange={handleChange}
+              value={selectedLanguage}
+            >
+              {languages.map((language) => (
+                <MenuItem key={language} value={language}>
+                  {language}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <Box>{btnsBox}</Box>
       </Box>
     </Box>
   )

@@ -8,11 +8,33 @@ export const styles = {
     height: { sm: '485px' },
     ...fadeAnimation
   },
-  image: {
-    maxWidth: '395',
-    maxheight: '440'
+  languageImage: {
+    maxWidth: { md: '295px', lg: '378px' },
+    maxHeight: { md: '345px', lg: '440px' },
+    display: { xs: 'none', md: 'block' }
   },
-  infoContainer: {
-    maxWidth: '432px'
+  smallLanguageImage: {
+    maxWidth: { xs: '180px' },
+    maxHeight: { xs: '200px' },
+    display: { xs: 'block', md: 'none' },
+    margin: '0 auto',
+    marginBottom: '20px '
+  },
+  img: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover'
+  },
+  infoWrapper: {
+    maxWidth: '432px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  infoDescription: {
+    marginBottom: '20px'
+  },
+  clearIconButton: {
+    marginRight: '12px'
   }
 }
