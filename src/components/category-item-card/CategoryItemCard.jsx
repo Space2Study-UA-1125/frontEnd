@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { styles } from '~/components/category-item-card/CategoryItemCard.styles'
 
 const CategoryItemCard = ({ icon, title, offerCount, to }) => {
@@ -10,7 +10,7 @@ const CategoryItemCard = ({ icon, title, offerCount, to }) => {
   }
 
   return (
-    <Card component={Link} onClick={handleCardClick} sx={styles.card} to={to}>
+    <Card onClick={handleCardClick} sx={styles.card}>
       <CardContent sx={styles.cardContent}>
         <img alt={title} src={icon} style={styles.icon} />
         <div>

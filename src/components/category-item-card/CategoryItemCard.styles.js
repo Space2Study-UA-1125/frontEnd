@@ -9,6 +9,7 @@ export const styles = {
   card: {
     width: { xs: '288px', md: '336px', lg: '360' },
     textDecoration: 'none',
+    cursor: 'pointer',
     background: 'rgba(255,255,255,0.8)',
     boxShadow: commonShadow,
     transition: 'background-color, box-shadow 0.3s ease',

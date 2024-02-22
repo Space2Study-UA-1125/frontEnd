@@ -43,7 +43,7 @@ describe('CategoryItemCard test', () => {
   })
 
   it('redirects to the correct route on card click', async () => {
-    const cardLink = screen.getByRole('link')
+    const cardLink = screen.getByText('Mock Category')
 
     expect(cardLink).toBeInTheDocument()
 
