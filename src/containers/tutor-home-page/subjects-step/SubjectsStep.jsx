@@ -8,12 +8,9 @@ import AppButton from '~/components/app-button/AppButton'
 import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete'
 import { categoryService } from '~/services/category-service'
 import { subjectService } from '~/services/subject-service'
+import getEmptyArrayData from '~/utils/get-empty-array-data'
 
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
-
-const getEmptyData = () => {
-  return { data: [] }
-}
 
 const SubjectsStep = ({ btnsBox }) => {
   const { t } = useTranslation()
@@ -29,7 +26,7 @@ const SubjectsStep = ({ btnsBox }) => {
 
   const currentSubjectService = category
     ? () => subjectService.getSubjectsNames(category._id)
-    : getEmptyData
+    : getEmptyArrayData
 
   const handleCategoryChange = (value) => {
     setCategory(value)
