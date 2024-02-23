@@ -20,7 +20,7 @@ const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [country, setCountry] = useState(null)
+  const [country, setCountry] = useState('')
   const [city, setCity] = useState(null)
   const [textField, setTextField] = useState('')
   const [charCount, setCharCount] = useState(0)
@@ -97,6 +97,7 @@ const GeneralInfoStep = ({ btnsBox }) => {
             value={lastName}
           />
           <AsyncAutocomplete
+            data-testid='country-field'
             onChange={(_e, newValue) => handleCountryChange(newValue)}
             service={LocationService.getCountries}
             textFieldProps={countryTextFieldProps}
