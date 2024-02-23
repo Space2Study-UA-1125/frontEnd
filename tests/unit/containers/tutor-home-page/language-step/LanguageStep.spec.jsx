@@ -1,10 +1,5 @@
 import { cleanup, render, screen, fireEvent } from '@testing-library/react'
 import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageStep'
-import translations from '~/constants/translations/en/become-tutor.json'
-
-const {
-  languages: { title, autocompleteLabel }
-} = translations
 
 const mockBtnsBox = <div>Mock Buttons Box</div>
 
@@ -14,8 +9,10 @@ beforeEach(() => {
 })
 
 it('renders LanguageStep component with translated title and label', () => {
-  expect(screen.getByText(title)).toBeInTheDocument()
-  expect(screen.getByLabelText(autocompleteLabel)).toBeInTheDocument()
+  expect(screen.getByText('becomeTutor.languages.title')).toBeInTheDocument()
+  expect(
+    screen.getByLabelText('becomeTutor.languages.autocompleteLabel')
+  ).toBeInTheDocument()
 })
 
 it('renders LanguageStep component without selected language', () => {
@@ -25,7 +22,9 @@ it('renders LanguageStep component without selected language', () => {
 })
 
 it('renders LanguageStep component with selected language', () => {
-  const selectElement = screen.getByLabelText(autocompleteLabel)
+  const selectElement = screen.getByLabelText(
+    'becomeTutor.languages.autocompleteLabel'
+  )
   fireEvent.mouseDown(selectElement)
   fireEvent.click(screen.getByText('English'))
   fireEvent.mouseUp(selectElement)
@@ -34,7 +33,9 @@ it('renders LanguageStep component with selected language', () => {
 })
 
 it('clears the selected language on clear button click', () => {
-  const selectElement = screen.getByLabelText(autocompleteLabel)
+  const selectElement = screen.getByLabelText(
+    'becomeTutor.languages.autocompleteLabel'
+  )
 
   fireEvent.mouseDown(selectElement)
   fireEvent.click(screen.getByText('English'))

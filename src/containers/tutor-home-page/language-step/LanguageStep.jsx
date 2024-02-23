@@ -9,16 +9,14 @@ import {
 } from '@mui/material'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
 import { languages } from './constants'
-import translations from '~/constants/translations/en/become-tutor.json'
+import { useTranslation } from 'react-i18next'
 import languageStepImg from '~/assets/img/tutor-home-page/become-tutor/languages.svg'
 import { styles } from '~/containers/tutor-home-page/language-step/LanguageStep.styles'
 import { useState } from 'react'
 
-const {
-  languages: { title, autocompleteLabel }
-} = translations
-
 const LanguageStep = ({ btnsBox }) => {
+  const { t } = useTranslation()
+
   const [selectedLanguage, setSelectedLanguage] = useState('')
 
   const handleChange = (event) => {
@@ -40,7 +38,9 @@ const LanguageStep = ({ btnsBox }) => {
       </Box>
       <Box sx={styles.infoWrapper}>
         <Box>
-          <Typography sx={styles.infoDescription}>{title}</Typography>
+          <Typography sx={styles.infoDescription}>
+            {t('becomeTutor.languages.title')}
+          </Typography>
           <Box sx={styles.smallLanguageImage}>
             <img
               alt='Language Step Image'
@@ -50,7 +50,7 @@ const LanguageStep = ({ btnsBox }) => {
           </Box>
           <FormControl fullWidth>
             <InputLabel id='nativeLanguageLabel'>
-              {autocompleteLabel}
+              {t('becomeTutor.languages.autocompleteLabel')}
             </InputLabel>
             <Select
               endAdornment={
@@ -66,7 +66,7 @@ const LanguageStep = ({ btnsBox }) => {
                 )
               }
               id='nativeLanguageSelect'
-              label={autocompleteLabel}
+              label={t('becomeTutor.languages.autocompleteLabel')}
               labelId='nativeLanguageLabel'
               onChange={handleChange}
               value={selectedLanguage}
