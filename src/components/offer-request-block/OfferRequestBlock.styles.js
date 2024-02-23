@@ -1,6 +1,6 @@
 export const styles = {
   card: {
-    padding: {xs: '24px 32px', sm: '40px 70px'},
+    padding: { xs: '24px 32px', sm: '40px 70px' },
     backgroundColor: 'companyBlue',
     textAlign: { xs: 'center', sm: 'left' },
     borderRadius: '16px'
@@ -11,7 +11,7 @@ export const styles = {
       marginBottom: '20px'
     },
     description: {
-       typography: { xs: 'body2', md: 'body1' }
+      typography: { xs: 'body2', md: 'body1' }
     }
   },
   button: {
@@ -22,10 +22,9 @@ export const styles = {
   imgContainer: {
     display: { xs: 'none', sm: 'block' },
     marginTop: '20px',
-    textAlign: 'right',
+    textAlign: 'right'
   },
   img: {
     maxWidth: '100%'
   }
-};
-
+}
