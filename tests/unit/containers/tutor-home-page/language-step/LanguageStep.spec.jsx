@@ -46,6 +46,6 @@ describe('LanguageStep test', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }))
 
-    expect(screen.getByDisplayValue('')).toBeInTheDocument()
+    expect(screen.queryByDisplayValue('English')).toBeNull()
   })
 })
