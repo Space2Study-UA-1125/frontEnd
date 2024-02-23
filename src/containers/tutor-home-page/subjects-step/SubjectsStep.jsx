@@ -26,9 +26,6 @@ const SubjectsStep = ({ btnsBox }) => {
   const subjectTextFieldProps = {
     label: t('becomeTutor.categories.subjectLabel')
   }
-  const axiosProps = {
-    resetResponseOnError: true
-  }
 
   const currentSubjectService = category
     ? () => subjectService.getSubjectsNames(category._id)
@@ -61,7 +58,6 @@ const SubjectsStep = ({ btnsBox }) => {
             valueField='_id'
           />
           <AsyncAutocomplete
-            axiosProps={axiosProps}
             labelField='name'
             onChange={(_e, newValue) => setSubject(newValue)}
             service={currentSubjectService}
