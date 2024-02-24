@@ -21,7 +21,7 @@ const GeneralInfoStep = ({ btnsBox }) => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [country, setCountry] = useState('')
-  const [city, setCity] = useState(null)
+  const [city, setCity] = useState('')
   const [textField, setTextField] = useState('')
   const [charCount, setCharCount] = useState(0)
 
@@ -35,16 +35,12 @@ const GeneralInfoStep = ({ btnsBox }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      try {
-        const userData = await userService.getUserById(
-          store.userId,
-          store.userRole
-        )
-        setFirstName(userData.data.firstName)
-        setLastName(userData.data.lastName)
-      } catch (error) {
-        console.error('Error fetching user data:', error)
-      }
+      const userData = await userService.getUserById(
+        store.userId,
+        store.userRole
+      )
+      setFirstName(userData.data.firstName)
+      setLastName(userData.data.lastName)
     }
     fetchUserData()
   }, [store.userId, store.userRole])
@@ -84,14 +80,14 @@ const GeneralInfoStep = ({ btnsBox }) => {
         <Box sx={styles.dataContainer}>
           <AppTextField
             autoFocus
-            label='First Name *'
+            label={t('common.labels.firstName*')}
             name='firstName'
             onChange={(event) => setFirstName(event.target.value)}
             value={firstName}
           />
           <AppTextField
             autoFocus
-            label='Last Name *'
+            label={t('common.labels.lastName*')}
             name='lastName'
             onChange={(event) => setLastName(event.target.value)}
             value={lastName}
