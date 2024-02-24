@@ -67,7 +67,7 @@ const GeneralInfoStep = ({ btnsBox }) => {
   }
 
   return (
-    <Box data-testid='gen-info-step' sx={styles.container}>
+    <Box sx={styles.container}>
       <Box sx={styles.imgContainer}>
         <Box
           alt='generalInfo'
@@ -97,7 +97,6 @@ const GeneralInfoStep = ({ btnsBox }) => {
             value={lastName}
           />
           <AsyncAutocomplete
-            data-testid='country-field'
             onChange={(_e, newValue) => handleCountryChange(newValue)}
             service={LocationService.getCountries}
             textFieldProps={countryTextFieldProps}

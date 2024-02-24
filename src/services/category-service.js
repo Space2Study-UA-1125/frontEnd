@@ -10,3 +10,5 @@ export const categoryService = {
     return axiosClient.get(URLs.categories.getNames)
   }
 }
+
+console.log(categoryService.getCategories({ _id: 1 }))
