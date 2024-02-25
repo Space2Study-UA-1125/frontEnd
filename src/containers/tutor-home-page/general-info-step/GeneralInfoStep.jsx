@@ -11,10 +11,7 @@ import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 import { LocationService } from '~/services/location-service'
 import { userService } from '~/services/user-service'
-
-const getEmptyData = () => {
-  return { data: [] }
-}
+import getEmptyArrayData from '~/utils/get-empty-array-data'
 
 const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
@@ -101,7 +98,9 @@ const GeneralInfoStep = ({ btnsBox }) => {
           <AsyncAutocomplete
             onChange={(_e, newValue) => handleCityChange(newValue)}
             service={
-              country ? () => LocationService.getCities(country) : getEmptyData
+              country
+                ? () => LocationService.getCities(country)
+                : getEmptyArrayData
             }
             textFieldProps={cityTextFieldProps}
             value={city ? city : null}

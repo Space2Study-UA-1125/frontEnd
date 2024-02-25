@@ -34,14 +34,6 @@ vi.mock('~/services/location-service', () => ({
   }
 }))
 
-vi.mock('~/services/user-service', () => ({
-  userService: {
-    getUserById: () => {
-      throw new Error('Test error')
-    }
-  }
-}))
-
 const mockSelector = vi.fn()
 
 const mockState = { userId: '1', userRole: 'tutor' }
@@ -59,6 +51,10 @@ vi.mock('~/services/user-service', () => ({
       data: { firstName: 'John', lastName: 'Doe' }
     })
   }
+}))
+
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (key) => key })
 }))
 
 describe('GeneralInfoStep test', () => {
@@ -166,5 +162,16 @@ describe('GeneralInfoStep test', () => {
       expect(firstName).toHaveValue('John')
       expect(lastName).toHaveValue('Doe')
     })
+  })
+
+  it('should change firstName and lastName according to user data', async () => {
+    const firstName = screen.getByLabelText('common.labels.firstName*')
+    const lastName = screen.getByLabelText('common.labels.lastName*')
+
+    fireEvent.change(firstName, { target: { value: 'Olha' } })
+    fireEvent.change(lastName, { target: { value: 'Hrytsak' } })
+
+    expect(firstName).toHaveValue('Olha')
+    expect(lastName).toHaveValue('Hrytsak')
   })
 })
