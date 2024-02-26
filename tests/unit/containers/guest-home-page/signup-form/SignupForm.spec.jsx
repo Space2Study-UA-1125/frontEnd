@@ -29,12 +29,6 @@ vi.mock('react-router-dom', async () => {
   }
 })
 
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key) => key
-  })
-}))
-
 describe('Signup form test', () => {
   const preloadedState = { appMain: { authLoading: false } }
   beforeEach(() => {
