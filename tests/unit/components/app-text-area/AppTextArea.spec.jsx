@@ -13,7 +13,9 @@ vi.mock('@mui/material', async () => {
   const actual = await vi.importActual('@mui/material')
   return {
     ...actual,
-    Typography: vi.fn(({ children, color }) => <p style={{ color }}>{children}</p>)
+    Typography: vi.fn(({ children, color }) => (
+      <p style={{ color }}>{children}</p>
+    ))
   }
 })
 
@@ -37,13 +39,13 @@ describe('AppTextArea test', () => {
     const title = screen.queryByText(props.title)
     expect(title).not.toBeInTheDocument()
   })
-  it('should render Typography with primary.300 color', () => {
+  it('should render Typography with error color', () => {
     const maxLength = 10
     const value = '1000000000'
 
-    render(<AppTextArea value={value} maxLength={maxLength} />)
+    render(<AppTextArea maxLength={maxLength} value={value} />)
 
     const typography = screen.getByText(`${Number(value?.length)}/${maxLength}`)
-    expect(typography).toHaveStyle('color: primary.300')
+    expect(typography).toHaveStyle('color: rgb(211, 47, 47)')
   })
 })
