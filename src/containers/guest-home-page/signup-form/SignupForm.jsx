@@ -70,7 +70,6 @@ const SignupForm = ({
       <Box sx={{ display: { md: 'block', lg: 'flex' }, gap: '15px' }}>
         <AppTextField
           autoFocus
-          data-testid='firstName-input'
           errorMsg={t(errors.firstName)}
           fullWidth
           label={t('common.labels.firstName')}

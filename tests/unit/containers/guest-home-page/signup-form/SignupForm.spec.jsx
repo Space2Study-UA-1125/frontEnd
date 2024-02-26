@@ -46,31 +46,31 @@ describe('Signup form test', () => {
   })
 
   it('should render firstName input', () => {
-    const input = screen.getByText('common.labels.firstName')
+    const input = screen.getByLabelText(/common\.labels\.firstName/i)
 
     expect(input).toBeInTheDocument()
   })
 
   it('should render lastName input', () => {
-    const input = screen.getByText('common.labels.lastName')
+    const input = screen.getByLabelText(/common\.labels\.lastName/i)
 
     expect(input).toBeInTheDocument()
   })
 
   it('should render email input', () => {
-    const input = screen.getByText('common.labels.email')
+    const input = screen.getByLabelText(/email/i)
 
     expect(input).toBeInTheDocument()
   })
 
   it('should render password input', () => {
-    const input = screen.getByText('common.labels.password')
+    const input = screen.getByLabelText(/common\.labels\.password/i)
 
     expect(input).toBeInTheDocument()
   })
 
   it('should render confirmPassword input', () => {
-    const input = screen.getByText('common.labels.confirmPassword')
+    const input = screen.getByLabelText(/common\.labels\.confirmPassword/i)
 
     expect(input).toBeInTheDocument()
   })
