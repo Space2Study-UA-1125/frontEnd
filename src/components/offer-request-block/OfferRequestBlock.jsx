@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Box, Typography, Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { styles } from '~/components/offer-request-block/OfferRequestBlock.styles'
 import AppButton from '~/components/app-button/AppButton'
 import AppCard from '~/components/app-card/AppCard'
@@ -15,10 +15,6 @@ const OfferRequestBlock = ({ userRole }) => {
 
   const handleOpenDrawer = () => {
     openDrawer()
-  }
-
-  const handleCloseDrawer = () => {
-    closeDrawer()
   }
 
   return (
@@ -50,15 +46,9 @@ const OfferRequestBlock = ({ userRole }) => {
         <AppDrawer
           anchor='right'
           closeIcon
-          onClose={handleCloseDrawer}
+          onClose={closeDrawer}
           open={isOpen}
-        >
-          <Typography>
-            {isTutor
-              ? t('offerPage.createOffer.title.main.tutor')
-              : t('offerPage.createOffer.title.main.student')}
-          </Typography>
-        </AppDrawer>
+        />
       )}
     </Box>
   )

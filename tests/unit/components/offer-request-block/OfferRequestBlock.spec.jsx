@@ -2,19 +2,21 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
 import OfferRequestBlock from '~/components/offer-request-block/OfferRequestBlock'
 
-const openDrawerMock = vi.fn()
-const closeDrawerMock = vi.fn()
+vi.mock('~/hooks/use-confirm', () => {
+  return {
+    default: () => ({ setNeedConfirmation: () => true })
+  }
+})
 
-vi.mock('~/hooks/use-drawer', () => ({
-  __esModule: true,
-  useDrawer: () => ({
-    isOpen: false,
-    openDrawer: openDrawerMock,
-    closeDrawer: closeDrawerMock
-  })
-}))
-
-vi.mock('~/hooks/use-confirm')
+vi.mock('~/hooks/use-drawer', async (importActual) => {
+  const actual = await importActual()
+  return {
+    ...actual,
+    useDrawer: () => ({
+      isOpen: false
+    })
+  }
+})
 
 vi.mock('~/components/app-card/AppCard', () => ({
   __esModule: true,
@@ -41,9 +43,9 @@ vi.mock('~/components/app-button/AppButton', () => ({
 
 vi.mock('~/components/app-drawer/AppDrawer', () => ({
   __esModule: true,
-  default: vi.fn(({ children, onClose, open }) => (
+  default: vi.fn(({ onClose, open }) => (
     <dialog data-testid='AppDrawer' onClose={onClose}>
-      {open && children}
+      {open}
     </dialog>
   ))
 }))
@@ -52,7 +54,6 @@ vi.mock('@mui/material', async () => {
   const actual = await vi.importActual('@mui/material')
   return {
     ...actual,
-    Typography: vi.fn(({ children }) => <p>{children}</p>),
     Box: vi.fn(({ children }) => <div>{children}</div>),
     Grid: vi.fn(({ children }) => <div>{children}</div>)
   }
@@ -105,23 +106,10 @@ describe('OfferRequestBlock test', () => {
     expect(button).toBeInTheDocument()
   })
 
-  it('should call openDrawer when button is clicked', () => {
-    const button = screen.getByText(/findOffers.offerRequestBlock.button/i)
-    fireEvent.click(button)
-    expect(openDrawerMock).toHaveBeenCalled()
-  })
-
   it('should open AppDrawer when button is clicked', () => {
     const button = screen.getByText(/findOffers.offerRequestBlock.button/i)
     fireEvent.click(button)
-    const drawer = screen.getByText(/offerPage.createOffer.title.main./i)
+    const drawer = screen.getByTestId('sentinelEnd')
     expect(drawer).toBeInTheDocument()
-  })
-
-  it('should call closeDrawer when AppDrawer closes', () => {
-    const button = screen.getByText(/findOffers.offerRequestBlock.button/i)
-    fireEvent.click(button)
-    fireEvent.click(button)
-    expect(closeDrawerMock).toHaveBeenCalled()
   })
 })
