@@ -8,7 +8,6 @@ export const offerService = {
     return axiosClient.get(URLs.offers.get, { params })
   },
   getOfferById: (offerId) => {
-    console.log(createUrlPath(URLs.offers.get, offerId))
     return axiosClient.get(createUrlPath(URLs.offers.get, offerId))
   },
   createOffer: (offerData) => {
