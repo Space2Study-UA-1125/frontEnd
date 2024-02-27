@@ -140,14 +140,12 @@ describe('GeneralInfoStep test', () => {
     expect(cityField).toHaveValue('')
   })
 
-  it('should render professionalSummary text field for writing text and counting sumbols', () => {
+  it('should render professionalSummary text field for writing text', () => {
     const textField = screen.getByLabelText(
       /becomeTutor.generalInfo.textFieldLabel/i
     )
-    const charCountElement = screen.getByTestId('char-count')
     fireEvent.change(textField, { target: { value: 'Some text' } })
     expect(textField.value).toBe('Some text')
-    expect(charCountElement).toHaveTextContent('9/91')
   })
 
   it('should check if buttons passed in props is in the document', () => {

@@ -46,15 +46,12 @@ export const styles = {
     marginTop: '20px',
     height: { sm: '125px' }
   },
+
   title: {
     pb: '10px'
   },
   helperText: {
     pt: '20px',
-    pb: { xs: '20px', sm: '48px', md: '64px' }
-  },
-  countVords: {
-    display: 'flex',
-    color: 'primary.700'
+    pb: { xs: '20px', sm: '48px', md: '54px' }
   }
 }

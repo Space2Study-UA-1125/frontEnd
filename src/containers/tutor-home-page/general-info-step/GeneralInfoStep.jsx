@@ -1,26 +1,26 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import generalInfo from '~/assets/img/tutor-home-page/become-tutor/general-info.svg'
 import AppTextField from '~/components/app-text-field/AppTextField'
+import AppTextArea from '~/components/app-text-area/AppTextArea'
 import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
+import useUserName from '~/hooks/use-user-name'
+
 import { LocationService } from '~/services/location-service'
-import { userService } from '~/services/user-service'
 import getEmptyArrayData from '~/utils/get-empty-array-data'
 
 const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const { firstName, lastName, updateFirstName, updateLastName } =
+    useUserName('')
   const [country, setCountry] = useState('')
   const [city, setCity] = useState('')
   const [textField, setTextField] = useState('')
-  const [charCount, setCharCount] = useState(0)
 
   const countryTextFieldProps = {
     label: t('common.labels.country')
@@ -28,26 +28,10 @@ const GeneralInfoStep = ({ btnsBox }) => {
   const cityTextFieldProps = {
     label: t('common.labels.city')
   }
-  const store = useSelector((state) => state.appMain)
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userData = await userService.getUserById(
-        store.userId,
-        store.userRole
-      )
-      setFirstName(userData.data.firstName)
-      setLastName(userData.data.lastName)
-    }
-    fetchUserData()
-  }, [store.userId, store.userRole])
 
   const handleTextFieldChange = (event) => {
     const inputValue = event.target.value
-    if (inputValue.length <= 100) {
-      setTextField(inputValue)
-      setCharCount(inputValue.length)
-    }
+    setTextField(inputValue)
   }
 
   const handleCountryChange = (value) => {
@@ -79,14 +63,14 @@ const GeneralInfoStep = ({ btnsBox }) => {
             autoFocus
             label={t('common.labels.firstName*')}
             name='firstName'
-            onChange={(event) => setFirstName(event.target.value)}
+            onChange={(event) => updateFirstName(event.target.value)}
             value={firstName}
           />
           <AppTextField
             autoFocus
             label={t('common.labels.lastName*')}
             name='lastName'
-            onChange={(event) => setLastName(event.target.value)}
+            onChange={(event) => updateLastName(event.target.value)}
             value={lastName}
           />
           <AsyncAutocomplete
@@ -106,26 +90,15 @@ const GeneralInfoStep = ({ btnsBox }) => {
             value={city ? city : null}
           />
         </Box>
+
         <Box sx={styles.profSummaryContainer}>
-          <AppTextField
-            autoFocus
-            fullWidth
+          <AppTextArea
             label={t('becomeTutor.generalInfo.textFieldLabel')}
-            multiline
-            name='professionalSummary'
+            maxLength={100}
             onChange={handleTextFieldChange}
-            rows={4}
-            type='text'
             value={textField}
           />
         </Box>
-        <Typography
-          data-testid='char-count'
-          sx={styles.countVords}
-          variant='body2'
-        >
-          {charCount}/{100 - charCount}
-        </Typography>
         <Typography sx={styles.helperText} variant='body2'>
           {t('becomeTutor.generalInfo.helperText')}
         </Typography>
