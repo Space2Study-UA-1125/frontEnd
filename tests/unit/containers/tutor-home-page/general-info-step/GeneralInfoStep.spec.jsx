@@ -61,7 +61,8 @@ describe('GeneralInfoStep test', () => {
   const mockButton = <button>Mock Button</button>
 
   beforeEach(() => {
-    render(<GeneralInfoStep btnsBox={mockButton} />)
+    cleanup()
+    renderWithProviders(<GeneralInfoStep btnsBox={mockButton} />)
   })
 
   afterEach(() => {
