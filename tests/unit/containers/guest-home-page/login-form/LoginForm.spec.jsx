@@ -25,6 +25,7 @@ describe('Login form test', () => {
         handleBlur={handleBlur}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        isValid
       />,
       { preloadedState }
     )
@@ -69,10 +70,25 @@ describe('Login form test', () => {
     handleSubmit.mockImplementation((event) => {
       event.preventDefault()
     })
+    const inputEmail = screen.getByLabelText(/email/i)
+    const inputPassword = screen.getByLabelText(/password/i)
     const button = screen.getByText('common.labels.login')
+
+    fireEvent.change(inputEmail, { target: { value: data.email } })
+    fireEvent.change(inputPassword, { target: { value: data.password } })
+
+    expect(button).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(inputEmail).toHaveValue('email@mail.com')
+      expect(inputPassword).toHaveValue('passTest1')
+    })
+
     fireEvent.click(button)
 
-    expect(handleSubmit).toHaveBeenCalled()
+    await waitFor(() => {
+      expect(handleSubmit).toHaveBeenCalled()
+    })
   })
 
   it('should click forgot password text and open forgot password container', async () => {
