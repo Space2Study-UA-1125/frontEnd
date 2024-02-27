@@ -44,8 +44,8 @@ vi.mock('@mui/material/Typography', () => ({
 }))
 
 vi.mock('~/components/app-button/AppButton', () => ({
-  default: vi.fn(({ children, sx }) => (
-    <button style={sx} type='button'>
+  default: vi.fn(({ children, sx, onClick }) => (
+    <button onClick={onClick} style={sx} type='button'>
       {children}
     </button>
   ))
@@ -142,5 +142,83 @@ describe('SubjectsStep renders components', () => {
 
     expect(categoryField).toHaveValue('')
     expect(subjectField).toHaveValue('')
+  })
+  it('should add subject when clicking the add button', async () => {
+    const categoryField = screen.getByLabelText(
+      'becomeTutor.categories.mainSubjectsLabel'
+    )
+    const subjectField = screen.getByLabelText(
+      'becomeTutor.categories.subjectLabel'
+    )
+    const addButton = screen.getByText('becomeTutor.categories.btnText')
+
+    userEvent.click(categoryField)
+    userEvent.click(screen.getByText('Category 1'))
+    userEvent.click(subjectField)
+    await waitFor(() => {
+      userEvent.click(screen.getByText('Subject 1'))
+    })
+
+    userEvent.click(addButton)
+
+    const chip = screen.queryByTestId('chip')
+    expect(chip).toHaveTextContent('Subject 1')
+  })
+
+  it('should show error message when the same subject is added', async () => {
+    const categoryField = screen.getByLabelText(
+      'becomeTutor.categories.mainSubjectsLabel'
+    )
+    const subjectField = screen.getByLabelText(
+      'becomeTutor.categories.subjectLabel'
+    )
+    const addButton = screen.getByText('becomeTutor.categories.btnText')
+
+    //first add
+    userEvent.click(categoryField)
+    userEvent.click(screen.getByText('Category 1'))
+    await waitFor(() => {
+      userEvent.click(subjectField)
+    })
+    await waitFor(() => {
+      userEvent.click(screen.getByText('Subject 1'))
+    })
+    userEvent.click(addButton)
+    const chip = screen.queryByTestId('chip')
+    expect(chip).toHaveTextContent('Subject 1')
+    //second add
+    userEvent.click(subjectField)
+    await waitFor(() => {
+      userEvent.click(screen.getAllByText('Subject 1')[1])
+    })
+    userEvent.click(addButton)
+    expect(
+      screen.getByText('becomeTutor.categories.sameSubject')
+    ).toBeInTheDocument()
+  })
+
+  it('should delete subject when clicking on the delete icon', async () => {
+    const categoryField = screen.getByLabelText(
+      'becomeTutor.categories.mainSubjectsLabel'
+    )
+    const subjectField = screen.getByLabelText(
+      'becomeTutor.categories.subjectLabel'
+    )
+    const addButton = screen.getByText('becomeTutor.categories.btnText')
+
+    userEvent.click(categoryField)
+    userEvent.click(screen.getByText('Category 1'))
+    await waitFor(() => {
+      userEvent.click(subjectField)
+    })
+    await waitFor(() => {
+      userEvent.click(screen.getByText('Subject 1'))
+    })
+    userEvent.click(addButton)
+
+    const deleteButton = screen.getByTestId('close-btn')
+    userEvent.click(deleteButton)
+
+    expect(screen.queryByText('Subject 1')).toBeNull()
   })
 })
