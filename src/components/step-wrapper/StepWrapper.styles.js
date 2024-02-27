@@ -1,7 +1,7 @@
 import { fadeAnimation } from '~/styles/app-theme/custom-animations'
 
 const btnStyle = {
-  padding: '10px 20px',
+  padding: '14px 20px',
   display: 'flex',
   columnGap: 1
 }
@@ -11,6 +11,7 @@ export const styles = {
     display: { xs: 'flex' },
     flexDirection: { xs: 'column' },
     height: { xs: '100vh', sm: 'auto' },
+    maxWidth: { sm: '532px', md: '900px', lg: '1120px' },
     p: { lg: '50px 90px', sm: '40px 50px', xs: '40px 15px' }
   },
   defaultTab: {
@@ -49,7 +50,7 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     mt: '10px',
-    maxHeight: '40px'
+    maxHeight: '48px'
   },
   btn: btnStyle,
   finishBtn: {
