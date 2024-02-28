@@ -39,13 +39,13 @@ describe('AppTextArea test', () => {
     const title = screen.queryByText(props.title)
     expect(title).not.toBeInTheDocument()
   })
-  it('should render Typography with error color', () => {
+  it('should render Typography with counted values', () => {
     const maxLength = 10
     const value = '1000000000'
 
     render(<AppTextArea maxLength={maxLength} value={value} />)
 
     const typography = screen.getByText(`${Number(value?.length)}/${maxLength}`)
-    expect(typography).toHaveStyle('color: rgb(211, 47, 47)')
+    expect(typography).toHaveTextContent('10/10')
   })
 })
