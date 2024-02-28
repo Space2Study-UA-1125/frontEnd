@@ -15,20 +15,19 @@ import AppAutoComplete from '~/components/app-auto-complete/AppAutoComplete'
 const CategoriesSearch = ({ categoryItems, setCategoryItems }) => {
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
-  const [allCategories, setAllCategories] = useState(categoryItems)
+  const [options, setOptions] = useState(categoryItems)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await categoryService.getCategories()
-        setAllCategories(response.data.items)
-        setCategoryItems(response.data.items)
+        const response = await categoryService.getCategories({ name: search })
+        setOptions(response.data.items)
       } catch (error) {
         console.error('Error fetching categories:', error)
       }
     }
     fetchData()
-  })
+  }, [search])
 
   const filterOptions = (options, state) => {
     const filterOptions = createFilterOptions()
@@ -40,11 +39,7 @@ const CategoriesSearch = ({ categoryItems, setCategoryItems }) => {
   }
 
   const onSearch = () => {
-    setCategoryItems(
-      allCategories.filter((category) =>
-        category.name.toLowerCase().includes(search.toLowerCase())
-      )
-    )
+    setCategoryItems(options)
   }
 
   const onEnterPress = (event) => {
@@ -77,7 +72,7 @@ const CategoriesSearch = ({ categoryItems, setCategoryItems }) => {
             freeSolo
             onChange={onInputChange}
             onInputChange={onInputChange}
-            options={categoryItems.map((category) => category.name)}
+            options={options.map((category) => category.name)}
             sx={styles.input}
             textFieldProps={{
               placeholder: t('categoriesPage.searchLabel'),
