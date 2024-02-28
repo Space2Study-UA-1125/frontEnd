@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useState, useEffect } from 'react'
 import useFileReader from '~/hooks/use-file-reader'
-import { validationData } from './constants'
+import { validationData, clearButtonNameMaxLength } from './constants'
 import { useTranslation } from 'react-i18next'
 import CloseIcon from '@mui/icons-material/Close'
 import useBreakpoints from '~/hooks/use-breakpoints'
@@ -19,7 +19,6 @@ const AddPhotoStep = ({ btnsBox, onFileUpload = () => {} }) => {
   const [fileName, setFileName] = useState(null)
   const { isMobile, isTablet } = useBreakpoints()
   const { t } = useTranslation()
-  const clearButtonNameMaxLength = 19
 
   const emitter = ({ files }) => {
     const firstfile = files[0]
