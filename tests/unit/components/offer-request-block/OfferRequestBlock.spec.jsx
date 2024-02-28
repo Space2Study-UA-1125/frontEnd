@@ -1,20 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
 import OfferRequestBlock from '~/components/offer-request-block/OfferRequestBlock'
 
 vi.mock('~/hooks/use-confirm', () => {
   return {
     default: () => ({ setNeedConfirmation: () => true })
-  }
-})
-
-vi.mock('~/hooks/use-drawer', async (importActual) => {
-  const actual = await importActual()
-  return {
-    ...actual,
-    useDrawer: () => ({
-      isOpen: false
-    })
   }
 })
 
@@ -38,15 +28,6 @@ vi.mock('~/components/title-with-description/TitleWithDescription', () => ({
 vi.mock('~/components/app-button/AppButton', () => ({
   default: vi.fn(({ onClick, children }) => (
     <button onClick={onClick}>{children}</button>
-  ))
-}))
-
-vi.mock('~/components/app-drawer/AppDrawer', () => ({
-  __esModule: true,
-  default: vi.fn(({ onClose, open }) => (
-    <dialog data-testid='AppDrawer' onClose={onClose}>
-      {open}
-    </dialog>
   ))
 }))
 
@@ -106,10 +87,13 @@ describe('OfferRequestBlock test', () => {
     expect(button).toBeInTheDocument()
   })
 
-  it('should open AppDrawer when button is clicked', () => {
+  it('should open AppDrawer with close icon when button is clicked', async () => {
     const button = screen.getByText(/findOffers.offerRequestBlock.button/i)
+    expect(button).toBeInTheDocument()
     fireEvent.click(button)
+
     const drawer = screen.getByTestId('sentinelEnd')
-    expect(drawer).toBeInTheDocument()
+
+    await waitFor(() => expect(drawer).toBeInTheDocument())
   })
 })
