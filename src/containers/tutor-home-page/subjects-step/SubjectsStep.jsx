@@ -99,7 +99,6 @@ const SubjectsStep = ({ btnsBox }) => {
           </AppButton>
           <FormHelperText error={subjectsError !== null}>
             {subjectsError}
-
           </FormHelperText>
 
           <AppChipList

@@ -27,6 +27,8 @@
     "email": "Email",
     "firstName": "First name",
     "lastName": "Last name",
+    "firstName*": "First Name *",
+    "lastName*": "Last Name *",
     "password": "Password",
     "confirmPassword": "Confirm password",
     "terms": "Terms",
