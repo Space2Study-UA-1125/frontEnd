@@ -98,7 +98,8 @@ const SubjectsStep = ({ btnsBox }) => {
             {t('becomeTutor.categories.btnText')}
           </AppButton>
           <FormHelperText error={subjectsError !== null}>
-            {subjectsError || null}
+            {subjectsError}
+
           </FormHelperText>
 
           <AppChipList
