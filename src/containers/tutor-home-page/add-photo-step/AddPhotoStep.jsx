@@ -82,7 +82,7 @@ const AddPhotoStep = ({ btnsBox, onFileUpload = () => {} }) => {
               ) : (
                 <FileUploader
                   buttonText={t('becomeTutor.photo.button')}
-                  emitter={emitter} // Предполагается, что emitter передается откуда-то еще
+                  emitter={emitter}
                   validationData={validationData}
                 />
               )}
