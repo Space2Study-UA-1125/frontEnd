@@ -35,9 +35,6 @@ export const style = {
     height: '100%',
     objectFit: 'cover',
     objectPosition: 'center'
-  },
-  doneIcon: {
-    transform: 'translateY(-60%)'
   }
 }
 

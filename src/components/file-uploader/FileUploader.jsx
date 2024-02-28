@@ -52,7 +52,7 @@ const FileUploader = ({
   )
 
   return (
-    <>
+    <Box>
       <Box sx={styles.root}>
         {initialState.length > 0 ? (
           <List sx={{ width: '100%' }}>{filesList}</List>
@@ -68,7 +68,7 @@ const FileUploader = ({
           {t(initialError)}
         </Typography>
       )}
-    </>
+    </Box>
   )
 }
 
