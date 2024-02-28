@@ -2,7 +2,15 @@ import { Card, CardContent, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { styles } from '~/components/category-item-card/CategoryItemCard.styles'
 
-const CategoryItemCard = ({ icon, title, offerCount, to }) => {
+const CategoryItemCard = ({
+  id,
+  icon,
+  title,
+  offerCount,
+  backgroundColor,
+  color,
+  to
+}) => {
   const navigate = useNavigate()
 
   const handleCardClick = () => {
@@ -10,9 +18,17 @@ const CategoryItemCard = ({ icon, title, offerCount, to }) => {
   }
 
   return (
-    <Card onClick={handleCardClick} sx={styles.card}>
+    <Card key={id} onClick={handleCardClick} sx={styles.card}>
       <CardContent sx={styles.cardContent}>
-        <img alt={title} src={icon} style={styles.icon} />
+        <div
+          style={{
+            ...styles.iconContainer,
+            color: color,
+            backgroundColor: backgroundColor
+          }}
+        >
+          {icon}
+        </div>
         <div>
           <Typography sx={styles.title} variant='h6'>
             {title}
