@@ -65,10 +65,6 @@ describe('GeneralInfoStep test', () => {
     renderWithProviders(<GeneralInfoStep btnsBox={mockButton} />)
   })
 
-  afterEach(() => {
-    cleanup()
-  })
-
   it('should render img for GeneralInfoStep', () => {
     expect(screen.getByAltText('generalInfo')).toBeInTheDocument()
   })
