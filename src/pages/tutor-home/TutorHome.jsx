@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-// import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useModalContext } from '~/context/modal-context'
 
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
@@ -10,11 +10,7 @@ import { styles } from '~/pages/tutor-home/TutorHome.styles'
 
 const TutorHome = () => {
   const { openModal } = useModalContext()
-  // const { isFirstLogin, userRole } = useSelector((state) => state.appMain)
-  const { isFirstLogin, userRole } = {
-    isFirstLogin: 'true ',
-    userRole: 'tutor'
-  }
+  const { isFirstLogin, userRole } = useSelector((state) => state.appMain)
 
   useEffect(() => {
     if (isFirstLogin) {
