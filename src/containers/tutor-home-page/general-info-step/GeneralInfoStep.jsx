@@ -1,6 +1,8 @@
 import Box from '@mui/material/Box'
 
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
 
 // const GeneralInfoStep = ({ btnsBox, onCloseClick }) => {
 //   return (
@@ -13,9 +15,9 @@ import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralIn
 // }
 //
 // export default GeneralInfoStep
-
-import CloseIcon from '@mui/icons-material/Close'
-import IconButton from '@mui/material/IconButton'
+//
+// import CloseIcon from '@mui/icons-material/Close'
+// import IconButton from '@mui/material/IconButton'
 
 const GeneralInfoStep = ({ btnsBox, onCloseClick }) => {
   return (
