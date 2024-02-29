@@ -54,4 +54,28 @@ describe('useUserName', () => {
 
     expect(result.current.lastName).toBe('Smith')
   })
+
+  it('should show an error when firstName field is empty', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useUserName())
+
+    await waitForNextUpdate()
+
+    act(() => {
+      result.current.updateFirstName('')
+    })
+
+    expect(result.current.firstNameError).toBeTruthy()
+  })
+
+  it('should show an error when lastName field is empty', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useUserName())
+
+    await waitForNextUpdate()
+
+    act(() => {
+      result.current.updateLastName('')
+    })
+
+    expect(result.current.lastNameError).toBeTruthy()
+  })
 })

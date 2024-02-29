@@ -16,8 +16,14 @@ import getEmptyArrayData from '~/utils/get-empty-array-data'
 
 const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
-  const { firstName, lastName, updateFirstName, updateLastName } =
-    useUserName('')
+  const {
+    firstName,
+    lastName,
+    updateFirstName,
+    updateLastName,
+    firstNameError,
+    lastNameError
+  } = useUserName('')
   const [country, setCountry] = useState('')
   const [city, setCity] = useState('')
   const [textField, setTextField] = useState('')
@@ -61,6 +67,7 @@ const GeneralInfoStep = ({ btnsBox }) => {
         <Box sx={styles.dataContainer}>
           <AppTextField
             autoFocus
+            errorMsg={firstNameError}
             label={t('common.labels.firstName*')}
             name='firstName'
             onChange={(event) => updateFirstName(event.target.value)}
@@ -68,6 +75,7 @@ const GeneralInfoStep = ({ btnsBox }) => {
           />
           <AppTextField
             autoFocus
+            errorMsg={lastNameError}
             label={t('common.labels.lastName*')}
             name='lastName'
             onChange={(event) => updateLastName(event.target.value)}
