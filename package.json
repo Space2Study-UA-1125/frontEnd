@@ -68,8 +68,8 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "test": "cross-env CI=true vitest dev",
-    "coverage": "cross-env CI=true vitest --coverage",
+    "test": "cross-env CI=true vitest --coverage",
+    "test-dev": "cross-env CI=true vitest dev",
     "serve": "vite preview --port 3000",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "lint-fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
