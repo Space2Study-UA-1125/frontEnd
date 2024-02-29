@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import useFileReader from '~/hooks/use-file-reader'
 import { validationData, clearButtonNameMaxLength } from './constants'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +14,6 @@ import {
 } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.style'
 
 const AddPhotoStep = ({ btnsBox, onFileUpload = () => {} }) => {
-  const [file, setFile] = useState(null)
   const { fileDataURL, readFileAsDataURL, resetFileDataURL } = useFileReader()
   const [fileName, setFileName] = useState(null)
   const { isMobile, isTablet } = useBreakpoints()
@@ -22,21 +21,15 @@ const AddPhotoStep = ({ btnsBox, onFileUpload = () => {} }) => {
 
   const emitter = ({ files }) => {
     const firstfile = files[0]
-    setFile(firstfile)
     onFileUpload(firstfile)
     setFileName(getShortenedFileName(firstfile.name, clearButtonNameMaxLength))
     readFileAsDataURL(firstfile)
   }
 
   const handleClear = () => {
-    setFile(null)
     resetFileDataURL()
     setFileName(null)
   }
-
-  useEffect(() => {
-    onFileUpload(file)
-  }, [file])
 
   const getShortenedFileName = (file, maxLength) => {
     return file.slice(0, maxLength) + '...'
