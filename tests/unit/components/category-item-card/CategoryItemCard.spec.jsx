@@ -33,7 +33,7 @@ describe('CategoryItemCard test', () => {
   })
 
   it('renders category item card with correct content', () => {
-    const iconElement = screen.getByAltText('Mock Category')
+    const iconElement = screen.getByText('mock-icon-url')
     const titleElement = screen.getByText('Mock Category')
     const offerCountElement = screen.getByText('5 offers')
 
