@@ -1,15 +1,16 @@
 import { useEffect, useState, useMemo } from 'react'
-import StepWrapper from '~/components/step-wrapper/StepWrapper'
+import { useDispatch } from 'react-redux'
 import { markFirstLoginComplete } from '~/redux/reducer'
-import { StepProvider } from '~/context/step-context'
 import { useModalContext } from '~/context/modal-context'
+import useConfirm from '~/hooks/use-confirm'
 
+import StepWrapper from '~/components/step-wrapper/StepWrapper'
+import { StepProvider } from '~/context/step-context'
 import AddPhotoStep from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep'
 import GeneralInfoStep from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep'
 import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageStep'
 import SubjectsStep from '~/containers/tutor-home-page/subjects-step/SubjectsStep'
 
-import { useDispatch } from 'react-redux'
 import {
   initialValues,
   studentStepLabels,
@@ -20,26 +21,31 @@ import { student } from '~/constants'
 const UserStepsWrapper = ({ userRole }) => {
   const [isUserFetched, setIsUserFetched] = useState(false)
   const dispatch = useDispatch()
-  const { openModal, handleCloseButtonClick } = useModalContext()
+  const { openModal } = useModalContext()
+  const { setNeedConfirmation } = useConfirm()
 
   useEffect(() => {
     dispatch(markFirstLoginComplete())
-  }, [dispatch])
+    setNeedConfirmation(true)
+
+    return () => {
+      setNeedConfirmation(false)
+    }
+  }, [dispatch, setNeedConfirmation])
 
   const childrenArr = useMemo(
     () => [
       <GeneralInfoStep
         isUserFetched={isUserFetched}
         key='1'
-        onCloseClick={handleCloseButtonClick}
         setIsUserFetched={setIsUserFetched}
       />,
       <SubjectsStep key='2' />,
       <LanguageStep key='3' />,
       <AddPhotoStep key='4' />
     ],
-    [isUserFetched, handleCloseButtonClick]
-  ) // Dependencies
+    [isUserFetched]
+  )
 
   const stepLabels = userRole === student ? studentStepLabels : tutorStepLabels
 
