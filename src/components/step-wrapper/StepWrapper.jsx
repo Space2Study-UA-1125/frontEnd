@@ -11,7 +11,7 @@ import AppButton from '~/components/app-button/AppButton'
 import { styles } from '~/components/step-wrapper/StepWrapper.styles'
 import useSteps from '~/hooks/use-steps'
 import { useStepContext } from '~/context/step-context'
-//import { studentStepLabels } from '~/components/user-steps-wrapper/constants'
+
 const StepWrapper = ({ children, steps }) => {
   const { activeStep, isLastStep, loading, stepOperation } = useSteps({
     steps
@@ -19,40 +19,17 @@ const StepWrapper = ({ children, steps }) => {
   const { next, back, setActiveStep, handleSubmit } = stepOperation
   const { t } = useTranslation()
   const { stepData } = useStepContext()
-  // console.log('stepdata: ', stepData)
-  // console.log(
-  //   'stepData[generalLabel].firstName: ',
-  //   stepData[generalLabel].firstName
-  // )
-  // console.log(
-  //   'stepData[generalLabel].address.country: ',
-  //   stepData[generalLabel].address.country
-  // )
-  // const generalData = {
-  //   firstName: 'VladyslavaTest',
-  //   lastName: 'KorohodovaTest',
-  //   address: {
-  //     country: 'Ukraine',
-  //     city: 'Kyiv'
-  //   },
-  //   professionalSummary: 'SummaryTest'
-  // }
   const [generalLabel, subjectLabel, languageLabel, photoLabel] = steps
-  // const stepData = {
-  //   [generalLabel]: generalData,
-  //   [subjectLabel]: ['65cb2bfc8915aeb37601c4f9', '65cb4df48915aeb37601c564'],
-  //   [languageLabel]: 'Ukrainian',
-  //   [photoLabel]: null
-  // }
+
   const handleFinishBtnClick = () => {
     const stepDataforService = {
-      firstName: stepData[generalLabel].firstName,
-      lastName: stepData[generalLabel].lastName,
+      firstName: stepData[generalLabel].data.firstName,
+      lastName: stepData[generalLabel].data.lastName,
       address: {
-        country: stepData[generalLabel].country,
-        city: stepData[generalLabel].city
+        country: stepData[generalLabel].data.country,
+        city: stepData[generalLabel].data.city
       },
-      professionalSummary: stepData[generalLabel].professionalSummary,
+      professionalSummary: stepData[generalLabel].data.professionalSummary,
       mainSubjects: stepData[subjectLabel],
       nativeLanguage: stepData[languageLabel],
       photo: stepData[photoLabel].length ? stepData[photoLabel] : null

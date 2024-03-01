@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import generalInfo from '~/assets/img/tutor-home-page/become-tutor/general-info.svg'
@@ -13,14 +13,16 @@ import useUserName from '~/hooks/use-user-name'
 
 import { LocationService } from '~/services/location-service'
 import getEmptyArrayData from '~/utils/get-empty-array-data'
+import { useStepContext } from '~/context/step-context'
 
-const GeneralInfoStep = ({ btnsBox }) => {
+const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
+  const { handleStepData } = useStepContext()
   const { t } = useTranslation()
   const { firstName, lastName, updateFirstName, updateLastName } =
     useUserName('')
   const [country, setCountry] = useState('')
   const [city, setCity] = useState('')
-  const [textField, setTextField] = useState('')
+  const [professionalSummary, setProfessionalSummary] = useState('')
 
   const countryTextFieldProps = {
     label: t('common.labels.country')
@@ -29,9 +31,9 @@ const GeneralInfoStep = ({ btnsBox }) => {
     label: t('common.labels.city')
   }
 
-  const handleTextFieldChange = (event) => {
+  const handleProfessionalSummaryChange = (event) => {
     const inputValue = event.target.value
-    setTextField(inputValue)
+    setProfessionalSummary(inputValue)
   }
 
   const handleCountryChange = (value) => {
@@ -42,7 +44,15 @@ const GeneralInfoStep = ({ btnsBox }) => {
   const handleCityChange = (value) => {
     setCity(value)
   }
-
+  useEffect(() => {
+    handleStepData(stepLabel, {
+      firstName,
+      lastName,
+      country,
+      city,
+      professionalSummary
+    })
+  }, [firstName, lastName, country, city, professionalSummary])
   return (
     <Box sx={styles.container}>
       <Box sx={styles.imgContainer}>
@@ -95,8 +105,8 @@ const GeneralInfoStep = ({ btnsBox }) => {
           <AppTextArea
             label={t('becomeTutor.generalInfo.textFieldLabel')}
             maxLength={100}
-            onChange={handleTextFieldChange}
-            value={textField}
+            onChange={handleProfessionalSummaryChange}
+            value={professionalSummary}
           />
         </Box>
         <Typography sx={styles.helperText} variant='body2'>
