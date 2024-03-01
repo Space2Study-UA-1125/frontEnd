@@ -16,10 +16,10 @@ import { useState, useEffect } from 'react'
 import { useStepContext } from '~/context/step-context'
 
 const LanguageStep = ({ btnsBox, stepLabel }) => {
-  const { handleStepData } = useStepContext()
+  const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
 
-  const [selectedLanguage, setSelectedLanguage] = useState('')
+  const [selectedLanguage, setSelectedLanguage] = useState(stepData[stepLabel])
 
   const handleChange = (event) => {
     setSelectedLanguage(event.target.value)

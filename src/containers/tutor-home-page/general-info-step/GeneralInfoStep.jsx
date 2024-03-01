@@ -16,13 +16,15 @@ import getEmptyArrayData from '~/utils/get-empty-array-data'
 import { useStepContext } from '~/context/step-context'
 
 const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
-  const { handleStepData } = useStepContext()
+  const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
   const { firstName, lastName, updateFirstName, updateLastName } =
     useUserName('')
-  const [country, setCountry] = useState('')
-  const [city, setCity] = useState('')
-  const [professionalSummary, setProfessionalSummary] = useState('')
+  const [country, setCountry] = useState(stepData[stepLabel].data.country)
+  const [city, setCity] = useState(stepData[stepLabel].data.city)
+  const [professionalSummary, setProfessionalSummary] = useState(
+    stepData[stepLabel].data.professionalSummary
+  )
 
   const countryTextFieldProps = {
     label: t('common.labels.country')
