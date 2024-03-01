@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { markFirstLoginComplete } from '~/redux/reducer'
 import { useModalContext } from '~/context/modal-context'
-import useConfirm from '~/hooks/use-confirm'
+import useConfirm from '~/hooks/use-confirm' // Import the useConfirm hook
 
 import StepWrapper from '~/components/step-wrapper/StepWrapper'
 import { StepProvider } from '~/context/step-context'
@@ -25,8 +25,8 @@ const UserStepsWrapper = ({ userRole }) => {
   const { setNeedConfirmation } = useConfirm()
 
   useEffect(() => {
-    dispatch(markFirstLoginComplete())
     setNeedConfirmation(true)
+    dispatch(markFirstLoginComplete())
 
     return () => {
       setNeedConfirmation(false)
