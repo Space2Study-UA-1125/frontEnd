@@ -1,17 +1,20 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close'
-import { LocationService } from '~/services/location-service'
-import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete'
-import AppTextField from '~/components/app-text-field/AppTextField'
-import { useTranslation } from 'react-i18next'
+
 import { useState } from 'react'
-import getEmptyArrayData from '~/utils/get-empty-array-data'
+import { useTranslation } from 'react-i18next'
+
+import generalInfo from '~/assets/img/tutor-home-page/become-tutor/general-info.svg'
+import AppTextField from '~/components/app-text-field/AppTextField'
 import AppTextArea from '~/components/app-text-area/AppTextArea'
+import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete'
+import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 import useUserName from '~/hooks/use-user-name'
 
-const GeneralInfoStep = ({ btnsBox, onCloseClick }) => {
+import { LocationService } from '~/services/location-service'
+import getEmptyArrayData from '~/utils/get-empty-array-data'
+
+const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
   const { firstName, lastName, updateFirstName, updateLastName } =
     useUserName('')
@@ -33,7 +36,7 @@ const GeneralInfoStep = ({ btnsBox, onCloseClick }) => {
 
   const handleCountryChange = (value) => {
     setCountry(value)
-    setCity('')
+    setCity(null)
   }
 
   const handleCityChange = (value) => {
@@ -42,12 +45,6 @@ const GeneralInfoStep = ({ btnsBox, onCloseClick }) => {
 
   return (
     <Box sx={styles.container}>
-      <IconButton
-        onClick={onCloseClick}
-        sx={{ position: 'absolute', right: 8, top: 8 }}
-      >
-        <CloseIcon />
-      </IconButton>
       <Box sx={styles.imgContainer}>
         <Box
           alt='generalInfo'
@@ -93,6 +90,7 @@ const GeneralInfoStep = ({ btnsBox, onCloseClick }) => {
             value={city ? city : null}
           />
         </Box>
+
         <Box sx={styles.profSummaryContainer}>
           <AppTextArea
             label={t('becomeTutor.generalInfo.textFieldLabel')}
