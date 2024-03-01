@@ -30,7 +30,7 @@ const StepWrapper = ({ children, steps }) => {
         city: stepData[generalLabel].data.city
       },
       professionalSummary: stepData[generalLabel].data.professionalSummary,
-      mainSubjects: stepData[subjectLabel],
+      mainSubjects: stepData[subjectLabel].map((subject) => subject._id),
       nativeLanguage: stepData[languageLabel],
       photo: stepData[photoLabel].length ? stepData[photoLabel] : null
     }

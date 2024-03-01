@@ -3,6 +3,25 @@ import userEvent from '@testing-library/user-event'
 import GeneralInfoStep from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep'
 import { renderWithProviders } from '~tests/test-utils'
 import { expect, vi } from 'vitest'
+import { StepProvider } from '~/context/step-context'
+
+vi.mock('~/context/step-context', () => ({
+  useStepContext: () => ({
+    handleStepData: vi.fn(),
+    stepData: {
+      generalInfo: {
+        data: {
+          firstName: '',
+          lastName: '',
+          country: null,
+          city: null,
+          professionalSummary: ''
+        }
+      }
+    }
+  }),
+  StepProvider: vi.fn(({ children }) => <div>{children}</div>)
+}))
 
 vi.mock('@mui/material', () => ({
   Box: vi.fn(({ children }) => <div data-testid='boxMui'>{children}</div>),
@@ -62,7 +81,11 @@ describe('GeneralInfoStep test', () => {
 
   beforeEach(() => {
     cleanup()
-    renderWithProviders(<GeneralInfoStep btnsBox={mockButton} />)
+    renderWithProviders(
+      <StepProvider>
+        <GeneralInfoStep btnsBox={mockButton} stepLabel='generalInfo' />
+      </StepProvider>
+    )
   })
 
   it('should render img for GeneralInfoStep', () => {

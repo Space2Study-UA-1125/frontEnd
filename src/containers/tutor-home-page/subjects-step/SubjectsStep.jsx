@@ -14,11 +14,11 @@ import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.
 import { useStepContext } from '~/context/step-context'
 
 const SubjectsStep = ({ btnsBox, stepLabel }) => {
-  const { handleStepData } = useStepContext()
+  const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
   const [category, setCategory] = useState(null)
   const [subject, setSubject] = useState(null)
-  const [selectedSubjects, setSelectedSubjects] = useState([])
+  const [selectedSubjects, setSelectedSubjects] = useState(stepData[stepLabel])
   const [subjectsError, setSubjectsError] = useState(null)
   const categoryTextFieldProps = {
     label: t('becomeTutor.categories.mainSubjectsLabel')
@@ -62,11 +62,9 @@ const SubjectsStep = ({ btnsBox, stepLabel }) => {
   const selectedSubjectsNames = selectedSubjects.map((subject) => subject.name)
 
   useEffect(() => {
-    handleStepData(
-      stepLabel,
-      selectedSubjects.map((subject) => subject._id)
-    )
+    handleStepData(stepLabel, selectedSubjects)
   }, [selectedSubjects])
+
   return (
     <Box sx={styles.container}>
       <Box sx={styles.imageContainer}>
