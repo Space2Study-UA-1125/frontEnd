@@ -3,20 +3,6 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-
-import generalInfo from '~/assets/img/tutor-home-page/become-tutor/general-info.svg';
-import AppTextField from '~/components/app-text-field/AppTextField';
-import AppTextArea from '~/components/app-text-area/AppTextArea';
-import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete';
-import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles';
-
-import useUserName from '~/hooks/use-user-name';
-
-import { LocationService } from '~/services/location-service';
-import getEmptyArrayData from '~/utils/get-empty-array-data';
-
 const GeneralInfoStep = ({ btnsBox, onCloseClick }) => {
     const { t } = useTranslation();
     const { firstName, lastName, updateFirstName, updateLastName } = useUserName('');
