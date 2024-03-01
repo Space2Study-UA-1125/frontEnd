@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material'
 import { styles } from '~/containers/offers-container/OffersContainer.styles'
-import OfferCard from './OfferCard'
+import OfferCard from '~/components/offer-card/OfferCard'
 
 const OffersContainer = ({ offers, view = 'list' }) => {
   return (
