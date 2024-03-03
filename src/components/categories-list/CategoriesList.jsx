@@ -4,16 +4,11 @@ import Grid from '@mui/material/Grid'
 import CategoryItemCard from '~/components/category-item-card/CategoryItemCard'
 import icons from '~/assets/mui-icons/mui-icons'
 import { authRoutes } from '~/router/constants/authRoutes'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { categoryService } from '~/services/category-service'
 import { styles } from '~/components/categories-list/CategoriesList.styles'
 
 const CategoriesList = () => {
-  const [categories, setCategories] = useState([])
-  const [dataFetched, setDataFetched] = useState(false)
-  const [displayedCategories, setDisplayedCategories] = useState([])
-  const [startIndex, setStartIndex] = useState(0)
-  const categoriesPerPage = 12
   const colorPairs = useMemo(
     () => [
       { backgroundColor: 'rgba(121, 178, 96, 0.2)', color: '#79B260' },
@@ -24,45 +19,40 @@ const CategoriesList = () => {
     ],
     []
   )
+  const [categories, setCategories] = useState([])
+  const [skip, setSkip] = useState(0)
+  const [hasMoreCategories, setHasMoreCategories] = useState(true)
+  const limit = 9
+
+  const fetchCategories = useCallback(async () => {
+    const result = await categoryService.getCategories({ skip, limit })
+    const fetchedCategories = result.data.items
+    if (fetchedCategories.length < limit) {
+      setHasMoreCategories(false)
+    }
+    const categoriesWithColors = fetchedCategories.map((category, index) => ({
+      ...category,
+      backgroundColor: colorPairs[index % colorPairs.length].backgroundColor,
+      color: colorPairs[index % colorPairs.length].color
+    }))
+    setCategories((prevCategories) => [
+      ...prevCategories,
+      ...categoriesWithColors
+    ])
+  }, [skip, limit, colorPairs])
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const result = await categoryService.getCategories()
-      const categoriesWithColors = result.data.items.map((category, index) => ({
-        ...category,
-        backgroundColor: colorPairs[index % colorPairs.length].backgroundColor,
-        color: colorPairs[index % colorPairs.length].color
-      }))
-      setCategories(categoriesWithColors)
-      setDataFetched(true)
-    }
-
     fetchCategories()
-  }, [colorPairs])
+  }, [skip, fetchCategories])
 
-  useEffect(() => {
-    if (dataFetched) {
-      const endIndex = Math.min(
-        startIndex + categoriesPerPage,
-        categories.length
-      )
-      setDisplayedCategories(categories.slice(0, endIndex))
-    }
-  }, [dataFetched, startIndex, categories])
+  const loadMoreCategories = useCallback(() => {
+    setSkip((prewSkip) => prewSkip + limit)
+  }, [])
 
-  const loadMoreCategories = () => {
-    const newStartIndex = startIndex + categoriesPerPage
-    setDisplayedCategories(categories.slice(startIndex, newStartIndex))
-    setStartIndex(newStartIndex)
-  }
-
-  if (!dataFetched) {
-    return null
-  }
   return (
     <Box sx={styles.categoriesContainer}>
       <Grid container style={styles.categoriesGridContainer}>
-        {displayedCategories.map((category) => (
+        {categories.map((category) => (
           <Grid item key={category._id}>
             <CategoryItemCard
               backgroundColor={category.backgroundColor}
@@ -73,12 +63,12 @@ const CategoriesList = () => {
                 category.totalOffers.student + category.totalOffers.tutor
               }
               title={category.name}
-              to={`${authRoutes.subjects.path}/${category._id}`}
+              to={`${authRoutes.subjectsCategoryId.path}/${category._id}/subjects`}
             />
           </Grid>
         ))}
       </Grid>
-      {categories.length > startIndex + categoriesPerPage && (
+      {hasMoreCategories && (
         <Button
           onClick={loadMoreCategories}
           sx={styles.viewMoreBtn}

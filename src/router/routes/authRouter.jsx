@@ -38,6 +38,11 @@ export const authRouter = (
     <Route
       element={<Subjects />}
       handle={{ crumb: [categories, subjects] }}
+      path={authRoutes.subjectsCategoryId.route}
+    />
+    <Route
+      element={<Subjects />}
+      handle={{ crumb: [categories, subjects] }}
       path={authRoutes.subjects.route}
     />
     <Route
