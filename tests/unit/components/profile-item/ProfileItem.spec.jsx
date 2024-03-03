@@ -11,7 +11,7 @@ vi.mock('@mui/material/Typography', () => ({
   ))
 }))
 
-vi.mock('@mui/system/Box', () => ({
+vi.mock('@mui/material/Box', () => ({
   __esModule: true,
   default: vi.fn(({ children, 'data-testid': testId }) => (
     <div data-testid={testId}>{children}</div>
