@@ -6,40 +6,41 @@ import {
   useState
 } from 'react'
 import PopupDialog from '~/components/popup-dialog/PopupDialog'
+import ConfirmDialog from '~/components/confirm-dialog/ConfirmDialog'
 
 const ModalContext = createContext({})
 
 const ModalProvider = ({ children }) => {
   const [modal, setModal] = useState(null)
   const [paperProps, setPaperProps] = useState({})
-  const [timer, setTimer] = useState(null)
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
   const closeModal = useCallback(() => {
     setModal(null)
     setPaperProps({})
-    setTimer(null)
-  }, [setModal, setPaperProps, setTimer])
+  }, [])
 
-  const closeModalAfterDelay = useCallback(
-    (delay) => {
-      const timerId = setTimeout(closeModal, delay ?? 5000)
-      setTimer(timerId)
-    },
-    [closeModal]
-  )
+  const openModal = useCallback(({ component, paperProps }) => {
+    setModal(component)
+    setPaperProps(paperProps || {})
+  }, [])
 
-  const openModal = useCallback(
-    ({ component, paperProps }, delayToClose) => {
-      setModal(component)
-      paperProps && setPaperProps(paperProps)
-      delayToClose && closeModalAfterDelay(delayToClose)
-    },
-    [setModal, setPaperProps, closeModalAfterDelay]
-  )
+  const handleConfirmClose = useCallback(() => {
+    closeModal()
+    setConfirmDialogOpen(false)
+  }, [closeModal])
+
+  const handleCloseButtonClick = useCallback(() => {
+    setConfirmDialogOpen(true)
+  }, [])
 
   const contextValue = useMemo(
-    () => ({ openModal, closeModal }),
-    [closeModal, openModal]
+    () => ({
+      openModal,
+      closeModal,
+      handleCloseButtonClick
+    }),
+    [openModal, closeModal, handleCloseButtonClick]
   )
 
   return (
@@ -47,11 +48,20 @@ const ModalProvider = ({ children }) => {
       {children}
       {modal && (
         <PopupDialog
-          closeModal={closeModal}
-          closeModalAfterDelay={closeModalAfterDelay}
+          closeModal={handleCloseButtonClick}
           content={modal}
           paperProps={paperProps}
-          timerId={timer}
+        />
+      )}
+      {confirmDialogOpen && (
+        <ConfirmDialog
+          cancelButton='No'
+          confirmButton='Yes'
+          message='Are you sure you want to close?'
+          onConfirm={handleConfirmClose}
+          onDismiss={() => setConfirmDialogOpen(false)}
+          open={confirmDialogOpen}
+          title='Confirm Close'
         />
       )}
     </ModalContext.Provider>
