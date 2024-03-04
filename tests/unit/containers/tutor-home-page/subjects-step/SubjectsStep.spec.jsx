@@ -1,7 +1,18 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithProviders } from '~tests/test-utils'
 import SubjectsStep from '~/containers/tutor-home-page/subjects-step/SubjectsStep'
+import { StepProvider } from '~/context/step-context'
+import { vi } from 'vitest'
+
+vi.mock('~/context/step-context', () => ({
+  useStepContext: () => ({
+    handleStepData: vi.fn(),
+    stepData: {
+      subjects: []
+    }
+  }),
+  StepProvider: vi.fn(({ children }) => <div>{children}</div>)
+}))
 
 vi.mock('~/services/category-service', () => ({
   categoryService: {
@@ -55,7 +66,11 @@ const mockButton = <button>Mock Button</button>
 
 describe('SubjectsStep renders components', () => {
   beforeEach(() => {
-    renderWithProviders(<SubjectsStep btnsBox={mockButton} />)
+    render(
+      <StepProvider>
+        <SubjectsStep btnsBox={mockButton} stepLabel='subjects' />
+      </StepProvider>
+    )
   })
 
   it('should render image', () => {

@@ -12,12 +12,14 @@ import { languages } from './constants'
 import { useTranslation } from 'react-i18next'
 import languageStepImg from '~/assets/img/tutor-home-page/become-tutor/languages.svg'
 import { styles } from '~/containers/tutor-home-page/language-step/LanguageStep.styles'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useStepContext } from '~/context/step-context'
 
-const LanguageStep = ({ btnsBox }) => {
+const LanguageStep = ({ btnsBox, stepLabel }) => {
+  const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
 
-  const [selectedLanguage, setSelectedLanguage] = useState('')
+  const [selectedLanguage, setSelectedLanguage] = useState(stepData[stepLabel])
 
   const handleChange = (event) => {
     setSelectedLanguage(event.target.value)
@@ -26,7 +28,9 @@ const LanguageStep = ({ btnsBox }) => {
   const handleClear = () => {
     setSelectedLanguage('')
   }
-
+  useEffect(() => {
+    handleStepData(stepLabel, selectedLanguage)
+  }, [selectedLanguage, stepLabel, handleStepData])
   return (
     <Box sx={styles.container}>
       <Box sx={styles.languageImage}>
