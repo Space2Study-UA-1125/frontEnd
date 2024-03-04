@@ -1,68 +1,35 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-
 import generalInfo from '~/assets/img/tutor-home-page/become-tutor/general-info.svg'
 import AppTextField from '~/components/app-text-field/AppTextField'
 import AppTextArea from '~/components/app-text-area/AppTextArea'
 import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
-import useUserName from '~/hooks/use-user-name'
-
 import { LocationService } from '~/services/location-service'
 import getEmptyArrayData from '~/utils/get-empty-array-data'
 import { useStepContext } from '~/context/step-context'
+import useUserName from '~/hooks/use-user-name'
 
 const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
   const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
-  const { firstName, lastName, updateFirstName, updateLastName } =
-    useUserName('')
-  const [country, setCountry] = useState(stepData[stepLabel].data.country)
-  const [city, setCity] = useState(stepData[stepLabel].data.city)
-  const [professionalSummary, setProfessionalSummary] = useState(
-    stepData[stepLabel].data.professionalSummary
-  )
-
-  const countryTextFieldProps = {
-    label: t('common.labels.country')
-  }
-  const cityTextFieldProps = {
-    label: t('common.labels.city')
-  }
-
-  const handleProfessionalSummaryChange = (event) => {
-    const inputValue = event.target.value
-    setProfessionalSummary(inputValue)
-  }
+  const { firstName, lastName } = useUserName('')
+  const currentStepData = stepData[stepLabel].data
 
   const handleCountryChange = (value) => {
-    setCountry(value)
-    setCity(null)
+    handleStepData(stepLabel, {
+      ...currentStepData,
+      country: value,
+      city: null
+    })
   }
 
   const handleCityChange = (value) => {
-    setCity(value)
+    handleStepData(stepLabel, { ...currentStepData, city: value })
   }
-  useEffect(() => {
-    handleStepData(stepLabel, {
-      firstName,
-      lastName,
-      country,
-      city,
-      professionalSummary
-    })
-  }, [
-    firstName,
-    lastName,
-    country,
-    city,
-    professionalSummary,
-    handleStepData,
-    stepLabel
-  ])
+
   return (
     <Box sx={styles.container}>
       <Box sx={styles.imgContainer}>
@@ -83,31 +50,41 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
             autoFocus
             label={t('common.labels.firstName*')}
             name='firstName'
-            onChange={(event) => updateFirstName(event.target.value)}
+            onChange={(event) =>
+              handleStepData(stepLabel, {
+                ...currentStepData,
+                firstName: event.target.value
+              })
+            }
             value={firstName}
           />
           <AppTextField
             autoFocus
             label={t('common.labels.lastName*')}
             name='lastName'
-            onChange={(event) => updateLastName(event.target.value)}
+            onChange={(event) =>
+              handleStepData(stepLabel, {
+                ...currentStepData,
+                lastName: event.target.value
+              })
+            }
             value={lastName}
           />
           <AsyncAutocomplete
             onChange={(_e, newValue) => handleCountryChange(newValue)}
             service={LocationService.getCountries}
-            textFieldProps={countryTextFieldProps}
-            value={country ? country : null}
+            textFieldProps={{ label: t('common.labels.country') }}
+            value={currentStepData.country ? currentStepData.country : null}
           />
           <AsyncAutocomplete
             onChange={(_e, newValue) => handleCityChange(newValue)}
             service={
-              country
-                ? () => LocationService.getCities(country)
+              currentStepData.country
+                ? () => LocationService.getCities(currentStepData.country)
                 : getEmptyArrayData
             }
-            textFieldProps={cityTextFieldProps}
-            value={city ? city : null}
+            textFieldProps={{ label: t('common.labels.city') }}
+            value={currentStepData.city ? currentStepData.city : null}
           />
         </Box>
 
@@ -115,8 +92,13 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
           <AppTextArea
             label={t('becomeTutor.generalInfo.textFieldLabel')}
             maxLength={100}
-            onChange={handleProfessionalSummaryChange}
-            value={professionalSummary}
+            onChange={(event) =>
+              handleStepData(stepLabel, {
+                ...currentStepData,
+                professionalSummary: event.target.value
+              })
+            }
+            value={currentStepData.professionalSummary}
           />
         </Box>
         <Typography sx={styles.helperText} variant='body2'>

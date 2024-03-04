@@ -11,31 +11,33 @@ const useUserName = () => {
   const store = useSelector((state) => state.appMain)
   const stepContextUserData = stepData[tutorStepLabels[0]].data
 
-  const fetchUserData = async () => {
-    const userData = await userService.getUserById(store.userId, store.userRole)
-    setFirstName(userData.data.firstName)
-    setLastName(userData.data.lastName)
-  }
-  const setContextUserData = () => {
-    setFirstName(stepContextUserData.firstName)
-    setLastName(stepContextUserData.lastName)
-  }
   useEffect(() => {
-    stepContextUserData.firstName.length && stepContextUserData.lastName.length
-      ? setContextUserData()
-      : fetchUserData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store.userId, store.userRole])
+    const fetchData = async () => {
+      const userData = await userService.getUserById(
+        store.userId,
+        store.userRole
+      )
+      setFirstName(userData.data.firstName)
+      setLastName(userData.data.lastName)
+    }
 
-  const updateFirstName = (newFirstName) => {
-    setFirstName(newFirstName)
-  }
+    if (
+      stepContextUserData.firstName.length &&
+      stepContextUserData.lastName.length
+    ) {
+      setFirstName(stepContextUserData.firstName)
+      setLastName(stepContextUserData.lastName)
+    } else {
+      fetchData()
+    }
+  }, [
+    store.userId,
+    store.userRole,
+    stepContextUserData.firstName,
+    stepContextUserData.lastName
+  ])
 
-  const updateLastName = (newLastName) => {
-    setLastName(newLastName)
-  }
-
-  return { firstName, lastName, updateFirstName, updateLastName }
+  return { firstName, lastName }
 }
 
 export default useUserName
