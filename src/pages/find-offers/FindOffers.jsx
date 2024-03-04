@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
 import AppViewSwitcher from '~/components/app-view-switcher/AppViewSwitcher'
+import AppSortMenu from '~/components/app-sort-menu/AppSortMenu'
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
 import useUrlSearchParams from '~/hooks/use-url-search-params'
 import AppContentSwitcher from '~/components/app-content-switcher/AppContentSwitcher'
@@ -18,14 +19,15 @@ const FindOffers = () => {
   const { searchParams, setUrlSearchParams } = useUrlSearchParams()
   const { userRole } = useSelector((state) => state.appMain)
   const [view, setView] = useState(searchParams.get('view') || 'list')
+  const [sort, setSort] = useState(searchParams.get('sort') || 'createdAt')
   const [authorRole, setAuthorRole] = useState(
     searchParams.get('authorRole') ||
       (userRole === 'student' ? 'tutor' : 'student')
   )
 
   useEffect(() => {
-    setUrlSearchParams({ view, authorRole })
-  }, [view, authorRole, setUrlSearchParams])
+    setUrlSearchParams({ view, sort, authorRole })
+  }, [view, sort, authorRole, setUrlSearchParams])
 
   const serviceFunction = useCallback(
     () => offerService.getOffers({ authorRole }),
@@ -52,6 +54,7 @@ const FindOffers = () => {
 
   return (
     <PageWrapper>
+      <AppSortMenu setSort={setSort} sort={sort} />
       <Stack sx={styles.stack}>
         <div />
         <AppContentSwitcher

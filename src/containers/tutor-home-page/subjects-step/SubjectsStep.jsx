@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AppChipList from '~/components/app-chips-list/AppChipList'
 import FormHelperText from '@mui/material/FormHelperText'
@@ -10,14 +10,15 @@ import AsyncAutocomplete from '~/components/async-autocomlete/AsyncAutocomplete'
 import { categoryService } from '~/services/category-service'
 import { subjectService } from '~/services/subject-service'
 import getEmptyArrayData from '~/utils/get-empty-array-data'
-
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
+import { useStepContext } from '~/context/step-context'
 
-const SubjectsStep = ({ btnsBox }) => {
+const SubjectsStep = ({ btnsBox, stepLabel }) => {
+  const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
   const [category, setCategory] = useState(null)
   const [subject, setSubject] = useState(null)
-  const [selectedSubjects, setSelectedSubjects] = useState([])
+  const [selectedSubjects, setSelectedSubjects] = useState(stepData[stepLabel])
   const [subjectsError, setSubjectsError] = useState(null)
   const categoryTextFieldProps = {
     label: t('becomeTutor.categories.mainSubjectsLabel')
@@ -59,6 +60,10 @@ const SubjectsStep = ({ btnsBox }) => {
     )
   }
   const selectedSubjectsNames = selectedSubjects.map((subject) => subject.name)
+
+  useEffect(() => {
+    handleStepData(stepLabel, selectedSubjects)
+  }, [selectedSubjects, handleStepData, stepLabel])
 
   return (
     <Box sx={styles.container}>

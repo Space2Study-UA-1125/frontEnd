@@ -16,6 +16,7 @@ const CategoriesSearch = ({ categoryItems, setCategoryItems }) => {
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [options, setOptions] = useState(categoryItems)
+  const [showAutoComplete, setShowAutoComplete] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +37,7 @@ const CategoriesSearch = ({ categoryItems, setCategoryItems }) => {
 
   const onInputChange = (_, value = '') => {
     setSearch(value === null ? '' : value)
+    setShowAutoComplete(value.length >= 3)
   }
 
   const onSearch = () => {
@@ -72,7 +74,9 @@ const CategoriesSearch = ({ categoryItems, setCategoryItems }) => {
             freeSolo
             onChange={onInputChange}
             onInputChange={onInputChange}
-            options={options.map((category) => category.name)}
+            options={
+              showAutoComplete && options.map((category) => category.name)
+            }
             sx={styles.input}
             textFieldProps={{
               placeholder: t('categoriesPage.searchLabel'),

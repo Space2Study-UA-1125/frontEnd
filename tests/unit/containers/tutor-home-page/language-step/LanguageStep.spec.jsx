@@ -1,12 +1,25 @@
 import { cleanup, render, screen, fireEvent } from '@testing-library/react'
 import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageStep'
-
+import { StepProvider } from '~/context/step-context'
 const mockBtnsBox = <div>Mock Buttons Box</div>
+import { vi } from 'vitest'
+
+vi.mock('~/context/step-context', () => ({
+  useStepContext: () => ({
+    handleStepData: vi.fn(),
+    stepData: { language: '' }
+  }),
+  StepProvider: vi.fn(({ children }) => <div>{children}</div>)
+}))
 
 describe('LanguageStep test', () => {
   beforeEach(() => {
     cleanup()
-    render(<LanguageStep btnsBox={mockBtnsBox} />)
+    render(
+      <StepProvider>
+        <LanguageStep btnsBox={mockBtnsBox} stepLabel='language' />
+      </StepProvider>
+    )
   })
 
   it('renders LanguageStep component with translated title and label', () => {
