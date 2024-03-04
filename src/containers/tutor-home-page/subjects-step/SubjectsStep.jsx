@@ -63,7 +63,7 @@ const SubjectsStep = ({ btnsBox, stepLabel }) => {
 
   useEffect(() => {
     handleStepData(stepLabel, selectedSubjects)
-  }, [selectedSubjects])
+  }, [selectedSubjects, handleStepData, stepLabel])
 
   return (
     <Box sx={styles.container}>

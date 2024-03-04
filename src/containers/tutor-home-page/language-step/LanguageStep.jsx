@@ -30,7 +30,7 @@ const LanguageStep = ({ btnsBox, stepLabel }) => {
   }
   useEffect(() => {
     handleStepData(stepLabel, selectedLanguage)
-  }, [selectedLanguage])
+  }, [selectedLanguage, stepLabel, handleStepData])
   return (
     <Box sx={styles.container}>
       <Box sx={styles.languageImage}>

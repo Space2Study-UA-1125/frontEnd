@@ -54,7 +54,15 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
       city,
       professionalSummary
     })
-  }, [firstName, lastName, country, city, professionalSummary])
+  }, [
+    firstName,
+    lastName,
+    country,
+    city,
+    professionalSummary,
+    handleStepData,
+    stepLabel
+  ])
   return (
     <Box sx={styles.container}>
       <Box sx={styles.imgContainer}>

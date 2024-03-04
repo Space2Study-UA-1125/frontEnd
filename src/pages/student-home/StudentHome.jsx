@@ -10,8 +10,8 @@ import { useModalContext } from '~/context/modal-context'
 
 const StudentHome = () => {
   const { openModal } = useModalContext()
-  const { isFirstLogin, userRole } = useSelector((state) => state.appMain)
-
+  const { userRole } = useSelector((state) => state.appMain)
+  const isFirstLogin = true
   useEffect(() => {
     if (isFirstLogin) {
       openModal({

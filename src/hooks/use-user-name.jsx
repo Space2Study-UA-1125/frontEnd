@@ -24,6 +24,7 @@ const useUserName = () => {
     stepContextUserData.firstName.length && stepContextUserData.lastName.length
       ? setContextUserData()
       : fetchUserData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.userId, store.userRole])
 
   const updateFirstName = (newFirstName) => {
