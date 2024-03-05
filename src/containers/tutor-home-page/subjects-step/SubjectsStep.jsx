@@ -20,6 +20,8 @@ const SubjectsStep = ({ btnsBox, stepLabel }) => {
   const [subject, setSubject] = useState(null)
   const [subjectsError, setSubjectsError] = useState(null)
 
+  console.log(stepData)
+
   const categoryTextFieldProps = {
     label: t('becomeTutor.categories.mainSubjectsLabel')
   }

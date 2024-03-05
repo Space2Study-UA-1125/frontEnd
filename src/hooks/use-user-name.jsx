@@ -1,13 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { userService } from '~/services/user-service'
 import { useSelector } from 'react-redux'
 import { tutorStepLabels } from '~/components/user-steps-wrapper/constants'
 import { useStepContext } from '~/context/step-context'
 
 const useUserName = () => {
-  const { stepData } = useStepContext()
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const { stepData, handleStepData } = useStepContext()
   const store = useSelector((state) => state.appMain)
   const stepContextUserData = stepData[tutorStepLabels[0]].data
 
@@ -17,27 +15,23 @@ const useUserName = () => {
         store.userId,
         store.userRole
       )
-      setFirstName(userData.data.firstName)
-      setLastName(userData.data.lastName)
+
+      handleStepData(tutorStepLabels[0], {
+        ...stepContextUserData,
+        firstName: userData.data.firstName,
+        lastName: userData.data.lastName
+      })
     }
 
-    if (
-      stepContextUserData.firstName.length &&
-      stepContextUserData.lastName.length
-    ) {
-      setFirstName(stepContextUserData.firstName)
-      setLastName(stepContextUserData.lastName)
-    } else {
+    if (!stepContextUserData.firstName || !stepContextUserData.lastName) {
       fetchData()
     }
-  }, [
-    store.userId,
-    store.userRole,
-    stepContextUserData.firstName,
-    stepContextUserData.lastName
-  ])
+  }, [store.userId, store.userRole, stepContextUserData, handleStepData])
 
-  return { firstName, lastName }
+  return {
+    firstName: stepContextUserData.firstName,
+    lastName: stepContextUserData.lastName
+  }
 }
 
 export default useUserName
