@@ -5,12 +5,14 @@ import { tutorStepLabels } from '~/components/user-steps-wrapper/constants'
 import { useStepContext } from '~/context/step-context'
 
 const useUserName = () => {
-  const { stepData, handleStepData } = useStepContext()
+  const { stepData, handleStepData, isFetched, handleSetIsFetched } =
+    useStepContext()
   const store = useSelector((state) => state.appMain)
   const stepContextUserData = stepData[tutorStepLabels[0]].data
 
   useEffect(() => {
     const fetchData = async () => {
+      handleSetIsFetched(true)
       const userData = await userService.getUserById(
         store.userId,
         store.userRole
@@ -23,12 +25,20 @@ const useUserName = () => {
       })
     }
 
-    if (!stepContextUserData.firstName || !stepContextUserData.lastName) {
+    if (!isFetched) {
       fetchData()
     }
-  }, [store.userId, store.userRole])
+  }, [
+    store.userId,
+    store.userRole,
+    handleStepData,
+    stepContextUserData,
+    isFetched,
+    handleSetIsFetched
+  ])
 
   return {
+    isFetched,
     firstName: stepContextUserData.firstName,
     lastName: stepContextUserData.lastName
   }
