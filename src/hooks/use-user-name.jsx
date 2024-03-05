@@ -26,7 +26,7 @@ const useUserName = () => {
     if (!stepContextUserData.firstName || !stepContextUserData.lastName) {
       fetchData()
     }
-  }, [store.userId, store.userRole, stepContextUserData, handleStepData])
+  }, [store.userId, store.userRole])
 
   return {
     firstName: stepContextUserData.firstName,
