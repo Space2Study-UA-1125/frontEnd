@@ -10,6 +10,7 @@ import WestIcon from '@mui/icons-material/West'
 import AppButton from '~/components/app-button/AppButton'
 import { styles } from '~/components/step-wrapper/StepWrapper.styles'
 import useSteps from '~/hooks/use-steps'
+import { useStepContext } from '~/context/step-context'
 
 const StepWrapper = ({ children, steps }) => {
   const { activeStep, isLastStep, loading, stepOperation } = useSteps({
@@ -17,6 +18,24 @@ const StepWrapper = ({ children, steps }) => {
   })
   const { next, back, setActiveStep, handleSubmit } = stepOperation
   const { t } = useTranslation()
+  const { stepData } = useStepContext()
+  const [generalLabel, subjectLabel, languageLabel, photoLabel] = steps
+
+  const handleFinishBtnClick = () => {
+    const stepDataforService = {
+      firstName: stepData[generalLabel].data.firstName,
+      lastName: stepData[generalLabel].data.lastName,
+      address: {
+        country: stepData[generalLabel].data.country,
+        city: stepData[generalLabel].data.city
+      },
+      professionalSummary: stepData[generalLabel].data.professionalSummary,
+      mainSubjects: stepData[subjectLabel].map((subject) => subject._id),
+      nativeLanguage: stepData[languageLabel],
+      photo: stepData[photoLabel].length ? stepData[photoLabel] : null
+    }
+    handleSubmit(stepDataforService)
+  }
 
   const stepLabels = steps.map((step, index) => (
     <Box
@@ -32,7 +51,7 @@ const StepWrapper = ({ children, steps }) => {
   const nextButton = isLastStep ? (
     <AppButton
       loading={loading}
-      onClick={handleSubmit}
+      onClick={handleFinishBtnClick}
       size='small'
       sx={styles.finishBtn}
       variant='contained'

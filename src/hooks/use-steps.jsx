@@ -34,7 +34,7 @@ const useSteps = ({ steps }) => {
     closeModal()
   }
 
-  const { loading } = useAxios({
+  const { loading, fetchData } = useAxios({
     service: updateUser,
     fetchOnMount: false,
     defaultResponse: null,
@@ -52,8 +52,8 @@ const useSteps = ({ steps }) => {
 
   const isLastStep = activeStep === steps.length - 1
 
-  const handleSubmit = () => {
-    handleResponse()
+  const handleSubmit = (stepData) => {
+    fetchData(stepData)
   }
 
   const stepOperation = {
