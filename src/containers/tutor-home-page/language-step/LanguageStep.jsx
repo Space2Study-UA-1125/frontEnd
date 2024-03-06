@@ -8,18 +8,29 @@ import {
   Typography
 } from '@mui/material'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
-import { languages } from './constants'
 import { useTranslation } from 'react-i18next'
 import languageStepImg from '~/assets/img/tutor-home-page/become-tutor/languages.svg'
 import { styles } from '~/containers/tutor-home-page/language-step/LanguageStep.styles'
 import { useState, useEffect } from 'react'
 import { useStepContext } from '~/context/step-context'
+import { languageService } from '~/services/language-service'
+import { defaultResponses } from '~/constants'
+import useAxios from '~/hooks/use-axios'
 
 const LanguageStep = ({ btnsBox, stepLabel }) => {
   const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
 
   const [selectedLanguage, setSelectedLanguage] = useState(stepData[stepLabel])
+
+  useEffect(() => {
+    handleStepData(stepLabel, selectedLanguage)
+  }, [selectedLanguage, stepLabel, handleStepData])
+
+  const { response } = useAxios({
+    service: languageService.getLanguages,
+    defaultResponse: defaultResponses.array
+  })
 
   const handleChange = (event) => {
     setSelectedLanguage(event.target.value)
@@ -28,9 +39,7 @@ const LanguageStep = ({ btnsBox, stepLabel }) => {
   const handleClear = () => {
     setSelectedLanguage('')
   }
-  useEffect(() => {
-    handleStepData(stepLabel, selectedLanguage)
-  }, [selectedLanguage, stepLabel, handleStepData])
+
   return (
     <Box sx={styles.container}>
       <Box sx={styles.languageImage}>
@@ -75,7 +84,7 @@ const LanguageStep = ({ btnsBox, stepLabel }) => {
               onChange={handleChange}
               value={selectedLanguage}
             >
-              {languages.map((language) => (
+              {response.map((language) => (
                 <MenuItem key={language} value={language}>
                   {language}
                 </MenuItem>
