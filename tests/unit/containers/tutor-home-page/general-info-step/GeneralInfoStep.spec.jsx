@@ -174,16 +174,7 @@ describe('GeneralInfoStep test', () => {
     expect(buttonElement).toBeInTheDocument()
   })
 
-  // it('should render firstName and lastName', async () => {
-  //   const firstName = screen.getByLabelText('common.labels.firstName*')
-  //   const lastName = screen.getByLabelText('common.labels.lastName*')
-  //   await waitFor(() => {
-  //     expect(firstName).toHaveValue('John')
-  //     expect(lastName).toHaveValue('Doe')
-  //   })
-  // })
-
-  it('should change firstName and lastName according to user data', async () => {
+  it('should update firstName and lastName according to user data', async () => {
     const firstName = screen.getByLabelText('common.labels.firstName*')
     const lastName = screen.getByLabelText('common.labels.lastName*')
 

@@ -1,4 +1,10 @@
-import { cleanup, render, screen, fireEvent } from '@testing-library/react'
+import {
+  cleanup,
+  render,
+  screen,
+  fireEvent,
+  waitFor
+} from '@testing-library/react'
 import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageStep'
 import { StepProvider } from '~/context/step-context'
 const mockBtnsBox = <div>Mock Buttons Box</div>
@@ -35,7 +41,7 @@ describe('LanguageStep test', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('renders LanguageStep component with selected language', () => {
+  it('renders LanguageStep component with selected language', async () => {
     const selectElement = screen.getByLabelText(
       'becomeTutor.languages.autocompleteLabel'
     )
@@ -43,7 +49,9 @@ describe('LanguageStep test', () => {
     fireEvent.click(screen.getByText('English'))
     fireEvent.mouseUp(selectElement)
 
-    expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument()
+    })
   })
 
   it('clears the selected language on clear button click', () => {

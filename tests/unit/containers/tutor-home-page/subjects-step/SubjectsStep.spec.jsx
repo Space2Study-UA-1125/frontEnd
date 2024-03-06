@@ -231,9 +231,8 @@ describe('SubjectsStep renders components', () => {
     })
     userEvent.click(addButton)
 
-    const deleteButton = screen.getByTestId('close-btn')
+    const deleteButton = screen.getByTestId('CloseRoundedIcon')
     userEvent.click(deleteButton)
-
     expect(screen.queryByText('Subject 1')).toBeNull()
   })
 })
