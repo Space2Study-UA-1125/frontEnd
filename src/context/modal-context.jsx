@@ -1,3 +1,4 @@
+import ConfirmDialog from '~/components/confirm-dialog/ConfirmDialog'
 import {
   createContext,
   useCallback,
@@ -6,7 +7,6 @@ import {
   useState
 } from 'react'
 import PopupDialog from '~/components/popup-dialog/PopupDialog'
-import ConfirmDialog from '~/components/confirm-dialog/ConfirmDialog'
 
 const ModalContext = createContext({})
 
@@ -14,24 +14,37 @@ const ModalProvider = ({ children }) => {
   const [modal, setModal] = useState(null)
   const [paperProps, setPaperProps] = useState({})
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
+  const [dialogConfig, setDialogConfig] = useState({
+    title: 'Confirm Close',
+    message: 'Are you sure you want to close?'
+  })
 
   const closeModal = useCallback(() => {
     setModal(null)
     setPaperProps({})
   }, [])
 
-  const openModal = useCallback(({ component, paperProps }) => {
-    setModal(component)
-    setPaperProps(paperProps || {})
-  }, [])
+  const openModal = useCallback(
+    ({ component, paperProps, dialogConfig: config }) => {
+      setModal(component)
+      setPaperProps(paperProps || {})
+      if (config) {
+        setDialogConfig(config)
+      }
+    },
+    []
+  )
 
   const handleConfirmClose = useCallback(() => {
     closeModal()
     setConfirmDialogOpen(false)
   }, [closeModal])
 
-  const handleCloseButtonClick = useCallback(() => {
+  const handleCloseButtonClick = useCallback((config) => {
     setConfirmDialogOpen(true)
+    if (config) {
+      setDialogConfig(config)
+    }
   }, [])
 
   const contextValue = useMemo(
@@ -48,7 +61,7 @@ const ModalProvider = ({ children }) => {
       {children}
       {modal && (
         <PopupDialog
-          closeModal={handleCloseButtonClick}
+          closeModal={() => handleCloseButtonClick()}
           content={modal}
           paperProps={paperProps}
         />
@@ -57,11 +70,11 @@ const ModalProvider = ({ children }) => {
         <ConfirmDialog
           cancelButton='No'
           confirmButton='Yes'
-          message='Are you sure you want to close?'
+          message={dialogConfig.message}
           onConfirm={handleConfirmClose}
           onDismiss={() => setConfirmDialogOpen(false)}
           open={confirmDialogOpen}
-          title='Confirm Close'
+          title={dialogConfig.title}
         />
       )}
     </ModalContext.Provider>
