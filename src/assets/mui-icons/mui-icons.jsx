@@ -35,7 +35,10 @@ const icons = {
     'History': <HistoryIcon />,
     'Computer science': <ComputerIcon />,
     'Mathematics': <TagIcon />,
-    'Design': <DesignServicesIcon />
+    'Art': <DesignServicesIcon />,
+    'Dark Arts': <AutoFixHighIcon />,
+    'Design': <DesignServicesIcon />,
+    'Economics': <PlagiarismIcon />
 }
 
 export default icons
