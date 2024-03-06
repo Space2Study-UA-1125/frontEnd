@@ -8,7 +8,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { categoryService } from '~/services/category-service'
 import { styles } from '~/components/categories-list/CategoriesList.styles'
 
-const CategoriesList = () => {
+const CategoriesList = ({ setQuantity }) => {
   const colorPairs = useMemo(
     () => [
       { backgroundColor: 'rgba(121, 178, 96, 0.2)', color: '#79B260' },
@@ -39,7 +39,8 @@ const CategoriesList = () => {
       ...prevCategories,
       ...categoriesWithColors
     ])
-  }, [skip, limit, colorPairs])
+    setQuantity(skip + fetchedCategories.length)
+  }, [skip, limit, colorPairs, setQuantity])
 
   useEffect(() => {
     fetchCategories()
