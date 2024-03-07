@@ -12,7 +12,7 @@ export const styles = {
   },
   wrapper: {
     maxWidth: '1128px',
-    margin: '0 auto',
+    margin: '30px auto',
     marginBottom: '32px',
     textAlign: 'center'
   },
