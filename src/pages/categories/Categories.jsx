@@ -1,20 +1,18 @@
 import NoResultsFound from '~/components/no-results-found/NoResultsFound'
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
+import Box from '@mui/material/Box'
 import CategoriesList from '~/components/categories-list/CategoriesList'
-import { useState, useEffect } from 'react'
-import useUrlSearchParams from '~/hooks/use-url-search-params'
+import CategoriesSearch from '~/containers/categories-search/CategoriesSearch'
+import { styles } from '~/pages/categories/Categories.styles'
 
 const Categories = () => {
-  const { searchParams, setUrlSearchParams } = useUrlSearchParams()
-  const [quantity, setQuantity] = useState(searchParams.get('quantity'))
-  useEffect(() => {
-    setUrlSearchParams({ quantity })
-  }, [quantity, setUrlSearchParams])
-
   return (
     <PageWrapper>
-      <CategoriesList setQuantity={setQuantity} />
-      <NoResultsFound />
+      <Box sx={styles.categoriesPageContainer}>
+        <CategoriesSearch />
+        <CategoriesList />
+        <NoResultsFound />
+      </Box>
     </PageWrapper>
   )
 }

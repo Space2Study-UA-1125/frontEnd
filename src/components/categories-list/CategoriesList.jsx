@@ -3,12 +3,13 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import CategoryItemCard from '~/components/category-item-card/CategoryItemCard'
 import icons from '~/assets/mui-icons/mui-icons'
+import useUrlSearchParams from '~/hooks/use-url-search-params'
 import { authRoutes } from '~/router/constants/authRoutes'
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { categoryService } from '~/services/category-service'
 import { styles } from '~/components/categories-list/CategoriesList.styles'
 
-const CategoriesList = ({ setQuantity }) => {
+const CategoriesList = () => {
   const colorPairs = useMemo(
     () => [
       { backgroundColor: 'rgba(121, 178, 96, 0.2)', color: '#79B260' },
@@ -19,6 +20,8 @@ const CategoriesList = ({ setQuantity }) => {
     ],
     []
   )
+  const { setUrlSearchParams } = useUrlSearchParams()
+  const setUrlSearchParamsRef = useRef(setUrlSearchParams)
   const [categories, setCategories] = useState([])
   const [skip, setSkip] = useState(0)
   const [hasMoreCategories, setHasMoreCategories] = useState(true)
@@ -39,8 +42,8 @@ const CategoriesList = ({ setQuantity }) => {
       ...prevCategories,
       ...categoriesWithColors
     ])
-    setQuantity(skip + fetchedCategories.length)
-  }, [skip, limit, colorPairs, setQuantity])
+    setUrlSearchParamsRef.current({ quantity: skip + fetchedCategories.length })
+  }, [skip, limit, colorPairs])
 
   useEffect(() => {
     fetchCategories()
