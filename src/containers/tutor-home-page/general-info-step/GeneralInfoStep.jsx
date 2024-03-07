@@ -18,8 +18,14 @@ import { useStepContext } from '~/context/step-context'
 const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
   const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
-  const { firstName, lastName, updateFirstName, updateLastName } =
-    useUserName('')
+  const {
+    firstName,
+    lastName,
+    updateFirstName,
+    updateLastName,
+    firstNameError,
+    lastNameError
+  } = useUserName('')
   const [country, setCountry] = useState(stepData[stepLabel].data.country)
   const [city, setCity] = useState(stepData[stepLabel].data.city)
   const [professionalSummary, setProfessionalSummary] = useState(
@@ -47,13 +53,20 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
     setCity(value)
   }
   useEffect(() => {
-    handleStepData(stepLabel, {
-      firstName,
-      lastName,
-      country,
-      city,
-      professionalSummary
-    })
+    handleStepData(
+      stepLabel,
+      {
+        firstName,
+        lastName,
+        country,
+        city,
+        professionalSummary
+      },
+      {
+        firstNameError,
+        lastNameError
+      }
+    )
   }, [
     firstName,
     lastName,
@@ -61,7 +74,9 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
     city,
     professionalSummary,
     handleStepData,
-    stepLabel
+    stepLabel,
+    firstNameError,
+    lastNameError
   ])
   return (
     <Box sx={styles.container}>
@@ -81,6 +96,7 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
         <Box sx={styles.dataContainer}>
           <AppTextField
             autoFocus
+            errorMsg={t(firstNameError)}
             label={t('common.labels.firstName*')}
             name='firstName'
             onChange={(event) => updateFirstName(event.target.value)}
@@ -88,6 +104,7 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
           />
           <AppTextField
             autoFocus
+            errorMsg={t(lastNameError)}
             label={t('common.labels.lastName*')}
             name='lastName'
             onChange={(event) => updateLastName(event.target.value)}
