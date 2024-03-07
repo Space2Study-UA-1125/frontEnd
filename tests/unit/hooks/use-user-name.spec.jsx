@@ -20,6 +20,7 @@ vi.mock('~/context/step-context', () => ({
   }),
   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
 }))
+
 const mockState = { userId: '1', userRole: 'tutor' }
 vi.mock('react-redux', async () => {
   const actual = await vi.importActual('react-redux')
@@ -40,7 +41,6 @@ vi.mock('~/services/user-service', () => ({
 describe('useUserName', () => {
   it('should fetch user data and update first and last names', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useUserName())
-
     await waitForNextUpdate()
 
     expect(result.current.firstName).toBe('John')
@@ -48,9 +48,7 @@ describe('useUserName', () => {
   })
 
   it('should update first name', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useUserName())
-
-    await waitForNextUpdate()
+    const { result } = renderHook(() => useUserName())
 
     act(() => {
       result.current.updateFirstName('Jane')
@@ -60,9 +58,7 @@ describe('useUserName', () => {
   })
 
   it('should update last name', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useUserName())
-
-    await waitForNextUpdate()
+    const { result } = renderHook(() => useUserName())
 
     act(() => {
       result.current.updateLastName('Smith')

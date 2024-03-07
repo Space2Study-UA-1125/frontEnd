@@ -3,11 +3,12 @@ import { userService } from '~/services/user-service'
 import { useSelector } from 'react-redux'
 import { tutorStepLabels } from '~/components/user-steps-wrapper/constants'
 import { useStepContext } from '~/context/step-context'
+import { firstName, lastName } from '~/utils/validations/login'
 
 const useUserName = () => {
   const { stepData } = useStepContext()
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [firstNameValue, setFirstName] = useState('')
+  const [lastNameValue, setLastName] = useState('')
   const store = useSelector((state) => state.appMain)
   const stepContextUserData = stepData[tutorStepLabels[0]].data
 
@@ -34,8 +35,17 @@ const useUserName = () => {
   const updateLastName = (newLastName) => {
     setLastName(newLastName)
   }
+  const firstNameError = firstName(firstNameValue)
+  const lastNameError = lastName(lastNameValue)
 
-  return { firstName, lastName, updateFirstName, updateLastName }
+  return {
+    firstName: firstNameValue,
+    lastName: lastNameValue,
+    updateFirstName,
+    updateLastName,
+    firstNameError,
+    lastNameError
+  }
 }
 
 export default useUserName
