@@ -9,12 +9,20 @@ import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageSte
 import { StepProvider } from '~/context/step-context'
 const mockBtnsBox = <div>Mock Buttons Box</div>
 import { vi } from 'vitest'
+import { useState } from 'react'
 
 vi.mock('~/context/step-context', () => ({
-  useStepContext: () => ({
-    handleStepData: vi.fn(),
-    stepData: { language: '' }
-  }),
+  useStepContext: () => {
+    const [stepData, setStepData] = useState({ language: '' })
+    return {
+      handleStepData: vi.fn((_, newValue) => {
+        console.log('handleStepDatahandleStepDatas')
+        console.log(newValue)
+        setStepData({ language: newValue })
+      }),
+      stepData
+    }
+  },
   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
 }))
 

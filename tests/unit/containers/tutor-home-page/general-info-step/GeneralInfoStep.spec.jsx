@@ -11,9 +11,9 @@ vi.mock('~/context/step-context', () => ({
     stepData: {
       generalInfo: {
         data: {
-          firstName: 'Sandra',
-          lastName: 'Bullock',
-          country: 'Ukraine',
+          firstName: '',
+          lastName: '',
+          country: null,
           city: null,
           professionalSummary: 'Some text'
         }
@@ -174,7 +174,7 @@ describe('GeneralInfoStep test', () => {
     expect(buttonElement).toBeInTheDocument()
   })
 
-  it('should update firstName and lastName according to user data', async () => {
+  it('should update firstName and lastName according to user data from sign up step', async () => {
     const firstName = screen.getByLabelText('common.labels.firstName*')
     const lastName = screen.getByLabelText('common.labels.lastName*')
 
