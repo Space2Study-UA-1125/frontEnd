@@ -4,6 +4,7 @@ import GeneralInfoStep from '~/containers/tutor-home-page/general-info-step/Gene
 import { renderWithProviders } from '~tests/test-utils'
 import { expect, vi } from 'vitest'
 import { StepProvider } from '~/context/step-context'
+// import { useState } from 'react'
 
 vi.mock('~/context/step-context', () => ({
   useStepContext: () => ({
@@ -11,9 +12,9 @@ vi.mock('~/context/step-context', () => ({
     stepData: {
       generalInfo: {
         data: {
-          firstName: '',
-          lastName: '',
-          country: null,
+          firstName: 'Sandra',
+          lastName: 'Bullock',
+          country: 'Ukraine',
           city: null,
           professionalSummary: 'Some text'
         }
@@ -23,6 +24,39 @@ vi.mock('~/context/step-context', () => ({
   }),
   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
 }))
+
+// vi.mock('~/context/step-context', () => ({
+//   useStepContext: () => {
+//     const [stepData, setStepData] = useState({
+//       firstName: '',
+//       lastName: '',
+//       country: null,
+//       city: null,
+//       professionalSummary: ''
+//     });
+
+//     const handleStepData = vi.fn((_, newValue) => {
+//       console.log('handleStepDatahandleStepDatas');
+//       console.log(newValue);
+//       setStepData({
+//         firstName: newValue,
+//         lastName: newValue,
+//         country: newValue,
+//         city: newValue,
+//         professionalSummary: newValue
+//       });
+//     });
+
+//     const handleSetIsFetched = vi.fn();
+
+//     return {
+//       handleStepData,
+//       stepData,
+//       handleSetIsFetched
+//     };
+//   },
+//   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
+// }));
 
 vi.mock('@mui/material', () => ({
   Box: vi.fn(({ children }) => <div data-testid='boxMui'>{children}</div>),
