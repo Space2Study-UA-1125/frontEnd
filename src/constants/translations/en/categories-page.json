@@ -12,6 +12,7 @@
     "subject": "Create a new subject",
     "category": "Add subject to existing category or create a new one.",
     "info": "Provide a brief explanation of why you believe this subject or category should be added.",
+    "categoryOrSubject": "Can't find what you're looking for? Request a new category or subject!",
     "labels": { "subject": "New subject" }
   },
   "itemCard": {
