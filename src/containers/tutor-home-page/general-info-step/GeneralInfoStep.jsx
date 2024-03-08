@@ -30,6 +30,27 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
     handleStepData(stepLabel, { ...currentStepData, city: value })
   }
 
+  const handleFirstNameChange = (event) => {
+    handleStepData(stepLabel, {
+      ...currentStepData,
+      firstName: event.target.value
+    })
+  }
+
+  const handleLastNameChange = (event) => {
+    handleStepData(stepLabel, {
+      ...currentStepData,
+      lastName: event.target.value
+    })
+  }
+
+  const handleProfessionalSummaryChange = (event) => {
+    handleStepData(stepLabel, {
+      ...currentStepData,
+      professionalSummary: event.target.value
+    })
+  }
+
   return (
     <Box sx={styles.container}>
       <Box sx={styles.imgContainer}>
@@ -50,24 +71,14 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
             autoFocus
             label={t('common.labels.firstName*')}
             name='firstName'
-            onChange={(event) =>
-              handleStepData(stepLabel, {
-                ...currentStepData,
-                firstName: event.target.value
-              })
-            }
+            onChange={handleFirstNameChange}
             value={firstName}
           />
           <AppTextField
             autoFocus
             label={t('common.labels.lastName*')}
             name='lastName'
-            onChange={(event) =>
-              handleStepData(stepLabel, {
-                ...currentStepData,
-                lastName: event.target.value
-              })
-            }
+            onChange={handleLastNameChange}
             value={lastName}
           />
           <AsyncAutocomplete
@@ -92,12 +103,7 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
           <AppTextArea
             label={t('becomeTutor.generalInfo.textFieldLabel')}
             maxLength={100}
-            onChange={(event) =>
-              handleStepData(stepLabel, {
-                ...currentStepData,
-                professionalSummary: event.target.value
-              })
-            }
+            onChange={handleProfessionalSummaryChange}
             value={currentStepData.professionalSummary}
           />
         </Box>

@@ -1,62 +1,72 @@
-import { cleanup, screen, waitFor, fireEvent } from '@testing-library/react'
+import {
+  cleanup,
+  screen,
+  waitFor,
+  fireEvent,
+  render
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import GeneralInfoStep from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep'
-import { renderWithProviders } from '~tests/test-utils'
 import { expect, vi } from 'vitest'
 import { StepProvider } from '~/context/step-context'
-// import { useState } from 'react'
-
-vi.mock('~/context/step-context', () => ({
-  useStepContext: () => ({
-    handleStepData: vi.fn(),
-    stepData: {
-      generalInfo: {
-        data: {
-          firstName: 'Sandra',
-          lastName: 'Bullock',
-          country: 'Ukraine',
-          city: null,
-          professionalSummary: 'Some text'
-        }
-      }
-    },
-    handleSetIsFetched: vi.fn()
-  }),
-  StepProvider: vi.fn(({ children }) => <div>{children}</div>)
-}))
+import { useState } from 'react'
 
 // vi.mock('~/context/step-context', () => ({
-//   useStepContext: () => {
-//     const [stepData, setStepData] = useState({
-//       firstName: '',
-//       lastName: '',
-//       country: null,
-//       city: null,
-//       professionalSummary: ''
-//     });
-
-//     const handleStepData = vi.fn((_, newValue) => {
-//       console.log('handleStepDatahandleStepDatas');
-//       console.log(newValue);
-//       setStepData({
-//         firstName: newValue,
-//         lastName: newValue,
-//         country: newValue,
-//         city: newValue,
-//         professionalSummary: newValue
-//       });
-//     });
-
-//     const handleSetIsFetched = vi.fn();
-
-//     return {
-//       handleStepData,
-//       stepData,
-//       handleSetIsFetched
-//     };
-//   },
+//   useStepContext: () => ({
+//     handleStepData: vi.fn(),
+//     stepData: {
+//       generalInfo: {
+//         data: {
+//           firstName: 'Sandra',
+//           lastName: 'Bullock',
+//           country: 'Ukraine',
+//           city: '',
+//           professionalSummary: 'Some text'
+//         }
+//       }
+//     },
+//     handleSetIsFetched: vi.fn()
+//   }),
 //   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
-// }));
+// }))
+
+vi.mock('~/context/step-context', () => ({
+  useStepContext: () => {
+    const [stepData, setStepData] = useState({
+      data: {
+        firstName: '',
+        lastName: '',
+        country: null,
+        city: null,
+        professionalSummary: ''
+      },
+      errors: {}
+    })
+
+    const handleStepData = vi.fn((_, newValue) => {
+      console.log('handleStepDatahandleStepDatas')
+      console.log(newValue)
+      setStepData({
+        data: {
+          firstName: newValue,
+          lastName: newValue,
+          country: newValue,
+          city: newValue,
+          professionalSummary: newValue
+        }
+      })
+    })
+
+    const handleSetIsFetched = vi.fn()
+
+    return {
+      handleStepData,
+      stepData,
+      handleSetIsFetched
+    }
+  },
+  StepProvider: vi.fn(({ children }) => <div>{children}</div>)
+}))
 
 vi.mock('@mui/material', () => ({
   Box: vi.fn(({ children }) => <div data-testid='boxMui'>{children}</div>),
@@ -116,7 +126,7 @@ describe('GeneralInfoStep test', () => {
 
   beforeEach(() => {
     cleanup()
-    renderWithProviders(
+    render(
       <StepProvider>
         <GeneralInfoStep btnsBox={mockButton} stepLabel='generalInfo' />
       </StepProvider>
