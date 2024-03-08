@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux'
 import { markFirstLoginComplete } from '~/redux/reducer'
 import { useModalContext } from '~/context/modal-context'
 import useConfirm from '~/hooks/use-confirm'
-
+import titles from '~/constants/translations/en/titles.json'
+import questions from '~/constants/translations/en/questions.json'
 import StepWrapper from '~/components/step-wrapper/StepWrapper'
 import { StepProvider } from '~/context/step-context'
 import AddPhotoStep from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep'
@@ -58,9 +59,8 @@ const UserStepsWrapper = ({ userRole }) => {
           </StepProvider>
         ),
         dialogConfig: {
-          title: 'Please Confirm',
-          message:
-            'Are you certain you want to close? Any unsaved changes will be lost'
+          title: titles.confirmTitle,
+          message: questions.unsavedChanges
         }
       })
     }
