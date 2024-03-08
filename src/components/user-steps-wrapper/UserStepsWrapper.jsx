@@ -18,8 +18,10 @@ import {
   tutorStepLabels
 } from '~/components/user-steps-wrapper/constants'
 import { student } from '~/constants'
+import { useTranslation } from 'react-i18next'
 
 const UserStepsWrapper = ({ userRole }) => {
+  const { t } = useTranslation()
   const [isUserFetched, setIsUserFetched] = useState(false)
   const dispatch = useDispatch()
   const { openModal } = useModalContext()
@@ -59,12 +61,12 @@ const UserStepsWrapper = ({ userRole }) => {
           </StepProvider>
         ),
         dialogConfig: {
-          title: titles.confirmTitle,
-          message: questions.unsavedChanges
+          title: t(titles.confirmTitle),
+          message: t(questions.unsavedChanges)
         }
       })
     }
-  }, [userRole, openModal, stepLabels, childrenArr])
+  }, [userRole, openModal, stepLabels, childrenArr, t])
 
   return null
 }

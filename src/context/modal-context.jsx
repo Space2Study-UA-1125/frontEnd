@@ -9,6 +9,7 @@ import {
 import PopupDialog from '~/components/popup-dialog/PopupDialog'
 import titles from '~/constants/translations/en/titles.json'
 import questions from '~/constants/translations/en/questions.json'
+import { useTranslation } from 'react-i18next'
 
 const ModalContext = createContext({})
 
@@ -16,9 +17,10 @@ const ModalProvider = ({ children }) => {
   const [modal, setModal] = useState(null)
   const [paperProps, setPaperProps] = useState({})
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
+  const { t } = useTranslation()
   const [dialogConfig, setDialogConfig] = useState({
-    title: titles.confirmTitle,
-    message: questions.unsavedChanges
+    title: t(titles.confirmTitle),
+    message: t(questions.unsavedChanges)
   })
 
   const closeModal = useCallback(() => {
@@ -72,11 +74,11 @@ const ModalProvider = ({ children }) => {
         <ConfirmDialog
           cancelButton='No'
           confirmButton='Yes'
-          message={dialogConfig.message}
+          message={t(dialogConfig.message)}
           onConfirm={handleConfirmClose}
           onDismiss={() => setConfirmDialogOpen(false)}
           open={confirmDialogOpen}
-          title={dialogConfig.title}
+          title={t(dialogConfig.title)}
         />
       )}
     </ModalContext.Provider>
