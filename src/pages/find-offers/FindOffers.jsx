@@ -51,10 +51,6 @@ const FindOffers = () => {
 
   return (
     <PageWrapper>
-      <AppSortMenu
-        setSort={(sort) => setUrlSearchParams({ sort })}
-        sort={sort}
-      />
       <Stack sx={styles.stack}>
         <div />
         <AppContentSwitcher
@@ -64,10 +60,16 @@ const FindOffers = () => {
           switchOptions={switchOptions}
           typographyVariant={'body1'}
         />
-        <AppViewSwitcher
-          setView={(view) => setUrlSearchParams({ view })}
-          view={view}
-        />
+        <Stack sx={styles.stackRightFilters}>
+          <AppSortMenu
+            setSort={(sort) => setUrlSearchParams({ sort })}
+            sort={sort}
+          />
+          <AppViewSwitcher
+            setView={(view) => setUrlSearchParams({ view })}
+            view={view}
+          />
+        </Stack>
       </Stack>
       {response &&
         response.items?.map(({ _id, title, authorRole }) => (
