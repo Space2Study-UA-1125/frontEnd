@@ -7,6 +7,8 @@ import {
   useState
 } from 'react'
 import PopupDialog from '~/components/popup-dialog/PopupDialog'
+import titles from '~/constants/translations/en/titles.json'
+import questions from '~/constants/translations/en/questions.json'
 
 const ModalContext = createContext({})
 
@@ -15,8 +17,8 @@ const ModalProvider = ({ children }) => {
   const [paperProps, setPaperProps] = useState({})
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
   const [dialogConfig, setDialogConfig] = useState({
-    title: 'Confirm Close',
-    message: 'Are you sure you want to close?'
+    title: titles.confirmTitle,
+    message: questions.unsavedChanges
   })
 
   const closeModal = useCallback(() => {
