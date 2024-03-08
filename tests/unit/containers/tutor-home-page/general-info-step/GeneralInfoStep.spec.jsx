@@ -33,26 +33,30 @@ import { useState } from 'react'
 vi.mock('~/context/step-context', () => ({
   useStepContext: () => {
     const [stepData, setStepData] = useState({
-      data: {
-        firstName: '',
-        lastName: '',
-        country: null,
-        city: null,
-        professionalSummary: ''
-      },
-      errors: {}
+      generalInfo: {
+        data: {
+          country: null,
+          city: null,
+          firstName: '',
+          lastName: '',
+          professionalSummary: ''
+        }
+      }
     })
 
     const handleStepData = vi.fn((_, newValue) => {
       console.log('handleStepDatahandleStepDatas')
       console.log(newValue)
       setStepData({
-        data: {
-          firstName: newValue,
-          lastName: newValue,
-          country: newValue,
-          city: newValue,
-          professionalSummary: newValue
+        generalInfo: {
+          data: newValue
+          // data: {
+          //   firstName: newValue,
+          //   lastName: newValue,
+          //   country: newValue,
+          //   city: newValue,
+          //   professionalSummary: newValue
+          // }
         }
       })
     })
@@ -152,8 +156,9 @@ describe('GeneralInfoStep test', () => {
     const countryField = screen.getByLabelText('common.labels.country')
     expect(countryField).toBeInTheDocument()
     userEvent.click(countryField)
-
-    expect(countryField).toHaveAttribute('aria-expanded', 'true')
+    await waitFor(() => {
+      expect(countryField).toHaveAttribute('aria-expanded', 'true')
+    })
     await waitFor(() => {
       expect(screen.getByText('Ukraine')).toBeInTheDocument()
       expect(screen.getByText('Italy')).toBeInTheDocument()
@@ -224,8 +229,9 @@ describe('GeneralInfoStep test', () => {
 
     fireEvent.change(firstName, { target: { value: 'Sandra' } })
     fireEvent.change(lastName, { target: { value: 'Bullock' } })
-
-    expect(firstName).toHaveValue('Sandra')
-    expect(lastName).toHaveValue('Bullock')
+    await waitFor(() => {
+      expect(firstName).toHaveValue('Sandra')
+      expect(lastName).toHaveValue('Bullock')
+    })
   })
 })
