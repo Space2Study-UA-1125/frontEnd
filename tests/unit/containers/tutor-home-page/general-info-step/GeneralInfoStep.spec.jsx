@@ -11,62 +11,40 @@ import { expect, vi } from 'vitest'
 import { StepProvider } from '~/context/step-context'
 import { useState } from 'react'
 
-// vi.mock('~/context/step-context', () => ({
-//   useStepContext: () => ({
-//     handleStepData: vi.fn(),
-//     stepData: {
-//       generalInfo: {
-//         data: {
-//           firstName: 'Sandra',
-//           lastName: 'Bullock',
-//           country: 'Ukraine',
-//           city: '',
-//           professionalSummary: 'Some text'
-//         }
-//       }
-//     },
-//     handleSetIsFetched: vi.fn()
-//   }),
-//   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
-// }))
-
 vi.mock('~/context/step-context', () => ({
   useStepContext: () => {
+    const [isFetched, setIsFetched] = useState(false)
     const [stepData, setStepData] = useState({
       generalInfo: {
         data: {
-          country: null,
-          city: null,
           firstName: '',
           lastName: '',
+          country: null,
+          city: null,
           professionalSummary: ''
         }
       }
     })
 
-    const handleStepData = vi.fn((_, newValue) => {
-      console.log('handleStepDatahandleStepDatas')
-      console.log(newValue)
-      setStepData({
-        generalInfo: {
-          data: newValue
-          // data: {
-          //   firstName: newValue,
-          //   lastName: newValue,
-          //   country: newValue,
-          //   city: newValue,
-          //   professionalSummary: newValue
-          // }
-        }
-      })
-    })
-
-    const handleSetIsFetched = vi.fn()
-
     return {
-      handleStepData,
+      handleStepData: vi.fn((_, newValue) => {
+        console.log('handleStepDatahandleStepDatas')
+        console.log(newValue)
+        setStepData({
+          generalInfo: {
+            data: {
+              firstName: newValue.firstName,
+              lastName: newValue.lastName,
+              country: newValue.country,
+              city: newValue.city,
+              professionalSummary: newValue.professionalSummary
+            }
+          }
+        })
+      }),
+      handleSetIsFetched: setIsFetched,
       stepData,
-      handleSetIsFetched
+      isFetched
     }
   },
   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
@@ -227,11 +205,32 @@ describe('GeneralInfoStep test', () => {
     const firstName = screen.getByLabelText('common.labels.firstName*')
     const lastName = screen.getByLabelText('common.labels.lastName*')
 
-    fireEvent.change(firstName, { target: { value: 'Sandra' } })
-    fireEvent.change(lastName, { target: { value: 'Bullock' } })
     await waitFor(() => {
-      expect(firstName).toHaveValue('Sandra')
-      expect(lastName).toHaveValue('Bullock')
+      expect(firstName).toHaveValue('John')
+      expect(lastName).toHaveValue('Doe')
     })
+  })
+
+  it('should change firstName and lastName', async () => {
+    const firstName = screen.getByLabelText('common.labels.firstName*')
+    const lastName = screen.getByLabelText('common.labels.lastName*')
+
+    // Очікуємо, що спочатку ім'я буде John, а прізвище - Doe
+    await waitFor(() => {
+      expect(firstName).toHaveValue('John')
+      expect(lastName).toHaveValue('Doe')
+    })
+    const newFirstName = screen.getByDisplayValue('John')
+    const newLastName = screen.getByDisplayValue('Doe')
+
+    fireEvent.change(newFirstName, { target: { value: 'Sandra' } })
+
+    fireEvent.change(newLastName, { target: { value: 'Bullock' } })
+
+    expect(newFirstName).toHaveValue('Sandra')
+    expect(newLastName).toHaveValue('Bullock')
+
+    console.log(newFirstName)
+    console.log(newLastName)
   })
 })

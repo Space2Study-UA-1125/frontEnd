@@ -16,8 +16,6 @@ vi.mock('~/context/step-context', () => ({
     const [stepData, setStepData] = useState({ language: '' })
     return {
       handleStepData: vi.fn((_, newValue) => {
-        console.log('handleStepDatahandleStepDatas')
-        console.log(newValue)
         setStepData({ language: newValue })
       }),
       stepData

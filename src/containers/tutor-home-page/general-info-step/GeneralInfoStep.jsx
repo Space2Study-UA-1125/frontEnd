@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import generalInfo from '~/assets/img/tutor-home-page/become-tutor/general-info.svg'
 import AppTextField from '~/components/app-text-field/AppTextField'
@@ -17,6 +18,14 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
   const { t } = useTranslation()
   const { firstName, lastName } = useUserName('')
   const currentStepData = stepData[stepLabel].data
+
+  const cityService = useMemo(() => {
+    if (currentStepData.country) {
+      return () => LocationService.getCities(currentStepData.country)
+    } else {
+      return getEmptyArrayData
+    }
+  }, [currentStepData.country])
 
   const handleCountryChange = (value) => {
     handleStepData(stepLabel, {
@@ -89,11 +98,7 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
           />
           <AsyncAutocomplete
             onChange={(_e, newValue) => handleCityChange(newValue)}
-            service={
-              currentStepData.country
-                ? () => LocationService.getCities(currentStepData.country)
-                : getEmptyArrayData
-            }
+            service={cityService}
             textFieldProps={{ label: t('common.labels.city') }}
             value={currentStepData.city ? currentStepData.city : null}
           />

@@ -10,8 +10,6 @@ vi.mock('~/context/step-context', () => ({
     const [stepData, setStepData] = useState({ subjects: [] })
     return {
       handleStepData: vi.fn((_, newValue) => {
-        console.log('handleStepDatahandleStepDatas')
-        console.log(newValue)
         setStepData({ subjects: newValue })
       }),
       stepData
