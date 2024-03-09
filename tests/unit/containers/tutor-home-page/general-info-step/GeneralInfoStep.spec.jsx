@@ -1,14 +1,20 @@
-import { cleanup, screen, waitFor, fireEvent } from '@testing-library/react'
+import {
+  cleanup,
+  screen,
+  waitFor,
+  fireEvent,
+  render
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import GeneralInfoStep from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep'
-import { renderWithProviders } from '~tests/test-utils'
 import { expect, vi } from 'vitest'
 import { StepProvider } from '~/context/step-context'
+import { useState } from 'react'
 
 vi.mock('~/context/step-context', () => ({
-  useStepContext: () => ({
-    handleStepData: vi.fn(),
-    stepData: {
+  useStepContext: () => {
+    const [isFetched, setIsFetched] = useState(false)
+    const [stepData, setStepData] = useState({
       generalInfo: {
         data: {
           firstName: '',
@@ -18,8 +24,27 @@ vi.mock('~/context/step-context', () => ({
           professionalSummary: ''
         }
       }
+    })
+
+    return {
+      handleStepData: vi.fn((_, newValue) => {
+        setStepData({
+          generalInfo: {
+            data: {
+              firstName: newValue.firstName,
+              lastName: newValue.lastName,
+              country: newValue.country,
+              city: newValue.city,
+              professionalSummary: newValue.professionalSummary
+            }
+          }
+        })
+      }),
+      handleSetIsFetched: setIsFetched,
+      stepData,
+      isFetched
     }
-  }),
+  },
   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
 }))
 
@@ -81,7 +106,7 @@ describe('GeneralInfoStep test', () => {
 
   beforeEach(() => {
     cleanup()
-    renderWithProviders(
+    render(
       <StepProvider>
         <GeneralInfoStep btnsBox={mockButton} stepLabel='generalInfo' />
       </StepProvider>
@@ -107,8 +132,9 @@ describe('GeneralInfoStep test', () => {
     const countryField = screen.getByLabelText('common.labels.country')
     expect(countryField).toBeInTheDocument()
     userEvent.click(countryField)
-
-    expect(countryField).toHaveAttribute('aria-expanded', 'true')
+    await waitFor(() => {
+      expect(countryField).toHaveAttribute('aria-expanded', 'true')
+    })
     await waitFor(() => {
       expect(screen.getByText('Ukraine')).toBeInTheDocument()
       expect(screen.getByText('Italy')).toBeInTheDocument()
@@ -173,23 +199,30 @@ describe('GeneralInfoStep test', () => {
     expect(buttonElement).toBeInTheDocument()
   })
 
-  it('should render firstName and lastName', async () => {
+  it('should update firstName and lastName according to user data from sign up step', async () => {
     const firstName = screen.getByLabelText('common.labels.firstName*')
     const lastName = screen.getByLabelText('common.labels.lastName*')
+
     await waitFor(() => {
       expect(firstName).toHaveValue('John')
       expect(lastName).toHaveValue('Doe')
     })
   })
 
-  it('should change firstName and lastName according to user data', async () => {
-    const firstName = screen.getByLabelText('common.labels.firstName*')
-    const lastName = screen.getByLabelText('common.labels.lastName*')
+  it('should change firstName and lastName', () => {
+    const firstName = screen.getByRole('textbox', { name: /firstName/i })
+    const lastName = screen.getByRole('textbox', { name: /lastName/i })
 
-    fireEvent.change(firstName, { target: { value: 'Olha' } })
-    fireEvent.change(lastName, { target: { value: 'Hrytsak' } })
+    userEvent.clear(firstName)
+    fireEvent.change(firstName, { target: { value: 'Sandra' } })
 
-    expect(firstName).toHaveValue('Olha')
-    expect(lastName).toHaveValue('Hrytsak')
+    userEvent.clear(lastName)
+
+    fireEvent.change(lastName, { target: { value: 'Bullock' } })
+
+    waitFor(() => {
+      expect(firstName).toHaveValue('Sandra')
+      expect(lastName).toHaveValue('Bullock')
+    })
   })
 })

@@ -1,50 +1,46 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { userService } from '~/services/user-service'
 import { useSelector } from 'react-redux'
 import { tutorStepLabels } from '~/components/user-steps-wrapper/constants'
 import { useStepContext } from '~/context/step-context'
-import { firstName, lastName } from '~/utils/validations/login'
 
 const useUserName = () => {
-  const { stepData } = useStepContext()
-  const [firstNameValue, setFirstName] = useState('')
-  const [lastNameValue, setLastName] = useState('')
+  const { stepData, handleStepData, isFetched, handleSetIsFetched } =
+    useStepContext()
   const store = useSelector((state) => state.appMain)
   const stepContextUserData = stepData[tutorStepLabels[0]].data
 
-  const fetchUserData = async () => {
-    const userData = await userService.getUserById(store.userId, store.userRole)
-    setFirstName(userData.data.firstName)
-    setLastName(userData.data.lastName)
-  }
-  const setContextUserData = () => {
-    setFirstName(stepContextUserData.firstName)
-    setLastName(stepContextUserData.lastName)
-  }
   useEffect(() => {
-    stepContextUserData.firstName.length && stepContextUserData.lastName.length
-      ? setContextUserData()
-      : fetchUserData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store.userId, store.userRole])
+    const fetchData = async () => {
+      handleSetIsFetched(true)
+      const userData = await userService.getUserById(
+        store.userId,
+        store.userRole
+      )
 
-  const updateFirstName = (newFirstName) => {
-    setFirstName(newFirstName)
-  }
+      handleStepData(tutorStepLabels[0], {
+        ...stepContextUserData,
+        firstName: userData.data.firstName,
+        lastName: userData.data.lastName
+      })
+    }
 
-  const updateLastName = (newLastName) => {
-    setLastName(newLastName)
-  }
-  const firstNameError = firstName(firstNameValue)
-  const lastNameError = lastName(lastNameValue)
+    if (!isFetched) {
+      fetchData()
+    }
+  }, [
+    store.userId,
+    store.userRole,
+    handleStepData,
+    stepContextUserData,
+    isFetched,
+    handleSetIsFetched
+  ])
 
   return {
-    firstName: firstNameValue,
-    lastName: lastNameValue,
-    updateFirstName,
-    updateLastName,
-    firstNameError,
-    lastNameError
+    isFetched,
+    firstNameValue: stepContextUserData.firstName,
+    lastNameValue: stepContextUserData.lastName
   }
 }
 

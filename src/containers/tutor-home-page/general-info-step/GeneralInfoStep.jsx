@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import generalInfo from '~/assets/img/tutor-home-page/become-tutor/general-info.svg'
@@ -16,69 +16,75 @@ import getEmptyArrayData from '~/utils/get-empty-array-data'
 import { useStepContext } from '~/context/step-context'
 import { baseStyles } from '~/containers/tutor-home-page/basestyles.styles'
 
+import { firstName, lastName } from '~/utils/validations/login'
+
 const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
   const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
-  const {
-    firstName,
-    lastName,
-    updateFirstName,
-    updateLastName,
-    firstNameError,
-    lastNameError
-  } = useUserName('')
-  const [country, setCountry] = useState(stepData[stepLabel].data.country)
-  const [city, setCity] = useState(stepData[stepLabel].data.city)
-  const [professionalSummary, setProfessionalSummary] = useState(
-    stepData[stepLabel].data.professionalSummary
-  )
+  const { firstNameValue, lastNameValue } = useUserName('')
+  const currentStepData = stepData[stepLabel].data
+  const { errors } = stepData[stepLabel]
 
-  const countryTextFieldProps = {
-    label: t('common.labels.country')
-  }
-  const cityTextFieldProps = {
-    label: t('common.labels.city')
-  }
+  const firstNameError = firstName(firstNameValue)
+  const lastNameError = lastName(lastNameValue)
 
-  const handleProfessionalSummaryChange = (event) => {
-    const inputValue = event.target.value
-    setProfessionalSummary(inputValue)
-  }
+  const cityService = useMemo(() => {
+    if (currentStepData.country) {
+      return () => LocationService.getCities(currentStepData.country)
+    } else {
+      return getEmptyArrayData
+    }
+  }, [currentStepData.country])
 
   const handleCountryChange = (value) => {
-    setCountry(value)
-    setCity(null)
+    handleStepData(stepLabel, {
+      ...currentStepData,
+      country: value,
+      city: null
+    })
   }
 
   const handleCityChange = (value) => {
-    setCity(value)
+    handleStepData(stepLabel, { ...currentStepData, city: value })
   }
-  useEffect(() => {
+
+  const handleFirstNameChange = (event) => {
+    const newfirstNameValue = event.target.value
+    const newfirstNameError = firstName(newfirstNameValue)
     handleStepData(
       stepLabel,
       {
-        firstName,
-        lastName,
-        country,
-        city,
-        professionalSummary
+        ...currentStepData,
+        firstName: newfirstNameValue
       },
       {
-        firstNameError,
-        lastNameError
+        errors: { ...errors, newfirstNameError }
       }
     )
-  }, [
-    firstName,
-    lastName,
-    country,
-    city,
-    professionalSummary,
-    handleStepData,
-    stepLabel,
-    firstNameError,
-    lastNameError
-  ])
+  }
+
+  const handleLastNameChange = (event) => {
+    const newlastNameValue = event.target.value
+    const newlastNameError = lastName(newlastNameValue)
+    handleStepData(
+      stepLabel,
+      {
+        ...currentStepData,
+        lastName: newlastNameValue
+      },
+      {
+        errors: { ...errors, newlastNameError }
+      }
+    )
+  }
+
+  const handleProfessionalSummaryChange = (event) => {
+    handleStepData(stepLabel, {
+      ...currentStepData,
+      professionalSummary: event.target.value
+    })
+  }
+
   return (
     <Box sx={styles.container}>
       <Box sx={{ ...styles.imgContainer, ...baseStyles.imageContainer }}>
@@ -100,32 +106,28 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
             errorMsg={t(firstNameError)}
             label={t('common.labels.firstName*')}
             name='firstName'
-            onChange={(event) => updateFirstName(event.target.value)}
-            value={firstName}
+            onChange={handleFirstNameChange}
+            value={firstNameValue}
           />
           <AppTextField
             autoFocus
             errorMsg={t(lastNameError)}
             label={t('common.labels.lastName*')}
             name='lastName'
-            onChange={(event) => updateLastName(event.target.value)}
-            value={lastName}
+            onChange={handleLastNameChange}
+            value={lastNameValue}
           />
           <AsyncAutocomplete
             onChange={(_e, newValue) => handleCountryChange(newValue)}
             service={LocationService.getCountries}
-            textFieldProps={countryTextFieldProps}
-            value={country ? country : null}
+            textFieldProps={{ label: t('common.labels.country') }}
+            value={currentStepData.country ? currentStepData.country : null}
           />
           <AsyncAutocomplete
             onChange={(_e, newValue) => handleCityChange(newValue)}
-            service={
-              country
-                ? () => LocationService.getCities(country)
-                : getEmptyArrayData
-            }
-            textFieldProps={cityTextFieldProps}
-            value={city ? city : null}
+            service={cityService}
+            textFieldProps={{ label: t('common.labels.city') }}
+            value={currentStepData.city ? currentStepData.city : null}
           />
         </Box>
         <Box sx={styles.profSummaryContainer}>
@@ -133,7 +135,7 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
             label={t('becomeTutor.generalInfo.textFieldLabel')}
             maxLength={100}
             onChange={handleProfessionalSummaryChange}
-            value={professionalSummary}
+            value={currentStepData.professionalSummary}
           />
         </Box>
         <Typography sx={styles.helperText} variant='body2'>

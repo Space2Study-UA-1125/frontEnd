@@ -22,7 +22,8 @@ const StepWrapper = ({ children, steps }) => {
   const [generalLabel, subjectLabel, languageLabel, photoLabel] = steps
 
   const { errors } = stepData[generalLabel]
-  const hasErrors = Object.values(errors).some((error) => error !== '')
+  const hasErrors =
+    errors && Object.values(errors).some((error) => error !== '')
 
   const handleFinishBtnClick = () => {
     const stepDataforService = {
