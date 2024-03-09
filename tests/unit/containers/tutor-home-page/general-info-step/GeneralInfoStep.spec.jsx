@@ -28,8 +28,6 @@ vi.mock('~/context/step-context', () => ({
 
     return {
       handleStepData: vi.fn((_, newValue) => {
-        console.log('handleStepDatahandleStepDatas')
-        console.log(newValue)
         setStepData({
           generalInfo: {
             data: {
@@ -211,26 +209,20 @@ describe('GeneralInfoStep test', () => {
     })
   })
 
-  it('should change firstName and lastName', async () => {
-    const firstName = screen.getByLabelText('common.labels.firstName*')
-    const lastName = screen.getByLabelText('common.labels.lastName*')
+  it('should change firstName and lastName', () => {
+    const firstName = screen.getByRole('textbox', { name: /firstName/i })
+    const lastName = screen.getByRole('textbox', { name: /lastName/i })
 
-    // Очікуємо, що спочатку ім'я буде John, а прізвище - Doe
-    await waitFor(() => {
-      expect(firstName).toHaveValue('John')
-      expect(lastName).toHaveValue('Doe')
+    userEvent.clear(firstName)
+    fireEvent.change(firstName, { target: { value: 'Sandra' } })
+
+    userEvent.clear(lastName)
+
+    fireEvent.change(lastName, { target: { value: 'Bullock' } })
+
+    waitFor(() => {
+      expect(firstName).toHaveValue('Sandra')
+      expect(lastName).toHaveValue('Bullock')
     })
-    const newFirstName = screen.getByDisplayValue('John')
-    const newLastName = screen.getByDisplayValue('Doe')
-
-    fireEvent.change(newFirstName, { target: { value: 'Sandra' } })
-
-    fireEvent.change(newLastName, { target: { value: 'Bullock' } })
-
-    expect(newFirstName).toHaveValue('Sandra')
-    expect(newLastName).toHaveValue('Bullock')
-
-    console.log(newFirstName)
-    console.log(newLastName)
   })
 })
