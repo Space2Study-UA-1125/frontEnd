@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AppChipList from '~/components/app-chips-list/AppChipList'
 import FormHelperText from '@mui/material/FormHelperText'
@@ -18,7 +18,6 @@ const SubjectsStep = ({ btnsBox, stepLabel }) => {
   const { t } = useTranslation()
   const [category, setCategory] = useState(null)
   const [subject, setSubject] = useState(null)
-  const [selectedSubjects, setSelectedSubjects] = useState(stepData[stepLabel])
   const [subjectsError, setSubjectsError] = useState(null)
   const categoryTextFieldProps = {
     label: t('becomeTutor.categories.mainSubjectsLabel')
@@ -41,28 +40,27 @@ const SubjectsStep = ({ btnsBox, stepLabel }) => {
   }
   const handleAddSubject = () => {
     if (subject) {
-      const isTheSameSubjectSelected = selectedSubjects.some(
+      const isTheSameSubjectSelected = stepData[stepLabel].some(
         (selectedSubject) => subject._id === selectedSubject._id
       )
       if (isTheSameSubjectSelected) {
         setSubjectsError(t('becomeTutor.categories.sameSubject'))
         setSubject(null)
       } else {
-        setSelectedSubjects([...selectedSubjects, subject])
+        handleStepData(stepLabel, [...stepData[stepLabel], subject])
         setSubject(null)
       }
     }
   }
   const handleDeleteSubject = (chip) => {
-    setSelectedSubjects(
-      selectedSubjects.filter((subject) => subject.name !== chip)
+    const updatedSelectedSubjects = stepData[stepLabel].filter(
+      (selectedSubject) => selectedSubject.name !== chip
     )
+    handleStepData(stepLabel, updatedSelectedSubjects)
   }
-  const selectedSubjectsNames = selectedSubjects.map((subject) => subject.name)
-
-  useEffect(() => {
-    handleStepData(stepLabel, selectedSubjects)
-  }, [selectedSubjects, handleStepData, stepLabel])
+  const selectedSubjectsNames = stepData[stepLabel].map(
+    (subject) => subject.name
+  )
 
   return (
     <Box sx={styles.container}>
