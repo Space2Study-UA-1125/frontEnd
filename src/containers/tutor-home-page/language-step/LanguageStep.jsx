@@ -11,7 +11,6 @@ import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
 import { useTranslation } from 'react-i18next'
 import languageStepImg from '~/assets/img/tutor-home-page/become-tutor/languages.svg'
 import { styles } from '~/containers/tutor-home-page/language-step/LanguageStep.styles'
-import { useState, useEffect } from 'react'
 import { useStepContext } from '~/context/step-context'
 import { languageService } from '~/services/language-service'
 import { defaultResponses } from '~/constants'
@@ -21,11 +20,7 @@ const LanguageStep = ({ btnsBox, stepLabel }) => {
   const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()
 
-  const [selectedLanguage, setSelectedLanguage] = useState(stepData[stepLabel])
-
-  useEffect(() => {
-    handleStepData(stepLabel, selectedLanguage)
-  }, [selectedLanguage, stepLabel, handleStepData])
+  const selectedLanguage = stepData[stepLabel]
 
   const { response } = useAxios({
     service: languageService.getLanguages,
@@ -33,11 +28,11 @@ const LanguageStep = ({ btnsBox, stepLabel }) => {
   })
 
   const handleChange = (event) => {
-    setSelectedLanguage(event.target.value)
+    handleStepData(stepLabel, event.target.value)
   }
 
   const handleClear = () => {
-    setSelectedLanguage('')
+    handleStepData(stepLabel, '')
   }
   return (
     <Box sx={styles.container}>

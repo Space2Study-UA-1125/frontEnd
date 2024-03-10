@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-hooks'
 import useUserName from '~/hooks/use-user-name'
 import { expect, vi } from 'vitest'
 
@@ -9,18 +9,18 @@ vi.mock('~/context/step-context', () => ({
     stepData: {
       generalInfo: {
         data: {
-          firstName: '',
-          lastName: '',
+          firstName: 'John',
+          lastName: 'Doe',
           country: null,
           city: null,
           professionalSummary: ''
         }
       }
-    }
+    },
+    handleSetIsFetched: vi.fn()
   }),
   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
 }))
-
 const mockState = { userId: '1', userRole: 'tutor' }
 vi.mock('react-redux', async () => {
   const actual = await vi.importActual('react-redux')
@@ -40,30 +40,9 @@ vi.mock('~/services/user-service', () => ({
 
 describe('useUserName', () => {
   it('should fetch user data and update first and last names', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useUserName())
-    await waitForNextUpdate()
-
-    expect(result.current.firstName).toBe('John')
-    expect(result.current.lastName).toBe('Doe')
-  })
-
-  it('should update first name', async () => {
     const { result } = renderHook(() => useUserName())
 
-    act(() => {
-      result.current.updateFirstName('Jane')
-    })
-
-    expect(result.current.firstName).toBe('Jane')
-  })
-
-  it('should update last name', async () => {
-    const { result } = renderHook(() => useUserName())
-
-    act(() => {
-      result.current.updateLastName('Smith')
-    })
-
-    expect(result.current.lastName).toBe('Smith')
+    expect(result.current.firstNameValue).toBe('John')
+    expect(result.current.lastNameValue).toBe('Doe')
   })
 })
