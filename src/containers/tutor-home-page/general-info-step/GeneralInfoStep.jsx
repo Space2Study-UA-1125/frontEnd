@@ -58,7 +58,8 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
         firstName: newfirstNameValue
       },
       {
-        errors: { ...errors, newfirstNameError }
+        ...errors,
+        newfirstNameError
       }
     )
   }
@@ -73,7 +74,8 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
         lastName: newlastNameValue
       },
       {
-        errors: { ...errors, newlastNameError }
+        ...errors,
+        newlastNameError
       }
     )
   }
