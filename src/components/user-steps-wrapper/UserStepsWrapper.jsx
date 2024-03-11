@@ -35,7 +35,6 @@ const UserStepsWrapper = ({ userRole }) => {
       setNeedConfirmation(false)
     }
   }, [dispatch, setNeedConfirmation])
-
   const childrenArr = useMemo(
     () => [
       <GeneralInfoStep

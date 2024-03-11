@@ -128,7 +128,6 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
             value={city ? city : null}
           />
         </Box>
-
         <Box sx={styles.profSummaryContainer}>
           <AppTextArea
             label={t('becomeTutor.generalInfo.textFieldLabel')}

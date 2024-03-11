@@ -70,7 +70,6 @@ const baseStyles = {
     cursor: 'grub'
   }
 }
-
 export const dragStyles = {
   ...baseStyles
 }

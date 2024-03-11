@@ -39,7 +39,6 @@ const LanguageStep = ({ btnsBox, stepLabel }) => {
   const handleClear = () => {
     setSelectedLanguage('')
   }
-
   return (
     <Box sx={styles.container}>
       <Box

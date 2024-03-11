@@ -37,24 +37,23 @@ const AddPhotoStep = ({ btnsBox, onFileUpload = () => {} }) => {
     <Box
       sx={{
         ...style.container,
-        width: '926px', // Default width for larger screens
+        width: '926px',
         height: '485px',
         '@media (max-width: 600px)': {
-          // Adjustments for mobile screens
           width: '343px',
           flexDirection: 'column',
-          alignItems: 'center', // Centers the items for mobile view
-          gap: '20px' // Adjust gap for mobile layout
+          alignItems: 'center',
+          gap: '20px'
         }
       }}
     >
       <Box
         sx={{
           ...style.info,
-          width: '440px', // Default width for larger screens
+          width: '440px',
           '@media (max-width: 600px)': {
-            width: '100%', // Take full width on mobile
-            order: -1 // Ensures text appears above the photo upload on mobile
+            width: '100%',
+            order: -1
           }
         }}
       >

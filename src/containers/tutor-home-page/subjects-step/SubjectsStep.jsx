@@ -31,7 +31,6 @@ const SubjectsStep = ({ btnsBox, stepLabel }) => {
   const currentSubjectService = category
     ? () => subjectService.getSubjectsNames(category._id)
     : getEmptyArrayData
-
   const handleCategoryChange = (value) => {
     setSubjectsError(null)
     setCategory(value)

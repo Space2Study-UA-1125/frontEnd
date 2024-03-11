@@ -17,7 +17,6 @@ export const styles = {
     ...scrollbar,
     ...fadeAnimation
   },
-
   imgContainer: {
     display: { sm: 'none', md: 'block' },
     maxHeight: { xs: 'calc(100vh - 56px)', sm: 'calc(100vh - 64px)' },
