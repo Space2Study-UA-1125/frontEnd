@@ -1,4 +1,4 @@
-import CategoriesList from '../categories-list/CategoriesList'
+import CategoriesList from '~/components/categories-list/CategoriesList'
 import { Typography } from '@mui/material'
 import { styles } from './PopularCategories.style'
 

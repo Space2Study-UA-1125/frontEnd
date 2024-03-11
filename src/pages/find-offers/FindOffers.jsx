@@ -13,6 +13,7 @@ import { offerService } from '~/services/offer-service'
 import { defaultResponses } from '~/constants'
 
 import { styles } from '~/pages/find-offers/FindOffers.styles'
+import PopularCategories from '~/components/popular-categories/PopularCategories'
 
 const FindOffers = () => {
   const { t } = useTranslation()
@@ -73,6 +74,7 @@ const FindOffers = () => {
             <span>, by {authorRole}</span>
           </div>
         ))}
+      <PopularCategories></PopularCategories>
     </PageWrapper>
   )
 }
