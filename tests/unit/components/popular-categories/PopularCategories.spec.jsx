@@ -12,7 +12,7 @@ describe('PopularCategories component test', () => {
   it('renders PopularCategories component correctly', () => {
     render(<PopularCategories />)
 
-    const titleElement = screen.getByText('Popular Categories')
+    const titleElement = screen.getByText('common.popularCategories')
     const categoriesListElement = screen.getByText('Mocked CategoriesList')
 
     expect(titleElement).toBeInTheDocument()
