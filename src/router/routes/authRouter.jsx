@@ -62,7 +62,7 @@ export const authRouter = (
       path={authRoutes.userProfile.route}
     />
     <Route
-      element={<TutorProfile />}
+      element={<EditProfile />}
       handle={{ crumb: myProfile }}
       path={authRoutes.accountMenu.myProfile.route}
     />
