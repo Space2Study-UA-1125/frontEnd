@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Box, Stack, InputAdornment, Link } from '@mui/material'
+import { Box, Stack, InputAdornment } from '@mui/material'
 
 import AppCard from '~/components/app-card/AppCard'
 import TitleWithDescription from '~/components/title-with-description/TitleWithDescription'
@@ -12,7 +12,7 @@ import AsyncAutocomplete from '../async-autocomlete/AsyncAutocomplete'
 import { subjectService } from '~/services/subject-service'
 import { useState } from 'react'
 import { SearchRounded } from '@mui/icons-material'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { authRoutes } from '~/router/constants/authRoutes'
 
 const AppNetworkCard = ({ userRole }) => {
@@ -51,7 +51,7 @@ const AppNetworkCard = ({ userRole }) => {
           style={styles.titleWithDescription}
           title={
             isStudent
-              ? t('studentHomePage.findTutorBlock.title.tutor')
+              ? t('studentHomePage.findTutorBlock.title.student')
               : t('tutorHomePage.findStudentBlock.title.tutor')
           }
         />
@@ -65,13 +65,11 @@ const AppNetworkCard = ({ userRole }) => {
             value={subject ? subject._id : null}
             valueField='_id'
           />
-          <Link component={RouterLink} to={findOffersPath}>
-            <AppButton sx={styles.button}>
-              {isStudent
-                ? t('studentHomePage.findTutorBlock.button')
-                : t('tutorHomePage.findStudentBlock.button')}
-            </AppButton>
-          </Link>
+          <AppButton component={Link} sx={styles.button} to={findOffersPath}>
+            {isStudent
+              ? t('studentHomePage.findTutorBlock.button')
+              : t('tutorHomePage.findStudentBlock.button')}
+          </AppButton>
         </Stack>
       </Box>
       <Box sx={styles.imgContainer}>
