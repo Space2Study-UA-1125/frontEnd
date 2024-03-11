@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import AddPhotoStep from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep'
+
 import {
   dragStyles,
   dragStylesWithBorder
-} from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.style'
+} from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.styles'
+import AddPhotoStep from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep'
 
 const file = new File(
   [new Blob([`data:image/jpeg;base64,/9j/`])],
