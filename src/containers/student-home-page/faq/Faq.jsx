@@ -7,13 +7,17 @@ import Box from '@mui/material/Box'
 import Accordions from '~/components/accordion/Accordions'
 import TitleWithDescription from '~/components/title-with-description/TitleWithDescription'
 import { accordionItems } from '~/containers/student-home-page/faq/accordionItems'
+import { tutorAccordionItems } from '~/containers/tutor-home-page/faq/tutorAccordionItems'
 import { studentRoutes } from '~/router/constants/studentRoutes'
 
 import { styles } from '~/containers/student-home-page/faq/Faq.styles'
+import { student } from '~/constants'
 
-const Faq = () => {
+const Faq = ({ userRole }) => {
   const { t } = useTranslation()
   const [activeItemId, setActiveItemId] = useState(null)
+
+  const isStudent = userRole === student
 
   const changeAccordion = (id) =>
     activeItemId === id ? setActiveItemId(null) : setActiveItemId(id)
@@ -25,16 +29,24 @@ const Faq = () => {
       sx={styles.container}
     >
       <TitleWithDescription
-        description={t('studentHomePage.faq.subtitle')}
+        description={
+          isStudent
+            ? t('studentHomePage.faq.subtitle')
+            : t('tutorHomePage.faq.subtitle')
+        }
         style={styles.titleWithDescription}
-        title={t('studentHomePage.faq.title')}
+        title={
+          isStudent
+            ? t('studentHomePage.faq.title')
+            : t('tutorHomePage.faq.title')
+        }
       />
 
       <Accordions
         activeIndex={activeItemId}
         descriptionVariant={'body2'}
         icon={<ExpandMoreRoundedIcon />}
-        items={accordionItems}
+        items={isStudent ? accordionItems : tutorAccordionItems}
         onChange={changeAccordion}
         square
         titleVariant={'h6'}

@@ -1,9 +1,10 @@
 export const styles = {
   container: {
-    backgroundColor: 'basic.white',
+    backgroundColor: '#FCFFFB',
     display: 'block',
     textAlign: 'center',
-    p: '35px 40px'
+    p: '35px 40px',
+    borderRadius: '16px'
   },
   cardsContainer: {
     display: 'flex',

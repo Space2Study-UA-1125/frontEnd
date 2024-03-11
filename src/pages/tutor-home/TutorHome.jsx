@@ -1,12 +1,15 @@
 import { useEffect } from 'react'
-
 import { useSelector } from 'react-redux'
-import { useModalContext } from '~/context/modal-context'
+import Container from '@mui/material/Container'
 
+import { useModalContext } from '~/context/modal-context'
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
 import UserStepsWrapper from '~/components/user-steps-wrapper/UserStepsWrapper'
+import Faq from '~/containers/student-home-page/faq/Faq'
+import StudentHowItWorks from '~/containers/student-home-page/student-how-it-works/StudentHowItWorks'
 
 import { styles } from '~/pages/tutor-home/TutorHome.styles'
+import AppNetworkCard from '~/components/app-network-card/AppNetworkCard'
 
 const TutorHome = () => {
   const { openModal } = useModalContext()
@@ -23,7 +26,15 @@ const TutorHome = () => {
     }
   }, [openModal, isFirstLogin, userRole])
 
-  return <PageWrapper data-testid='tutorHome'>TutorHome Page</PageWrapper>
+  return (
+    <PageWrapper data-testid='tutorHome'>
+      <Container data-testid='tutorHome' sx={{ pt: 6 }}>
+        <AppNetworkCard />
+        <StudentHowItWorks userRole={userRole} />
+        <Faq userRole={userRole} />
+      </Container>
+    </PageWrapper>
+  )
 }
 
 export default TutorHome
