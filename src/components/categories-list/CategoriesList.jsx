@@ -83,7 +83,7 @@ const CategoriesList = ({ searchedCategories }) => {
                 category.totalOffers.student + category.totalOffers.tutor
               }
               title={category.name}
-              to={`${authRoutes.subjectsCategoryId.path}/${category._id}/subjects`}
+              to={`${authRoutes.offersCategoryName.path}/${category.name}/offers`}
             />
           </Grid>
         ))}
