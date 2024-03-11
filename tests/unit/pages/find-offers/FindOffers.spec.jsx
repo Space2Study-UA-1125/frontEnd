@@ -3,7 +3,6 @@ import { renderWithProviders } from '~tests/test-utils'
 import { vi } from 'vitest'
 
 import FindOffers from '~/pages/find-offers/FindOffers'
-import useUrlSearchParams from '~/hooks/use-url-search-params'
 
 const studentOffers = {
   data: {
@@ -25,8 +24,6 @@ const tutorOffers = {
 
 const handleListView = vi.fn()
 const handleGridView = vi.fn()
-
-vi.mock('~/hooks/use-url-search-params')
 
 vi.mock('~/services/offer-service', () => ({
   offerService: {
@@ -57,18 +54,9 @@ vi.mock('~/components/app-view-switcher/AppViewSwitcher', () => ({
   )
 }))
 
-const searchParamsData = {
-  searchParams: {
-    get: vi.fn()
-  },
-  setUrlSearchParams: vi.fn()
-}
-
 describe('FindOffersPage test', () => {
   beforeEach(() => {
     const preloadedState = { appMain: { userRole: 'student' } }
-
-    useUrlSearchParams.mockImplementation(() => searchParamsData)
     renderWithProviders(<FindOffers />, { preloadedState })
   })
 
@@ -90,10 +78,6 @@ describe('FindOffersPage test', () => {
 })
 
 describe('FindOffersPage offer cards rendering test', () => {
-  beforeEach(() => {
-    useUrlSearchParams.mockImplementation(() => searchParamsData)
-  })
-
   it('should render tutor offer cards if user role is "student"', async () => {
     const preloadedState = { appMain: { userRole: 'student' } }
     renderWithProviders(<FindOffers />, { preloadedState })

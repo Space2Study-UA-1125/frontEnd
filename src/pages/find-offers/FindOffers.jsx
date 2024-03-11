@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import Stack from '@mui/material/Stack'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
@@ -18,20 +18,16 @@ const FindOffers = () => {
   const { t } = useTranslation()
   const { searchParams, setUrlSearchParams } = useUrlSearchParams()
   const { userRole } = useSelector((state) => state.appMain)
-  const [view, setView] = useState(searchParams.get('view') || 'list')
-  const [sort, setSort] = useState(searchParams.get('sort') || 'createdAt')
-  const [authorRole, setAuthorRole] = useState(
-    searchParams.get('authorRole') ||
-      (userRole === 'student' ? 'tutor' : 'student')
-  )
 
-  useEffect(() => {
-    setUrlSearchParams({ view, sort, authorRole })
-  }, [view, sort, authorRole, setUrlSearchParams])
+  const authorRole =
+    searchParams.get('authorRole') ||
+    (userRole === 'student' ? 'tutor' : 'student')
+  const view = searchParams.get('view') || 'list'
+  const sort = searchParams.get('sort') || 'createdAt'
 
   const serviceFunction = useCallback(
-    () => offerService.getOffers({ authorRole }),
-    [authorRole]
+    () => offerService.getOffers({ authorRole, sort }),
+    [authorRole, sort]
   )
 
   const { response } = useAxios({
@@ -49,12 +45,12 @@ const FindOffers = () => {
   }
 
   const handleAuthorRoleChange = () => {
-    setAuthorRole(authorRole === 'student' ? 'tutor' : 'student')
+    const newAuthorRole = authorRole === 'student' ? 'tutor' : 'student'
+    setUrlSearchParams({ authorRole: newAuthorRole })
   }
 
   return (
     <PageWrapper>
-      <AppSortMenu setSort={setSort} sort={sort} />
       <Stack sx={styles.stack}>
         <div />
         <AppContentSwitcher
@@ -64,7 +60,16 @@ const FindOffers = () => {
           switchOptions={switchOptions}
           typographyVariant={'body1'}
         />
-        <AppViewSwitcher setView={setView} view={view} />
+        <Stack sx={styles.stackRightFilters}>
+          <AppSortMenu
+            setSort={(sort) => setUrlSearchParams({ sort })}
+            sort={sort}
+          />
+          <AppViewSwitcher
+            setView={(view) => setUrlSearchParams({ view })}
+            view={view}
+          />
+        </Stack>
       </Stack>
       {response &&
         response.items?.map(({ _id, title, authorRole }) => (
