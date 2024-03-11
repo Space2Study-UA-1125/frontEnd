@@ -7,7 +7,6 @@ import Loader from '~/components/loader/Loader'
 import ScrollToTopButton from '~/components/scroll-to-top-button/ScrollToTopButton'
 import ScrollToTop from '~/components/scroll-to-top/ScrollToTop'
 import { styles } from '~/containers/app-content/AppContent.styles'
-import AppBreadCrumbs from '~/containers/layout/app-breadcrumbs/AppBreadCrumbs'
 import Footer from '~/containers/layout/footer/Footer'
 import { checkAuth } from '~/redux/reducer'
 
@@ -28,7 +27,6 @@ const AppMain = () => {
   return (
     <Box ref={mainWithFooter} sx={styles.content}>
       <Suspense fallback={<Loader pageLoad />}>
-        <AppBreadCrumbs />
         <ScrollToTop element={mainWithFooter} />
         <Outlet context={{ pageRef: mainWithFooter }} />
         <ScrollToTopButton element={mainWithFooter} />
