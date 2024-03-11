@@ -1,5 +1,4 @@
 import { fadeAnimation } from '~/styles/app-theme/custom-animations'
-
 export const styles = {
   container: {
     display: 'grid',

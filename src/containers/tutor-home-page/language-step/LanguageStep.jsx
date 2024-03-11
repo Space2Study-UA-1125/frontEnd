@@ -92,5 +92,4 @@ const LanguageStep = ({ btnsBox, stepLabel }) => {
     </Box>
   )
 }
-
 export default LanguageStep

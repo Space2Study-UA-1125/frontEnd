@@ -13,7 +13,6 @@ import getEmptyArrayData from '~/utils/get-empty-array-data'
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 import { useStepContext } from '~/context/step-context'
 import { baseStyles } from '~/containers/tutor-home-page/basestyles.styles'
-
 const SubjectsStep = ({ btnsBox, stepLabel }) => {
   const { stepData, handleStepData } = useStepContext()
   const { t } = useTranslation()

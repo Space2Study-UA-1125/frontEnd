@@ -73,7 +73,6 @@ const baseStyles = {
 export const dragStyles = {
   ...baseStyles
 }
-
 export const dragStylesWithBorder = {
   ...baseStyles,
   root: {

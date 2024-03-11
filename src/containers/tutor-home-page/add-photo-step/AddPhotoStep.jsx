@@ -11,7 +11,6 @@ import {
   dragStyles,
   dragStylesWithBorder
 } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.styles'
-
 const AddPhotoStep = ({ btnsBox, onFileUpload = () => {} }) => {
   const { fileDataURL, readFileAsDataURL, resetFileDataURL } = useFileReader()
   const [fileName, setFileName] = useState(null)
@@ -23,7 +22,6 @@ const AddPhotoStep = ({ btnsBox, onFileUpload = () => {} }) => {
     setFileName(getShortenedFileName(firstFile.name, clearButtonNameMaxLength))
     readFileAsDataURL(firstFile)
   }
-
   const handleClear = () => {
     resetFileDataURL()
     setFileName(null)

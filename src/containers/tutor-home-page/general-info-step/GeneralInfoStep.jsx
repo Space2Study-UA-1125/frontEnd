@@ -144,5 +144,4 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
     </Box>
   )
 }
-
 export default GeneralInfoStep

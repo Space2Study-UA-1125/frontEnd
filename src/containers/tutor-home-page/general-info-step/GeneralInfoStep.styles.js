@@ -46,7 +46,6 @@ export const styles = {
     marginTop: '20px',
     height: { sm: '125px' }
   },
-
   title: {
     pb: '10px'
   },
