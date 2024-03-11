@@ -18,11 +18,10 @@ describe('HowItWorks container', () => {
 
   it('should change info by clicking on switch', () => {
     const checkbox = screen.getByRole('checkbox')
-    checkbox.click()
+    fireEvent.click(checkbox)
 
-    fireEvent.change(checkbox, { target: { checked: 'false' } })
     const btnText = screen.getByText(
-      'guestHomePage.whatCanYouDo.learn.actionLabel'
+      'guestHomePage.whatCanYouDo.teach.actionLabel'
     )
 
     expect(btnText).toBeInTheDocument()
