@@ -14,6 +14,7 @@ import useUserName from '~/hooks/use-user-name'
 import { LocationService } from '~/services/location-service'
 import getEmptyArrayData from '~/utils/get-empty-array-data'
 import { useStepContext } from '~/context/step-context'
+import { baseStyles } from '~/containers/tutor-home-page/basestyles.styles'
 
 const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
   const { stepData, handleStepData } = useStepContext()
@@ -80,19 +81,19 @@ const GeneralInfoStep = ({ btnsBox, stepLabel }) => {
   ])
   return (
     <Box sx={styles.container}>
-      <Box sx={styles.imgContainer}>
-        <Box
-          alt='generalInfo'
-          component='img'
+      <Box sx={{ ...styles.imgContainer, ...baseStyles.imageContainer }}>
+        {' '}
+        <img
+          alt='General Information'
           src={generalInfo}
-          sx={styles.img}
+          style={{ ...styles.img, ...baseStyles.image }}
         />
       </Box>
 
       <Typography sx={styles.title} variant='subtitle1'>
         {t('becomeTutor.generalInfo.title')}
       </Typography>
-      <Box sx={styles.formContainer}>
+      <Box sx={{ ...styles.formContainer, ...baseStyles.inputContainer }}>
         <Box sx={styles.dataContainer}>
           <AppTextField
             autoFocus

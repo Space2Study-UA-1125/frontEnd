@@ -12,6 +12,7 @@ import { subjectService } from '~/services/subject-service'
 import getEmptyArrayData from '~/utils/get-empty-array-data'
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 import { useStepContext } from '~/context/step-context'
+import { baseStyles } from '~/containers/tutor-home-page/basestyles.styles'
 
 const SubjectsStep = ({ btnsBox, stepLabel }) => {
   const { stepData, handleStepData } = useStepContext()
@@ -67,12 +68,11 @@ const SubjectsStep = ({ btnsBox, stepLabel }) => {
 
   return (
     <Box sx={styles.container}>
-      <Box sx={styles.imageContainer}>
-        <Box
-          alt='Subject'
-          component='img'
+      <Box sx={{ ...styles.imageContainer, ...baseStyles.imageContainer }}>
+        <img
+          alt='Subjects'
           src={studyCategory}
-          sx={styles.image}
+          style={{ ...styles.image, ...baseStyles.image }}
         />
       </Box>
       <Typography>{t('becomeTutor.categories.title')}</Typography>
