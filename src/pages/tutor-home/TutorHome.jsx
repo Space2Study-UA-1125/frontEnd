@@ -7,9 +7,9 @@ import PageWrapper from '~/components/page-wrapper/PageWrapper'
 import UserStepsWrapper from '~/components/user-steps-wrapper/UserStepsWrapper'
 import Faq from '~/containers/student-home-page/faq/Faq'
 import StudentHowItWorks from '~/containers/student-home-page/student-how-it-works/StudentHowItWorks'
+import AppNetworkCard from '~/components/app-network-card/AppNetworkCard'
 
 import { styles } from '~/pages/tutor-home/TutorHome.styles'
-import AppNetworkCard from '~/components/app-network-card/AppNetworkCard'
 
 const TutorHome = () => {
   const { openModal } = useModalContext()
@@ -27,8 +27,8 @@ const TutorHome = () => {
   }, [openModal, isFirstLogin, userRole])
 
   return (
-    <PageWrapper data-testid='tutorHome'>
-      <Container data-testid='tutorHome' sx={{ pt: 6 }}>
+    <PageWrapper>
+      <Container sx={styles.container}>
         <AppNetworkCard />
         <StudentHowItWorks userRole={userRole} />
         <Faq userRole={userRole} />

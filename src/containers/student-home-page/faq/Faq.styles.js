@@ -1,8 +1,7 @@
 export const styles = {
   container: {
     flexDirection: 'column',
-    mb: 0,
-    pb: 10
+    mb: 0
   },
   titleWithDescription: {
     wrapper: {
@@ -10,7 +9,7 @@ export const styles = {
       mb: '32px'
     },
     title: {
-      typography: { xs: 'h4' }
+      typography: { xs: 'h5', md: 'h4' }
     },
     description: {
       typography: { xs: 'subtitle1' }
