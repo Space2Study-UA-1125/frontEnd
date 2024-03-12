@@ -10,6 +10,13 @@ const mockCategory = {
   to: '/mock-category'
 }
 
+const mockCategorySingleOffer = {
+  icon: 'mock-icon-url',
+  title: 'Mock Category',
+  offerCount: 1,
+  to: '/mock-category'
+}
+
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = await importOriginal()
   return {
@@ -32,13 +39,28 @@ describe('CategoryItemCard test', () => {
     )
   })
 
-  it('renders category item card with correct content', () => {
+  it('renders category item card with correct content, plural offers', () => {
     const iconElement = screen.getByText('mock-icon-url')
     const titleElement = screen.getByText('Mock Category')
-    const offerCountElement = screen.getByText('5 offers')
+    const offerCountElement = screen.getByText(
+      '5 categoriesPage.itemCard.offers'
+    )
 
     expect(iconElement).toBeInTheDocument()
     expect(titleElement).toBeInTheDocument()
+    expect(offerCountElement).toBeInTheDocument()
+  })
+
+  it('renders category item card with singular offer number', () => {
+    render(
+      <Router>
+        <CategoryItemCard {...mockCategorySingleOffer} />
+      </Router>
+    )
+
+    const offerCountElement = screen.getByText(
+      '1 categoriesPage.itemCard.offer'
+    )
     expect(offerCountElement).toBeInTheDocument()
   })
 

@@ -7,12 +7,14 @@ import AppButton from '~/components/app-button/AppButton'
 import TitleWithDescription from '~/components/title-with-description/TitleWithDescription'
 import SignupDialog from '~/containers/guest-home-page/signup-dialog/SignupDialog'
 import { useModalContext } from '~/context/modal-context'
+import { useRef } from 'react'
 
 import { styles } from '~/containers/guest-home-page/cards-with-button/CardsWithButton.styles'
 
 const CardsWithButton = ({ array, role, btnText, isStudent }) => {
   const { t } = useTranslation()
   const { openModal } = useModalContext()
+  const transition = useRef(null)
 
   const openDialog = () => {
     openModal({ component: <SignupDialog type={role} /> })
@@ -47,7 +49,7 @@ const CardsWithButton = ({ array, role, btnText, isStudent }) => {
 
   return (
     <>
-      <Transition in={isStudent} timeout={300}>
+      <Transition in={isStudent} nodeRef={transition} timeout={300}>
         {(state) => cards(state)}
       </Transition>
       <AppButton onClick={openDialog} size={'extraLarge'} sx={styles.button}>

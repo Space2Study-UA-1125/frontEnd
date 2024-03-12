@@ -3,14 +3,18 @@ import userEvent from '@testing-library/user-event'
 import SubjectsStep from '~/containers/tutor-home-page/subjects-step/SubjectsStep'
 import { StepProvider } from '~/context/step-context'
 import { vi } from 'vitest'
+import { useState } from 'react'
 
 vi.mock('~/context/step-context', () => ({
-  useStepContext: () => ({
-    handleStepData: vi.fn(),
-    stepData: {
-      subjects: []
+  useStepContext: () => {
+    const [stepData, setStepData] = useState({ subjects: [] })
+    return {
+      handleStepData: vi.fn((_, newValue) => {
+        setStepData({ subjects: newValue })
+      }),
+      stepData
     }
-  }),
+  },
   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
 }))
 
@@ -74,7 +78,7 @@ describe('SubjectsStep renders components', () => {
   })
 
   it('should render image', () => {
-    const img = screen.getByAltText('Subject')
+    const img = screen.getByAltText('Subjects')
 
     expect(img).toBeInTheDocument()
   })

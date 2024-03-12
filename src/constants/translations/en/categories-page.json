@@ -13,5 +13,9 @@
     "category": "Add subject to existing category or create a new one.",
     "info": "Provide a brief explanation of why you believe this subject or category should be added.",
     "labels": { "subject": "New subject" }
+  },
+  "itemCard": {
+    "offer": "offer",
+    "offers": "offers"
   }
 }

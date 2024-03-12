@@ -21,6 +21,10 @@ const StepWrapper = ({ children, steps }) => {
   const { stepData } = useStepContext()
   const [generalLabel, subjectLabel, languageLabel, photoLabel] = steps
 
+  const { errors } = stepData[generalLabel]
+  const hasErrors =
+    errors && Object.values(errors).some((error) => error !== '')
+
   const handleFinishBtnClick = () => {
     const stepDataforService = {
       firstName: stepData[generalLabel].data.firstName,
@@ -59,7 +63,13 @@ const StepWrapper = ({ children, steps }) => {
       {t('common.finish')}
     </AppButton>
   ) : (
-    <AppButton onClick={next} size='small' sx={styles.btn} variant='contained'>
+    <AppButton
+      disabled={hasErrors}
+      onClick={next}
+      size='small'
+      sx={styles.btn}
+      variant='contained'
+    >
       {t('common.next')}
       <EastIcon fontSize='small' />
     </AppButton>

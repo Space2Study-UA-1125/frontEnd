@@ -1,5 +1,6 @@
 import { Card, CardContent, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { styles } from '~/components/category-item-card/CategoryItemCard.styles'
 
 const CategoryItemCard = ({
@@ -11,6 +12,8 @@ const CategoryItemCard = ({
   color,
   to
 }) => {
+  const { t } = useTranslation()
+
   const navigate = useNavigate()
 
   const handleCardClick = () => {
@@ -34,7 +37,11 @@ const CategoryItemCard = ({
             {title}
           </Typography>
           <Typography sx={styles.description}>
-            {`${offerCount} offers`}
+            {`${offerCount} ${
+              offerCount === 1
+                ? t('categoriesPage.itemCard.offer')
+                : t('categoriesPage.itemCard.offers')
+            }`}
           </Typography>
         </div>
       </CardContent>

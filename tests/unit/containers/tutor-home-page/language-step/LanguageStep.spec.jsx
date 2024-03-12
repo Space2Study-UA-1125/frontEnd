@@ -1,20 +1,53 @@
 import { cleanup, render, screen, fireEvent } from '@testing-library/react'
+import { vi } from 'vitest'
 import LanguageStep from '~/containers/tutor-home-page/language-step/LanguageStep'
 import { StepProvider } from '~/context/step-context'
+import useAxios from '~/hooks/use-axios'
+import { useState } from 'react'
+
 const mockBtnsBox = <div>Mock Buttons Box</div>
-import { vi } from 'vitest'
+
+const languages = [
+  'English',
+  'Ukrainian',
+  'Polish',
+  'German',
+  'French',
+  'Spanish',
+  'Arabic'
+]
+
+const fakeData = {
+  error: null,
+  loading: false,
+  response: languages
+}
+
+vi.mock('~/hooks/use-axios')
 
 vi.mock('~/context/step-context', () => ({
-  useStepContext: () => ({
-    handleStepData: vi.fn(),
-    stepData: { language: '' }
-  }),
+  useStepContext: () => {
+    const [stepData, setStepData] = useState({ language: '' })
+    return {
+      handleStepData: vi.fn((_, newValue) => {
+        setStepData({ language: newValue })
+      }),
+      stepData
+    }
+  },
   StepProvider: vi.fn(({ children }) => <div>{children}</div>)
+}))
+
+vi.mock('~/services/language-service', () => ({
+  languageService: {
+    getLanguages: () => {}
+  }
 }))
 
 describe('LanguageStep test', () => {
   beforeEach(() => {
     cleanup()
+    useAxios.mockImplementation(() => fakeData)
     render(
       <StepProvider>
         <LanguageStep btnsBox={mockBtnsBox} stepLabel='language' />

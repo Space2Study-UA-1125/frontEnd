@@ -1,8 +1,8 @@
 import { fadeAnimation } from '~/styles/app-theme/custom-animations'
-
 export const styles = {
   container: {
     display: 'grid',
+    width: '100%',
     gridTemplateColumns: { xs: 'auto', md: 'auto 432px' },
     columnGap: { md: '60px', lg: '114px' },
     rowGap: { xs: '16px', sm: '20px' },

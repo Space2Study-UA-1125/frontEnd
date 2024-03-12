@@ -2,6 +2,7 @@ export const styles = {
   header: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     p: 0,
     margin: { xs: 0, xl: 'auto' },
     maxWidth: '1800px',
@@ -11,7 +12,13 @@ export const styles = {
     m: { xs: '10px', sm: '18px', md: '22px 6px 22px 24px', lg: '22px 24px' }
   },
   navList: {
-    display: { xs: 'none', md: 'flex' },
+    display: {
+      xs: 'none',
+      md: 'flex',
+      position: 'absolute',
+      left: '50%',
+      transform: 'translateX(-50%)'
+    },
     alignItems: 'center'
   },
   navItemText: (isActive) => ({

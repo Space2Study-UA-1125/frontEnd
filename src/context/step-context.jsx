@@ -8,8 +8,9 @@ const StepProvider = ({ children, initialValues, stepLabels }) => {
     errors: {}
   })
   const [subject, setSubject] = useState([])
-  const [language, setLanguage] = useState(null)
+  const [language, setLanguage] = useState('')
   const [photo, setPhoto] = useState([])
+  const [isFetched, setIsFetched] = useState(false)
   const [generalLabel, subjectLabel, languageLabel, photoLabel] = stepLabels
 
   const stepData = {
@@ -41,8 +42,14 @@ const StepProvider = ({ children, initialValues, stepLabels }) => {
     [generalLabel, subjectLabel, languageLabel, photoLabel]
   )
 
+  const handleSetIsFetched = useCallback((value) => {
+    setIsFetched(value)
+  }, [])
+
   return (
-    <StepContext.Provider value={{ stepData, handleStepData }}>
+    <StepContext.Provider
+      value={{ stepData, handleStepData, isFetched, handleSetIsFetched }}
+    >
       {children}
     </StepContext.Provider>
   )
