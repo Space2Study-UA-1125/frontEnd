@@ -26,6 +26,7 @@ const AccountIcon = ({ openMenu }) => {
 
     fetchUserData()
   }, [store.userId, store.userRole])
+
   const userNameForAvatar = firstName.charAt(0) + lastName.charAt(0)
 
   return (
