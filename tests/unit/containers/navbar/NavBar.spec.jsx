@@ -15,6 +15,14 @@ vi.mock('~/containers/guest-home-page/google-button/GoogleButton', () => ({
   }
 }))
 
+vi.mock('~/services/user-service', () => ({
+  userService: {
+    getUserById: () => ({
+      data: { firstName: 'John', lastName: 'Doe', photo: 'path-to-photo' }
+    })
+  }
+}))
+
 describe('Guest NavBar test', () => {
   const preloadedState = { appMain: { loading: false, userRole: '' } }
   beforeEach(() => {
@@ -63,7 +71,7 @@ describe('Student NavBar test', () => {
     expect(text).toBeInTheDocument()
   })
   it('should render account icon', () => {
-    const icon = screen.getByTestId('AccountCircleOutlinedIcon')
+    const icon = screen.getByLabelText('iconsTooltip.account')
 
     expect(icon).toBeInTheDocument()
   })
