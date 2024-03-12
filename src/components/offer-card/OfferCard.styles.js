@@ -110,16 +110,12 @@ export const styles = {
     width: '92px',
     height: '92px'
   },
-  // linksToUser: {
-  //     textDecoration: 'none'
-  // },
   priceBox: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     pb: '30px'
   },
-  authorSummary: {},
   bookmarkIcon: {
     color: 'basic.black',
     position: 'absolute',
