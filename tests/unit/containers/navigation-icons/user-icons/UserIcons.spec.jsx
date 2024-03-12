@@ -6,6 +6,14 @@ import { renderWithProviders } from '~tests/test-utils'
 const openLoginDialog = vi.fn()
 const setIsSidebarOpen = vi.fn()
 
+vi.mock('~/services/user-service', () => ({
+  userService: {
+    getUserById: () => ({
+      data: { firstName: 'John', lastName: 'Doe', photo: 'path-to-photo' }
+    })
+  }
+}))
+
 describe('test with user role', () => {
   beforeEach(() => {
     renderWithProviders(
@@ -24,7 +32,7 @@ describe('test with user role', () => {
   })
 
   it('should open account menu', async () => {
-    const accountMenuIcon = screen.getByTestId('AccountCircleOutlinedIcon')
+    const accountMenuIcon = screen.getByLabelText('iconsTooltip.account')
     fireEvent.click(accountMenuIcon)
     const accountMenuLogout = await screen.findByText('header.logout')
 
