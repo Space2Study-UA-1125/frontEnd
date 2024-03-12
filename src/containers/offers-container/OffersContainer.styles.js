@@ -6,6 +6,11 @@ export const styles = {
   },
   list: {
     justifyContent: 'center',
-    gap: '16px'
+    gap: '16px',
+    py: '24px'
+  },
+  gridItem: {
+    width: '100%',
+    pr: '40px'
   }
 }
