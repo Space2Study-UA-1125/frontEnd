@@ -89,7 +89,7 @@ describe('GeneralInfoStep test', () => {
   })
 
   it('should render img for GeneralInfoStep', () => {
-    expect(screen.getByAltText('generalInfo')).toBeInTheDocument()
+    expect(screen.getByAltText('General Information')).toBeInTheDocument()
   })
 
   it('should render Tittle for GeneralInfoStep', () => {

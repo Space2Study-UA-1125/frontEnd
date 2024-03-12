@@ -5,6 +5,7 @@ export const styles = {
   container: {
     maxWidth: { sm: 'sm', md: 'md', lg: 'lg' },
     display: 'grid',
+    width: '100%',
     gridTemplateColumns: { xs: 'auto', md: 'auto 432px' },
     columnGap: { md: '60px', lg: '114px' },
     rowGap: { xs: '16px', sm: '20px' },
@@ -16,7 +17,6 @@ export const styles = {
     ...scrollbar,
     ...fadeAnimation
   },
-
   imgContainer: {
     display: { sm: 'none', md: 'block' },
     maxHeight: { xs: 'calc(100vh - 56px)', sm: 'calc(100vh - 64px)' },
@@ -46,7 +46,6 @@ export const styles = {
     marginTop: '20px',
     height: { sm: '125px' }
   },
-
   title: {
     pb: '10px'
   },

@@ -39,63 +39,57 @@ const LanguageStep = ({ btnsBox, stepLabel }) => {
   const handleClear = () => {
     setSelectedLanguage('')
   }
-
   return (
     <Box sx={styles.container}>
-      <Box sx={styles.languageImage}>
+      <Box
+        sx={{ ...styles.languageImage, width: '357px', marginRight: '97px' }}
+      >
+        {' '}
         <img
           alt='Language Step Image'
           src={languageStepImg}
-          style={styles.img}
+          style={{ ...styles.img, width: '100%', height: 'auto' }}
         />
       </Box>
-      <Box sx={styles.infoWrapper}>
-        <Box>
-          <Typography sx={styles.infoDescription}>
-            {t('becomeTutor.languages.title')}
-          </Typography>
-          <Box sx={styles.smallLanguageImage}>
-            <img
-              alt='Language Step Image'
-              src={languageStepImg}
-              style={styles.img}
-            />
-          </Box>
-          <FormControl fullWidth>
-            <InputLabel id='nativeLanguageLabel'>
-              {t('becomeTutor.languages.autocompleteLabel')}
-            </InputLabel>
-            <Select
-              endAdornment={
-                selectedLanguage && (
-                  <IconButton
-                    aria-label='Clear'
-                    edge='end'
-                    onClick={handleClear}
-                    sx={styles.clearIconButton}
-                  >
-                    <ClearRoundedIcon />
-                  </IconButton>
-                )
-              }
-              id='nativeLanguageSelect'
-              label={t('becomeTutor.languages.autocompleteLabel')}
-              labelId='nativeLanguageLabel'
-              onChange={handleChange}
-              value={selectedLanguage}
-            >
-              {response.map((language) => (
-                <MenuItem key={language} value={language}>
-                  {language}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <Box>{btnsBox}</Box>
+      <Box sx={{ ...styles.infoWrapper, width: 'calc(100% - 357px - 112px)' }}>
+        {' '}
+        <Typography sx={styles.infoDescription}>
+          {t('becomeTutor.languages.title')}
+        </Typography>
+        <FormControl fullWidth>
+          <InputLabel id='nativeLanguageLabel'>
+            {t('becomeTutor.languages.autocompleteLabel')}
+          </InputLabel>
+          <Select
+            endAdornment={
+              selectedLanguage && (
+                <IconButton
+                  aria-label='Clear'
+                  edge='end'
+                  onClick={handleClear}
+                  sx={styles.clearIconButton}
+                >
+                  <ClearRoundedIcon />
+                </IconButton>
+              )
+            }
+            id='nativeLanguageSelect'
+            label={t('becomeTutor.languages.autocompleteLabel')}
+            labelId='nativeLanguageLabel'
+            onChange={handleChange}
+            sx={{ width: '100%' }}
+            value={selectedLanguage}
+          >
+            {response.map((language) => (
+              <MenuItem key={language} value={language}>
+                {language}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        {btnsBox}
       </Box>
     </Box>
   )
 }
-
 export default LanguageStep

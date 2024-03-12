@@ -3,6 +3,7 @@ import { fadeAnimation } from '~/styles/app-theme/custom-animations'
 export const style = {
   container: {
     margin: '0 auto',
+    width: '100%',
     display: 'flex',
     gap: '0 77px',
     minHeight: '462px',
@@ -69,11 +70,9 @@ const baseStyles = {
     cursor: 'grub'
   }
 }
-
 export const dragStyles = {
   ...baseStyles
 }
-
 export const dragStylesWithBorder = {
   ...baseStyles,
   root: {
