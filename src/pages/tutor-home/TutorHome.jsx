@@ -10,6 +10,7 @@ import StudentHowItWorks from '~/containers/student-home-page/student-how-it-wor
 import AppNetworkCard from '~/components/app-network-card/AppNetworkCard'
 
 import { styles } from '~/pages/tutor-home/TutorHome.styles'
+import PopularCategories from '~/components/popular-categories/PopularCategories'
 
 const TutorHome = () => {
   const { openModal } = useModalContext()
@@ -30,6 +31,11 @@ const TutorHome = () => {
     <PageWrapper>
       <Container sx={styles.container}>
         <AppNetworkCard />
+        <PopularCategories
+          description='tutorHomePage.popularCategories.description'
+          style={styles.titleWithDescription}
+          title='tutorHomePage.popularCategories.title'
+        />
         <StudentHowItWorks userRole={userRole} />
         <Faq userRole={userRole} />
       </Container>
