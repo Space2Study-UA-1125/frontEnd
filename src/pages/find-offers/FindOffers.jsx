@@ -13,6 +13,8 @@ import { offerService } from '~/services/offer-service'
 import { defaultResponses } from '~/constants'
 
 import { styles } from '~/pages/find-offers/FindOffers.styles'
+import OfferRequestBlock from '~/components/offer-request-block/OfferRequestBlock'
+import SearchToolbar from '~/components/search-toolbar/SearchToolbar'
 
 const FindOffers = () => {
   const { t } = useTranslation()
@@ -24,10 +26,14 @@ const FindOffers = () => {
     (userRole === 'student' ? 'tutor' : 'student')
   const view = searchParams.get('view') || 'list'
   const sort = searchParams.get('sort') || 'createdAt'
+  const category = searchParams.get('category')
+  const subject = searchParams.get('subject')
+  const author = searchParams.get('author')
 
   const serviceFunction = useCallback(
-    () => offerService.getOffers({ authorRole, sort }),
-    [authorRole, sort]
+    () =>
+      offerService.getOffers({ authorRole, sort, category, subject, author }),
+    [authorRole, sort, category, subject, author]
   )
 
   const { response } = useAxios({
@@ -51,6 +57,8 @@ const FindOffers = () => {
 
   return (
     <PageWrapper>
+      <OfferRequestBlock userRole={userRole} />
+      <SearchToolbar categoryId={category} changeFilters={setUrlSearchParams} />
       <Stack sx={styles.stack}>
         <div />
         <AppContentSwitcher

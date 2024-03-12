@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Box, Typography, Grid, TextField } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SearchIcon from '@mui/icons-material/Search'
@@ -27,11 +27,22 @@ const SearchToolbar = ({ changeFilters }) => {
     setCategory(value)
     setSubject(null)
     setAuthor('')
+
+    changeFilters({
+      category: value ? value._id : null,
+      subject: null,
+      author: null
+    })
   }
 
   const handleSubjectChange = (value) => {
     setSubject(value)
     setAuthor('')
+
+    changeFilters({
+      subject: value ? value._id : null,
+      author: null
+    })
   }
 
   const handleSearchButton = () => {
@@ -39,14 +50,6 @@ const SearchToolbar = ({ changeFilters }) => {
       author: author
     })
   }
-
-  useEffect(() => {
-    changeFilters({ category: category ? category._id : null })
-  }, [category, changeFilters])
-
-  useEffect(() => {
-    changeFilters({ subject: subject ? subject._id : null })
-  }, [subject, changeFilters])
 
   return (
     <Box sx={styles.mainContainer}>
