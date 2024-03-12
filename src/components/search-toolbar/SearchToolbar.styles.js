@@ -18,7 +18,7 @@ export const styles = {
     }
   },
   link: {
-    display: 'flex',
+    display: 'inline-flex',
     justifyContent: 'start',
     alignItems: 'center',
     columnGap: '10px',
