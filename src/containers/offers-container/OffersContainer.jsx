@@ -5,8 +5,8 @@ import OfferCard from '~/components/offer-card/OfferCard'
 const OffersContainer = ({ offers, view = 'list' }) => {
   return (
     <Grid container sx={view === 'grid' ? styles.grid : styles.list}>
-      {offers.map((offer) => (
-        <Grid item key={offer.id}>
+      {offers?.map((offer) => (
+        <Grid item key={offer._id} sx={styles.gridItem}>
           <OfferCard offer={offer} view={view}></OfferCard>
         </Grid>
       ))}

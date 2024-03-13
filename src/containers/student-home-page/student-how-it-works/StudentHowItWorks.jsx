@@ -8,18 +8,24 @@ import TitleWithDescription from '~/components/title-with-description/TitleWithD
 
 import { studentRoutes } from '~/router/constants/studentRoutes'
 import { howItWorksCards } from '~/containers/student-home-page/student-how-it-works/HowItWorksCards'
+import { tutorHowItWorksCards } from '~/containers/tutor-home-page/tutor-how-it-works/tutorHowItWorksCards'
 
 import { styles } from '~/containers/student-home-page/student-how-it-works/student-how-it-works.styles'
 import { authRoutes } from '~/router/constants/authRoutes'
+import { student } from '~/constants'
 
 const sectionId = studentRoutes.navBar.howItWorks.route
 
-const StudentHowItWorks = () => {
+const StudentHowItWorks = ({ userRole }) => {
   const { t } = useTranslation()
 
   const { path } = authRoutes.findOffers
 
-  const cards = howItWorksCards.map((item, index) => {
+  const isStudent = userRole === student
+
+  const currentCards = isStudent ? howItWorksCards : tutorHowItWorksCards
+
+  const cards = currentCards.map((item, index) => {
     return (
       <Box key={index} sx={styles.cardWrapper}>
         <Box
@@ -41,15 +47,25 @@ const StudentHowItWorks = () => {
   return (
     <Box className='section' id={sectionId} sx={styles.container}>
       <TitleWithDescription
-        description={t('studentHomePage.howItWorks.description')}
+        description={
+          isStudent
+            ? t('studentHomePage.howItWorks.description')
+            : t('tutorHomePage.howItWorks.description')
+        }
         style={styles.sectionTitleComp}
-        title={t('studentHomePage.howItWorks.title')}
+        title={
+          isStudent
+            ? t('studentHomePage.howItWorks.title')
+            : t('tutorHomePage.howItWorks.title')
+        }
       />
 
       <Box sx={styles.cardsContainer}>{cards}</Box>
 
       <Button component={Link} size='extraLarge' to={path} variant='contained'>
-        {t('studentHomePage.findTutorBlock.button')}
+        {isStudent
+          ? t('studentHomePage.findTutorBlock.button')
+          : t('tutorHomePage.findStudentBlock.button')}
       </Button>
     </Box>
   )
