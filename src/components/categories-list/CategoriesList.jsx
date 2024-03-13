@@ -9,13 +9,6 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { categoryService } from '~/services/category-service'
 import { styles } from '~/components/categories-list/CategoriesList.styles'
 
-// const titleLengthLimit = 8
-// const getTruncatedSubject = (title) => {
-//   return title.length > titleLengthLimit
-//     ? title.substring(0, titleLengthLimit) + '...'
-//     : title
-// }
-
 const CategoriesList = ({
   limit = 9,
   needToSetUrl = true,
