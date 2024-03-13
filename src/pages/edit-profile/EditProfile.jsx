@@ -1,9 +1,28 @@
+import { Box } from '@mui/material'
+import AppCard from '~/components/app-card/AppCard'
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
+import SettingsNavigation from '~/components/settings-navigation/SettingsNavigation'
+import PasswordAndSecurity from '~/containers/password-and-security/PasswordAndSecurity'
+import useUrlSearchParams from '~/hooks/use-url-search-params'
 
 const EditProfile = () => {
+  const { searchParams, setUrlSearchParams } = useUrlSearchParams()
+  const settings = searchParams.get('settings') || 'profile'
   return (
     <PageWrapper>
-      <div>EditProfile Page Placeholder</div>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: '20px' }}>
+        <SettingsNavigation
+          setSettings={(settings) => setUrlSearchParams({ settings })}
+          settings={settings}
+        />
+        <Box>
+          {settings === 'profile' ? (
+            <AppCard sx={{ width: '620px', height: '500px' }} />
+          ) : (
+            <PasswordAndSecurity />
+          )}
+        </Box>
+      </Box>
     </PageWrapper>
   )
 }
