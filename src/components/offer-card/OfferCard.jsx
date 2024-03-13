@@ -13,7 +13,11 @@ import useBreakpoints from '~/hooks/use-breakpoints'
 import { Link } from 'react-router-dom'
 import { styles } from '~/components/offer-card/OfferCard.styles.js'
 
-const OfferCard = ({ offer, addToList, sendMessagePopup }) => {
+const OfferCard = ({
+  offer,
+  addToList = () => {},
+  sendMessagePopup = () => {}
+}) => {
   const { t } = useTranslation()
   const { isMobile, isTablet } = useBreakpoints()
   const getShortAuthorName = () => {

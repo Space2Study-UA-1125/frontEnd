@@ -13,7 +13,12 @@ export const styles = {
     alignSelf: { xs: 'center', sm: 'auto' }
   },
   desktopAuthorName: {
-    color: 'primary.500'
+    color: 'primary.500',
+    fontSize: '18px',
+    width: '108px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   boxWithPhoto: {
     maxHeight: '170px',
