@@ -8,7 +8,7 @@ const setSort = vi.fn()
 describe('AppSortMenu component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    render(<AppSortMenu sort={sort} setSort={setSort} />)
+    render(<AppSortMenu setSort={setSort} sort={sort} />)
   })
 
   it('renders form elements', () => {
@@ -19,8 +19,8 @@ describe('AppSortMenu component', () => {
 
     expect(formHelperTextElement).toBeInTheDocument()
     expect(selectElement).toBeInTheDocument()
-    options.forEach(option => {
-      expect(option).toBeInTheDocument();
+    options.forEach((option) => {
+      expect(option).toBeInTheDocument()
     })
   })
 
