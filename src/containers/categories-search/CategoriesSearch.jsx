@@ -12,10 +12,10 @@ import { authRoutes } from '~/router/constants/authRoutes'
 import { categoryService } from '~/services/category-service'
 import AppAutoComplete from '~/components/app-auto-complete/AppAutoComplete'
 
-const CategoriesSearch = ({ categoryItems, setCategoryItems }) => {
+const CategoriesSearch = ({ onSearchResults }) => {
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
-  const [options, setOptions] = useState(categoryItems)
+  const [options, setOptions] = useState([])
   const [showAutoComplete, setShowAutoComplete] = useState(false)
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const CategoriesSearch = ({ categoryItems, setCategoryItems }) => {
   }
 
   const onSearch = () => {
-    setCategoryItems(options)
+    onSearchResults(options)
   }
 
   const onEnterPress = (event) => {
