@@ -10,7 +10,7 @@ const EditProfile = () => {
   const settings = searchParams.get('settings') || 'profile'
   return (
     <PageWrapper>
-      <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: '20px' }}>
         <SettingsNavigation
           setSettings={(settings) => setUrlSearchParams({ settings })}
           settings={settings}
