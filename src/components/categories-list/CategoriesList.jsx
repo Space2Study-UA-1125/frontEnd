@@ -9,7 +9,11 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { categoryService } from '~/services/category-service'
 import { styles } from '~/components/categories-list/CategoriesList.styles'
 
-const CategoriesList = () => {
+const CategoriesList = ({
+  limit = 9,
+  needToSetUrl = true,
+  needToShowButton = true
+}) => {
   const colorPairs = useMemo(
     () => [
       { backgroundColor: 'rgba(121, 178, 96, 0.2)', color: '#79B260' },
@@ -25,7 +29,6 @@ const CategoriesList = () => {
   const [categories, setCategories] = useState([])
   const [skip, setSkip] = useState(0)
   const [hasMoreCategories, setHasMoreCategories] = useState(true)
-  const limit = 9
 
   const fetchCategories = useCallback(async () => {
     const result = await categoryService.getCategories({ skip, limit })
@@ -42,8 +45,11 @@ const CategoriesList = () => {
       ...prevCategories,
       ...categoriesWithColors
     ])
-    setUrlSearchParamsRef.current({ quantity: skip + fetchedCategories.length })
-  }, [skip, limit, colorPairs])
+    needToSetUrl &&
+      setUrlSearchParamsRef.current({
+        quantity: skip + fetchedCategories.length
+      })
+  }, [skip, limit, colorPairs, needToSetUrl])
 
   useEffect(() => {
     fetchCategories()
@@ -55,9 +61,9 @@ const CategoriesList = () => {
 
   return (
     <Box sx={styles.categoriesContainer}>
-      <Grid container style={styles.categoriesGridContainer}>
+      <Grid container spacing={2} style={styles.categoriesGridContainer}>
         {categories.map((category) => (
-          <Grid item key={category._id}>
+          <Grid item key={category._id} md={4} sm={6} xs={12}>
             <CategoryItemCard
               backgroundColor={category.backgroundColor}
               color={category.color}
@@ -72,7 +78,7 @@ const CategoriesList = () => {
           </Grid>
         ))}
       </Grid>
-      {hasMoreCategories && (
+      {needToShowButton && hasMoreCategories && (
         <Button
           onClick={loadMoreCategories}
           sx={styles.viewMoreBtn}

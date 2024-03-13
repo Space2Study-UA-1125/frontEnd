@@ -33,8 +33,8 @@ const TutorHome = () => {
         <AppNetworkCard />
         <PopularCategories
           description='tutorHomePage.popularCategories.description'
+          limit={6}
           style={styles.titleWithDescription}
-          title='tutorHomePage.popularCategories.title'
         />
         <StudentHowItWorks userRole={userRole} />
         <Faq userRole={userRole} />

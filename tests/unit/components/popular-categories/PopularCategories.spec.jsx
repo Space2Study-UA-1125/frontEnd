@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import { renderWithProviders } from '~tests/test-utils'
 import PopularCategories from '~/components/popular-categories/PopularCategories'
 
 vi.mock('~/components/categories-list/CategoriesList', () => {
@@ -10,7 +11,7 @@ vi.mock('~/components/categories-list/CategoriesList', () => {
 
 describe('PopularCategories component test', () => {
   it('renders PopularCategories component correctly', () => {
-    render(<PopularCategories />)
+    renderWithProviders(<PopularCategories />)
 
     const titleElement = screen.getByText('common.popularCategories')
     const categoriesListElement = screen.getByText('Mocked CategoriesList')

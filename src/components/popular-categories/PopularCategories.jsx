@@ -3,18 +3,33 @@ import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { styles } from './PopularCategories.style'
 import TitleWithDescription from '../title-with-description/TitleWithDescription'
+import AppButton from '../app-button/AppButton'
+import { Link } from 'react-router-dom'
+import { authRoutes } from '~/router/constants/authRoutes'
 
-const PopularCategories = ({ title, description, style = styles }) => {
+const PopularCategories = ({ description, limit, style = styles }) => {
   const { t } = useTranslation()
 
   return (
-    <Box>
+    <Box sx={{ ...styles.container, ...style.container }}>
       <TitleWithDescription
         description={t(description)}
         style={style}
-        title={t(title) || t('common.popularCategories')}
+        title={t('common.popularCategories')}
       />
-      <CategoriesList />
+      <CategoriesList
+        limit={limit}
+        needToSetUrl={false}
+        needToShowButton={false}
+      />
+      <AppButton
+        component={Link}
+        sx={{ ...styles.button, ...style.button }}
+        to={authRoutes.categories.path}
+        variant='tonal'
+      >
+        {t('common.showMore')}
+      </AppButton>
     </Box>
   )
 }
