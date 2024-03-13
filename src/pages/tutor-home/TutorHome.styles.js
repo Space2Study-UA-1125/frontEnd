@@ -7,7 +7,7 @@ export const styles = {
   },
   titleWithDescription: {
     wrapper: {
-      paddingBottom: { sm: '30px', lg: '40px' },
+      paddingBottom: { xs: '30px', lg: '40px' },
       textAlign: 'center'
     },
     title: {

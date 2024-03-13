@@ -28,7 +28,7 @@ const PopularCategories = ({ description, limit, style = styles }) => {
         to={authRoutes.categories.path}
         variant='tonal'
       >
-        {t('common.showMore')}
+        {t('common.viewMore')}
       </AppButton>
     </Box>
   )

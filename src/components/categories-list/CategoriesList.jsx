@@ -9,6 +9,13 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { categoryService } from '~/services/category-service'
 import { styles } from '~/components/categories-list/CategoriesList.styles'
 
+// const titleLengthLimit = 8
+// const getTruncatedSubject = (title) => {
+//   return title.length > titleLengthLimit
+//     ? title.substring(0, titleLengthLimit) + '...'
+//     : title
+// }
+
 const CategoriesList = ({
   limit = 9,
   needToSetUrl = true,
@@ -61,7 +68,7 @@ const CategoriesList = ({
 
   return (
     <Box sx={styles.categoriesContainer}>
-      <Grid container spacing={2} style={styles.categoriesGridContainer}>
+      <Grid container spacing={3}>
         {categories.map((category) => (
           <Grid item key={category._id} md={4} sm={6} xs={12}>
             <CategoryItemCard

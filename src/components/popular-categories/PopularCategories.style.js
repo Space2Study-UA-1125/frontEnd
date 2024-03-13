@@ -15,6 +15,6 @@ export const styles = {
     marginBottom: { sm: '30px', lg: '30px' }
   },
   button: {
-    marginTop: { sm: '30px', lg: '40px' }
+    marginTop: { xs: '30px', lg: '40px' }
   }
 }

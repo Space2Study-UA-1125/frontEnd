@@ -8,9 +8,9 @@ import UserStepsWrapper from '~/components/user-steps-wrapper/UserStepsWrapper'
 import Faq from '~/containers/student-home-page/faq/Faq'
 import StudentHowItWorks from '~/containers/student-home-page/student-how-it-works/StudentHowItWorks'
 import AppNetworkCard from '~/components/app-network-card/AppNetworkCard'
+import PopularCategories from '~/components/popular-categories/PopularCategories'
 
 import { styles } from '~/pages/tutor-home/TutorHome.styles'
-import PopularCategories from '~/components/popular-categories/PopularCategories'
 
 const TutorHome = () => {
   const { openModal } = useModalContext()
