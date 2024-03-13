@@ -43,36 +43,7 @@ vi.mock('~/services/category-service', () => ({
               name: 'Category8',
               totalOffers: { student: 0, tutor: 1 }
             },
-            {
-              _id: 9,
-              name: 'Category9',
-              totalOffers: { student: 0, tutor: 1 }
-            },
-            {
-              _id: 10,
-              name: 'Category10',
-              totalOffers: { student: 0, tutor: 1 }
-            },
-            {
-              _id: 11,
-              name: 'Category11',
-              totalOffers: { student: 0, tutor: 1 }
-            },
-            {
-              _id: 12,
-              name: 'Category12',
-              totalOffers: { student: 0, tutor: 1 }
-            },
-            {
-              _id: 13,
-              name: 'Category13',
-              totalOffers: { student: 0, tutor: 1 }
-            },
-            {
-              _id: 14,
-              name: 'Category14',
-              totalOffers: { student: 0, tutor: 1 }
-            }
+            { _id: 9, name: 'Category9', totalOffers: { student: 0, tutor: 1 } }
           ]
         }
       }
@@ -81,23 +52,32 @@ vi.mock('~/services/category-service', () => ({
 }))
 
 describe('CategoriesList component test', () => {
-  beforeEach(() => {
-    renderWithProviders(<CategoriesList setQuantity={() => {}} />)
-  })
-
-  it('fetches and renders categories correctly', async () => {
+  it('renders fetched categories when searchedCategories is empty', async () => {
+    renderWithProviders(<CategoriesList searchedCategories={[]} />)
     await waitFor(() => {
       expect(screen.getByText('Category1')).toBeInTheDocument()
-      expect(screen.getByText('Category12')).toBeInTheDocument()
+    })
+  })
+
+  it('renders searched categories when searchedCategories is not empty', async () => {
+    const searchedCategories = [
+      { _id: 2, name: 'Category2', totalOffers: { student: 0, tutor: 1 } }
+    ]
+    renderWithProviders(
+      <CategoriesList searchedCategories={searchedCategories} />
+    )
+    await waitFor(() => {
+      expect(screen.getByText('Category2')).toBeInTheDocument()
     })
   })
 
   it('loads more categories when "View more" button is clicked', async () => {
+    renderWithProviders(<CategoriesList searchedCategories={[]} />)
     const viewMoreButton = screen.getByRole('button')
     fireEvent.click(viewMoreButton)
     await waitFor(() => {
-      expect(screen.getByText('Category1')).toBeInTheDocument()
-      expect(screen.getByText('Category13')).toBeInTheDocument()
+      const category9Elements = screen.getAllByText('Category9')
+      expect(category9Elements).toHaveLength(2)
     })
   })
 })

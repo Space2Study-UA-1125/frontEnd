@@ -1,0 +1,21 @@
+{
+  "settingsNavigation": {
+    "profile": "Profile",
+    "passwordAndSecurity": "Password & Security"
+  },
+  "passwordAndSecurityBlock": {
+    "title": "Password & Security",
+    "description": "Choose what emails you'd like to be sent.",
+    "subtitle": "Change password",
+    "labels": {
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "ReTypeNewPassword": "Re-type new password"
+    },
+    "saveButton": "Save new password",
+    "discardButton": "Discard",
+    "deactivateButton": "Deactivate account"
+  },
+  "updateButton": "Update profile"
+}
+  

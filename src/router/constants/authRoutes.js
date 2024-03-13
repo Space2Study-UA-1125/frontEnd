@@ -1,8 +1,8 @@
 export const authRoutes = {
   categories: { route: 'categories', path: '/categories' },
   subjects: { route: 'categories/subjects', path: '/categories/subjects' },
-  subjectsCategoryId: {
-    route: 'categories/:categoryId/:subject',
+  offersCategoryName: {
+    route: 'categories/:categoryName/:offers',
     path: '/categories'
   },
   chat: { route: 'chat', path: '/chat' },

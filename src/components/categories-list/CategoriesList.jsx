@@ -6,10 +6,12 @@ import icons from '~/assets/mui-icons/mui-icons'
 import useUrlSearchParams from '~/hooks/use-url-search-params'
 import { authRoutes } from '~/router/constants/authRoutes'
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { categoryService } from '~/services/category-service'
 import { styles } from '~/components/categories-list/CategoriesList.styles'
 
 const CategoriesList = ({
+  searchedCategories,
   limit = 9,
   needToSetUrl = true,
   needToShowButton = true
@@ -24,6 +26,18 @@ const CategoriesList = ({
     ],
     []
   )
+  const applyColors = useCallback(
+    (categories) => {
+      return categories.map((category, index) => ({
+        ...category,
+        backgroundColor: colorPairs[index % colorPairs.length].backgroundColor,
+        color: colorPairs[index % colorPairs.length].color
+      }))
+    },
+    [colorPairs]
+  )
+
+  const { t } = useTranslation()
   const { setUrlSearchParams } = useUrlSearchParams()
   const setUrlSearchParamsRef = useRef(setUrlSearchParams)
   const [categories, setCategories] = useState([])
@@ -36,11 +50,7 @@ const CategoriesList = ({
     if (fetchedCategories.length < limit) {
       setHasMoreCategories(false)
     }
-    const categoriesWithColors = fetchedCategories.map((category, index) => ({
-      ...category,
-      backgroundColor: colorPairs[index % colorPairs.length].backgroundColor,
-      color: colorPairs[index % colorPairs.length].color
-    }))
+    const categoriesWithColors = applyColors(fetchedCategories)
     setCategories((prevCategories) => [
       ...prevCategories,
       ...categoriesWithColors
@@ -49,20 +59,27 @@ const CategoriesList = ({
       setUrlSearchParamsRef.current({
         quantity: skip + fetchedCategories.length
       })
-  }, [skip, limit, colorPairs, needToSetUrl])
+  }, [skip, limit, applyColors, needToSetUrl])
 
   useEffect(() => {
-    fetchCategories()
-  }, [skip, fetchCategories])
+    if (searchedCategories && searchedCategories.length === 0) {
+      fetchCategories()
+    }
+  }, [searchedCategories, fetchCategories, skip])
 
   const loadMoreCategories = useCallback(() => {
     setSkip((prewSkip) => prewSkip + limit)
   }, [limit])
 
+  const categoriesToDisplay =
+    searchedCategories.length > 0 ? applyColors(searchedCategories) : categories
+  const shouldDisplayViewMoreButton =
+    searchedCategories && searchedCategories.length === 0 && hasMoreCategories
+
   return (
     <Box sx={styles.categoriesContainer}>
       <Grid container spacing={3}>
-        {categories.map((category) => (
+        {categoriesToDisplay.map((category) => (
           <Grid item key={category._id} md={4} sm={6} xs={12}>
             <CategoryItemCard
               backgroundColor={category.backgroundColor}
@@ -73,18 +90,18 @@ const CategoriesList = ({
                 category.totalOffers.student + category.totalOffers.tutor
               }
               title={category.name}
-              to={`${authRoutes.subjectsCategoryId.path}/${category._id}/subjects`}
+              to={`${authRoutes.offersCategoryName.path}/${category.name}/offers`}
             />
           </Grid>
         ))}
       </Grid>
-      {needToShowButton && hasMoreCategories && (
+      {needToShowButton && shouldDisplayViewMoreButton && (
         <Button
           onClick={loadMoreCategories}
           sx={styles.viewMoreBtn}
           variant='contained'
         >
-          View more
+          {t('categoriesPage.viewMore')}
         </Button>
       )}
     </Box>

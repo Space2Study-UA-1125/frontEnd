@@ -55,6 +55,7 @@
     "nameLength": "This field cannot be shorter than 2 and longer than 15 characters",
     "nameAlphabeticOnly": "This field can contain alphabetic characters only",
     "passwordsDontMatch": "Passwords do not match",
+    "samePasswords": "New password cannot be the same as the current one",
     "shortText": "This text is too short",
     "longText": "This text is too long",
     "numbersOnly": "Please enter a valid number",

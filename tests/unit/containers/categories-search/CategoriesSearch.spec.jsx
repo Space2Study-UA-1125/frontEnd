@@ -71,12 +71,12 @@ describe('CategoriesSearch', () => {
       data: [{ name: 'category1' }, { name: 'category2' }]
     })
 
+    const handleSearchResults = vi.fn()
+
     const { getByText, getByPlaceholderText } = render(
-      <CategoriesSearch
-        categoryItems={[]}
-        setCategoryItems={setCategoryItems}
-      />
+      <CategoriesSearch onSearchResults={handleSearchResults} />
     )
+
     const inputElement = getByPlaceholderText('categoriesPage.searchLabel')
     const buttonElement = getByText('common.search')
 
@@ -84,7 +84,7 @@ describe('CategoriesSearch', () => {
     fireEvent.click(buttonElement)
 
     await waitFor(() => {
-      expect(categoryService.getCategories).toHaveBeenCalled()
+      expect(handleSearchResults).toHaveBeenCalled()
     })
   })
 })
