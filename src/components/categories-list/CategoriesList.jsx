@@ -10,7 +10,12 @@ import { useTranslation } from 'react-i18next'
 import { categoryService } from '~/services/category-service'
 import { styles } from '~/components/categories-list/CategoriesList.styles'
 
-const CategoriesList = ({ searchedCategories }) => {
+const CategoriesList = ({
+  searchedCategories,
+  limit = 9,
+  needToSetUrl = true,
+  needToShowButton = true
+}) => {
   const colorPairs = useMemo(
     () => [
       { backgroundColor: 'rgba(121, 178, 96, 0.2)', color: '#79B260' },
@@ -38,7 +43,6 @@ const CategoriesList = ({ searchedCategories }) => {
   const [categories, setCategories] = useState([])
   const [skip, setSkip] = useState(0)
   const [hasMoreCategories, setHasMoreCategories] = useState(true)
-  const limit = 9
 
   const fetchCategories = useCallback(async () => {
     const result = await categoryService.getCategories({ skip, limit })
@@ -51,8 +55,11 @@ const CategoriesList = ({ searchedCategories }) => {
       ...prevCategories,
       ...categoriesWithColors
     ])
-    setUrlSearchParamsRef.current({ quantity: skip + fetchedCategories.length })
-  }, [skip, limit, applyColors])
+    needToSetUrl &&
+      setUrlSearchParamsRef.current({
+        quantity: skip + fetchedCategories.length
+      })
+  }, [skip, limit, applyColors, needToSetUrl])
 
   useEffect(() => {
     if (searchedCategories && searchedCategories.length === 0) {
@@ -62,7 +69,7 @@ const CategoriesList = ({ searchedCategories }) => {
 
   const loadMoreCategories = useCallback(() => {
     setSkip((prewSkip) => prewSkip + limit)
-  }, [])
+  }, [limit])
 
   const categoriesToDisplay =
     searchedCategories.length > 0 ? applyColors(searchedCategories) : categories
@@ -71,9 +78,9 @@ const CategoriesList = ({ searchedCategories }) => {
 
   return (
     <Box sx={styles.categoriesContainer}>
-      <Grid container style={styles.categoriesGridContainer}>
+      <Grid container spacing={3}>
         {categoriesToDisplay.map((category) => (
-          <Grid item key={category._id}>
+          <Grid item key={category._id} md={4} sm={6} xs={12}>
             <CategoryItemCard
               backgroundColor={category.backgroundColor}
               color={category.color}
@@ -88,7 +95,7 @@ const CategoriesList = ({ searchedCategories }) => {
           </Grid>
         ))}
       </Grid>
-      {shouldDisplayViewMoreButton && (
+      {needToShowButton && shouldDisplayViewMoreButton && (
         <Button
           onClick={loadMoreCategories}
           sx={styles.viewMoreBtn}

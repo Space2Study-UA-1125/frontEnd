@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@mui/material'
+import { Card, CardContent, Typography, Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { styles } from '~/components/category-item-card/CategoryItemCard.styles'
@@ -32,7 +32,7 @@ const CategoryItemCard = ({
         >
           {icon}
         </div>
-        <div>
+        <Box sx={styles.cardText}>
           <Typography sx={styles.title} variant='h6'>
             {title}
           </Typography>
@@ -43,7 +43,7 @@ const CategoryItemCard = ({
                 : t('categoriesPage.itemCard.offers')
             }`}
           </Typography>
-        </div>
+        </Box>
       </CardContent>
     </Card>
   )

@@ -7,7 +7,6 @@ import {
 
 export const styles = {
   card: {
-    width: { xs: '288px', md: '336px', lg: '360px' },
     textDecoration: 'none',
     cursor: 'pointer',
     background: 'rgba(255,255,255,0.8)',
@@ -26,6 +25,7 @@ export const styles = {
   iconContainer: {
     height: '62px',
     width: '62px',
+    flexShrink: '0',
     borderRadius: '4px',
     marginRight: '24px',
     fontSize: 'large',
@@ -33,9 +33,16 @@ export const styles = {
     justifyContent: 'center',
     alignItems: 'center'
   },
+  cardText: {
+    flex: '1',
+    minWidth: '0'
+  },
   title: {
     variant: appTypography.h6,
-    marginBottom: '4px'
+    marginBottom: '4px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   description: {
     variant: appTypography.body2,

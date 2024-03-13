@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import Faq from '~/containers/student-home-page/faq/Faq'
 
-describe('Faq component test', () => {
+describe('Faq component test with "student" user role', () => {
   beforeEach(() => {
-    render(<Faq />)
+    render(<Faq userRole='student' />)
   })
 
   it('should render title', () => {
@@ -47,5 +47,17 @@ describe('Faq component test', () => {
 
     expect(closeFirstItem).toBeInTheDocument()
     expect(openSecondItem).toBeInTheDocument()
+  })
+})
+
+describe('Faq component test with "tutor" user role', () => {
+  beforeEach(() => {
+    render(<Faq userRole='tutor' />)
+  })
+
+  it('should render title', () => {
+    const title = screen.getByText('tutorHomePage.faq.title')
+
+    expect(title).toBeInTheDocument()
   })
 })

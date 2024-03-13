@@ -33,8 +33,8 @@ const StudentHome = () => {
       sx={{ backgroundColor: 'backgroundColor', flex: 1, overflowY: 'auto' }}
     >
       <Container data-testid='studentHome' sx={{ pt: 6 }}>
-        <StudentHowItWorks />
-        <Faq />
+        <StudentHowItWorks userRole={userRole} />
+        <Faq userRole={userRole} />
       </Container>
     </Box>
   )
