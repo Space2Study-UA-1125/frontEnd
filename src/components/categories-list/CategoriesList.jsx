@@ -57,7 +57,7 @@ const CategoriesList = ({
 
   const loadMoreCategories = useCallback(() => {
     setSkip((prewSkip) => prewSkip + limit)
-  }, [])
+  }, [limit])
 
   return (
     <Box sx={styles.categoriesContainer}>
