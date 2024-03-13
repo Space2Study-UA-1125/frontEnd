@@ -21,6 +21,7 @@ const PopularCategories = ({ description, limit, style = styles }) => {
         limit={limit}
         needToSetUrl={false}
         needToShowButton={false}
+        searchedCategories={[]}
       />
       <AppButton
         component={Link}
