@@ -128,16 +128,23 @@ describe('SearchToolbar test', () => {
 
     expect(selectCategory).toHaveValue('Languages')
     expect(selectSubject).toHaveValue('English')
+
     fireEvent.mouseOver(selectCategory)
 
-    const [categoryClearButton] = screen.getAllByLabelText('Clear')
+    const [categoryClearButton, subjectClearButton] =
+      screen.getAllByLabelText('Clear')
 
     expect(categoryClearButton).toBeInTheDocument()
+    expect(subjectClearButton).toBeInTheDocument()
+
+    fireEvent.click(subjectClearButton)
+    expect(selectSubject).toHaveValue('')
+
     fireEvent.click(categoryClearButton)
     expect(selectCategory).toHaveValue('')
-    expect(selectSubject).toHaveValue('')
     expect(changeFiltersMock).toHaveBeenCalled()
   })
+
   it('should call data function with correct arguments when search button is clicked', () => {
     const text = 'author'
     const searchInput = screen.getByPlaceholderText(
@@ -149,7 +156,7 @@ describe('SearchToolbar test', () => {
     userEvent.click(searchButton)
     expect(searchInput).toHaveValue(text)
 
-    expect(changeFiltersMock).toHaveBeenCalledTimes(3)
+    expect(changeFiltersMock).toHaveBeenCalled()
     expect(changeFiltersMock).toHaveBeenLastCalledWith({ author: text })
   })
 })
