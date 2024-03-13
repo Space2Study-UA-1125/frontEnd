@@ -10,8 +10,7 @@ export const styles = {
       textAlign: 'center'
     },
     title: {
-      typography: 'h4',
-      marginBottom: '20px'
+      typography: { sm: 'h4', xs: 'h5' }
     },
     description: {
       typography: { xs: 'body2', md: 'body1' }

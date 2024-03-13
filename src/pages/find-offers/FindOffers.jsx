@@ -15,6 +15,8 @@ import { defaultResponses } from '~/constants'
 import { styles } from '~/pages/find-offers/FindOffers.styles'
 import OfferRequestBlock from '~/components/offer-request-block/OfferRequestBlock'
 import SearchToolbar from '~/components/search-toolbar/SearchToolbar'
+import PopularCategories from '~/components/popular-categories/PopularCategories'
+import OffersContainer from '~/containers/offers-container/OffersContainer'
 
 const FindOffers = () => {
   const { t } = useTranslation()
@@ -55,6 +57,8 @@ const FindOffers = () => {
     setUrlSearchParams({ authorRole: newAuthorRole })
   }
 
+  const offers = response.items?.length > 0 ? response.items : []
+
   return (
     <PageWrapper>
       <OfferRequestBlock userRole={userRole} />
@@ -79,13 +83,8 @@ const FindOffers = () => {
           />
         </Stack>
       </Stack>
-      {response &&
-        response.items?.map(({ _id, title, authorRole }) => (
-          <div key={_id}>
-            <span>{title}</span>
-            <span>, by {authorRole}</span>
-          </div>
-        ))}
+      <OffersContainer offers={offers} view={view} />
+      <PopularCategories />
     </PageWrapper>
   )
 }
