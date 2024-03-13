@@ -11,7 +11,7 @@ export const styles = {
   viewMoreBtn: {
     backgroundColor: 'basic.grey',
     color: palette.primary[900],
-    margin: '20px',
+    marginTop: '20px',
     width: '154px',
     heihht: '56px',
     '&:hover': {

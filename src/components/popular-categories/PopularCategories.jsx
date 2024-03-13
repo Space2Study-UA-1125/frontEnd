@@ -6,6 +6,7 @@ import TitleWithDescription from '../title-with-description/TitleWithDescription
 import AppButton from '../app-button/AppButton'
 import { Link } from 'react-router-dom'
 import { authRoutes } from '~/router/constants/authRoutes'
+import { memo } from 'react'
 
 const PopularCategories = ({ description, limit, style = styles }) => {
   const { t } = useTranslation()
@@ -35,4 +36,4 @@ const PopularCategories = ({ description, limit, style = styles }) => {
   )
 }
 
-export default PopularCategories
+export default memo(PopularCategories)
