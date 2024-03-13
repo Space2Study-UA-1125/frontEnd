@@ -9,15 +9,20 @@ const StepProvider = ({ children, initialValues, stepLabels }) => {
   })
   const [subject, setSubject] = useState([])
   const [language, setLanguage] = useState('')
-  const [photo, setPhoto] = useState([])
+  const [photo, setPhoto] = useState('')
   const [isFetched, setIsFetched] = useState(false)
   const [generalLabel, subjectLabel, languageLabel, photoLabel] = stepLabels
+  const [photoName, setPhotoName] = useState(null)
 
   const stepData = {
     [generalLabel]: generalData,
     [subjectLabel]: subject,
     [languageLabel]: language,
     [photoLabel]: photo
+  }
+
+  const handlePhotoName = (fileName) => {
+    setPhotoName(fileName)
   }
 
   const handleStepData = useCallback(
@@ -48,7 +53,14 @@ const StepProvider = ({ children, initialValues, stepLabels }) => {
 
   return (
     <StepContext.Provider
-      value={{ stepData, handleStepData, isFetched, handleSetIsFetched }}
+      value={{
+        stepData,
+        handleStepData,
+        isFetched,
+        handleSetIsFetched,
+        photoName,
+        handlePhotoName
+      }}
     >
       {children}
     </StepContext.Provider>

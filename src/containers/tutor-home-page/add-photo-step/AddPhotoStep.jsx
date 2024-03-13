@@ -1,9 +1,9 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useState } from 'react'
-import useFileReader from '~/hooks/use-file-reader'
 import { validationData, clearButtonNameMaxLength } from './constants'
 import { useTranslation } from 'react-i18next'
 import CloseIcon from '@mui/icons-material/Close'
+import useBreakpoints from '~/hooks/use-breakpoints'
 import DragAndDrop from '~/components/drag-and-drop/DragAndDrop'
 import FileUploader from '~/components/file-uploader/FileUploader'
 import {
@@ -11,101 +11,99 @@ import {
   dragStyles,
   dragStylesWithBorder
 } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.styles'
-const AddPhotoStep = ({ btnsBox, onFileUpload = () => {} }) => {
-  const { fileDataURL, readFileAsDataURL, resetFileDataURL } = useFileReader()
-  const [fileName, setFileName] = useState(null)
-  const { t } = useTranslation()
+import { useStepContext } from '~/context/step-context'
+import useFileUploader from '~/hooks/use-file-uploading'
 
-  const emitter = ({ files }) => {
-    const firstFile = files[0]
-    onFileUpload(firstFile)
-    setFileName(getShortenedFileName(firstFile.name, clearButtonNameMaxLength))
-    readFileAsDataURL(firstFile)
+const AddPhotoStep = ({ btnsBox, stepLabel }) => {
+  const { isMobile, isTablet } = useBreakpoints()
+  const { t } = useTranslation()
+  const [errorLabel, setErrorLabel] = useState(null)
+  const { stepData, handleStepData, photoName, handlePhotoName } =
+    useStepContext()
+  const { sendFile } = useFileUploader()
+
+  const emitter = ({ files, error }) => {
+    if (error) {
+      setErrorLabel(error)
+      handleStepData(stepLabel, null)
+      return
+    }
+
+    const firstfile = files[0]
+    setErrorLabel(null)
+    handlePhotoName(
+      getShortenedFileName(firstfile.name, clearButtonNameMaxLength)
+    )
+    sendFileAndUpdateState(firstfile)
   }
+
+  const sendFileAndUpdateState = async (file) => {
+    const fileURL = await sendFile(file)
+    handleStepData(stepLabel, fileURL)
+  }
+
   const handleClear = () => {
-    resetFileDataURL()
-    setFileName(null)
+    handleStepData(stepLabel, null)
+    handlePhotoName(null)
   }
 
   const getShortenedFileName = (file, maxLength) => {
-    return file.length > maxLength ? file.slice(0, maxLength) + '...' : file
+    return file.slice(0, maxLength) + '...'
   }
 
-  return (
-    <Box
-      sx={{
-        ...style.container,
-        width: '926px',
-        height: '485px',
-        '@media (max-width: 600px)': {
-          width: '343px',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '20px'
-        }
-      }}
+  const customDrugNDrop = (
+    <DragAndDrop
+      emitter={emitter}
+      style={stepData.photo ? dragStyles : dragStylesWithBorder}
+      validationData={validationData}
     >
-      <Box
-        sx={{
-          ...style.info,
-          width: '440px',
-          '@media (max-width: 600px)': {
-            width: '100%',
-            order: -1
-          }
-        }}
-      >
-        <Typography sx={style.title}>
-          {t('becomeTutor.photo.description')}
-        </Typography>
+      {stepData.photo ? (
+        <img
+          alt={t('becomeTutor.photo.imageAlt')}
+          src={stepData.photo}
+          style={style.image}
+        />
+      ) : (
+        <Typography>{t('becomeTutor.photo.placeholder')}</Typography>
+      )}
+    </DragAndDrop>
+  )
 
-        <Box sx={style.buttonWrapper}>
-          {fileDataURL ? (
-            <Button
-              endIcon={<CloseIcon />}
-              onClick={handleClear}
-              sx={style.clearButton}
-              variant='outlined'
-            >
-              {fileName}
-            </Button>
-          ) : (
-            <FileUploader
-              buttonText={t('becomeTutor.photo.button')}
-              emitter={emitter}
-              validationData={validationData}
-            />
-          )}
+  return (
+    <Box sx={style.container}>
+      <Box sx={style.info}>
+        <Box>
+          <Typography sx={style.title}>
+            {t('becomeTutor.photo.description')}
+          </Typography>
+
+          <Box sx={style.buttonWrapper}>
+            {stepData.photo ? (
+              <Button
+                endIcon={<CloseIcon />}
+                onClick={handleClear}
+                sx={style.clearButton}
+                variant='outlined'
+              >
+                {photoName}
+              </Button>
+            ) : (
+              <FileUploader
+                buttonText={t('becomeTutor.photo.button')}
+                emitter={emitter}
+                initialError={errorLabel}
+                validationData={validationData}
+              />
+            )}
+          </Box>
         </Box>
+
+        {isMobile || isTablet ? customDrugNDrop : null}
 
         <Box>{btnsBox}</Box>
       </Box>
 
-      <Box
-        sx={{
-          ...style.dragAndDropContainer,
-          width: '435px',
-          '@media (max-width: 600px)': {
-            width: '100%'
-          }
-        }}
-      >
-        <DragAndDrop
-          emitter={emitter}
-          style={fileDataURL ? dragStyles : dragStylesWithBorder}
-          validationData={validationData}
-        >
-          {fileDataURL ? (
-            <img
-              alt={t('becomeTutor.photo.imageAlt')}
-              src={fileDataURL}
-              style={style.image}
-            />
-          ) : (
-            <Typography>{t('becomeTutor.photo.placeholder')}</Typography>
-          )}
-        </DragAndDrop>
-      </Box>
+      {isMobile || isTablet ? null : customDrugNDrop}
     </Box>
   )
 }
