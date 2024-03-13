@@ -33,7 +33,7 @@ vi.mock('~/containers/password-and-security/PasswordAndSecurity', () => ({
 }))
 
 vi.mock('~/components/app-card/AppCard', () => ({
-  default: vi.fn(() => <div></div>)
+  default: vi.fn(() => <div>AppCard Component</div>)
 }))
 
 const searchParamsData = {
@@ -59,6 +59,6 @@ describe('EditProfile page', () => {
     const { getByText } = render(<EditProfile />)
 
     fireEvent.click(getByText('Password And Security'))
-    expect(getByText('Password And Security Component')).toBeInTheDocument()
+    expect(getByText('AppCard Component')).toBeInTheDocument()
   })
 })
