@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
+import { useState } from 'react'
 import userEvent from '@testing-library/user-event'
-
+import AddPhotoStep from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep'
+import { StepProvider } from '~/context/step-context'
 import {
   dragStyles,
   dragStylesWithBorder
 } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.styles'
-import AddPhotoStep from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep'
 
 const file = new File(
   [new Blob([`data:image/jpeg;base64,/9j/`])],
@@ -17,26 +18,42 @@ const failFileResponse = {
   files: [file],
   error: ''
 }
+
+vi.mock('~/context/step-context', () => ({
+  useStepContext: () => {
+    const [stepData, setStepData] = useState({ photo: '' })
+    const [photoName, setPhotoName] = useState(null)
+    return {
+      handleStepData: vi.fn((_, newValue) => {
+        setStepData({ photo: newValue })
+      }),
+      handlePhotoName: vi.fn((_, fileName) => {
+        setPhotoName(fileName)
+      }),
+      stepData,
+      photoName
+    }
+  },
+  StepProvider: vi.fn(({ children }) => <div>{children}</div>)
+}))
+
+const failFileResponseWithError = {
+  error: 'testError'
+}
 const props = {
   btnsBox: <div>Stepper buttons</div>,
-  onFileUpload: vi.fn()
+  stepLabel: 'photo'
 }
 
-vi.mock('~/hooks/use-file-reader', () => {
-  let fileDataURL = null
-  const readFileAsDataURL = vi.fn(() => {
-    fileDataURL = 'testPath'
-  })
-  const resetFileDataURL = vi.fn(() => {
-    fileDataURL = null
-  })
-
+vi.mock('~/hooks/use-file-uploading', () => {
   return {
-    default: vi.fn(() => ({
-      fileDataURL,
-      readFileAsDataURL,
-      resetFileDataURL
-    }))
+    default: () => {
+      const sendFile = async () => {
+        return 'mockedImageUrl'
+      }
+
+      return { sendFile }
+    }
   }
 })
 
@@ -54,12 +71,16 @@ vi.mock('@mui/material', () => ({
 
 vi.mock('~/components/file-uploader/FileUploader', () => {
   return {
-    default: function ({ children, emitter }) {
+    default: function ({ children, emitter, initialError }) {
       return (
         <div data-testid='file-uploader'>
           <button onClick={() => emitter(failFileResponse)}>
             Simulate file upload
           </button>
+          <button onClick={() => emitter(failFileResponseWithError)}>
+            Simulate file error
+          </button>
+          {initialError ? <div>error message</div> : null}
           {children}
         </div>
       )
@@ -81,7 +102,11 @@ vi.mock('~/components/drag-and-drop/DragAndDrop', () => {
 
 describe('AddPhotoStep component', () => {
   beforeEach(() => {
-    render(<AddPhotoStep {...props} />)
+    render(
+      <StepProvider>
+        <AddPhotoStep {...props} />
+      </StepProvider>
+    )
   })
 
   it('renders container with the buttons passed in props', () => {
@@ -92,6 +117,19 @@ describe('AddPhotoStep component', () => {
   it('should display border in dragndrop dropzone', () => {
     const dragNDrop = screen.getByTestId('drag-and-drop')
     expect(dragNDrop).toHaveStyle(dragStylesWithBorder.root)
+  })
+
+  it('should display border in dragndrop dropzone', () => {
+    const dragNDrop = screen.getByTestId('drag-and-drop')
+    expect(dragNDrop).toHaveStyle(dragStylesWithBorder.root)
+  })
+
+  it('should display an error if the file does not pass validation', () => {
+    const simulateErrorButton = screen.getByText('Simulate file error')
+    userEvent.click(simulateErrorButton)
+
+    const textError = screen.getByText('error message')
+    expect(textError).toBeInTheDocument()
   })
 
   describe('when the image is loaded', () => {
@@ -107,37 +145,13 @@ describe('AddPhotoStep component', () => {
 
     it('should display the image', () => {
       const uploadedImage = screen.getByAltText('becomeTutor.photo.imageAlt')
+      screen.debug()
       expect(uploadedImage).toBeInTheDocument()
     })
 
     it('should not display border in dragndrop dropzone', () => {
       const dragNDrop = screen.getByTestId('drag-and-drop')
       expect(dragNDrop).toHaveStyle(dragStyles.root)
-    })
-
-    it('calls the onFileupload function', () => {
-      expect(props.onFileUpload).toHaveBeenCalled()
-    })
-  })
-
-  describe('when you click the image cleanup button', () => {
-    beforeEach(() => {
-      const simulateImageUpload = screen.getByRole('button', {
-        name: 'Simulate file upload'
-      })
-      userEvent.click(simulateImageUpload)
-      const clearButton = screen.getByTestId('buttonMui')
-      userEvent.click(clearButton)
-    })
-
-    it('should display the image', () => {
-      const uploadedImage = screen.queryByAltText('becomeTutor.photo.imageAlt')
-      expect(uploadedImage).not.toBeInTheDocument()
-    })
-
-    it('should display border in dragndrop dropzone', () => {
-      const dragNDrop = screen.getByTestId('drag-and-drop')
-      expect(dragNDrop).toHaveStyle(dragStylesWithBorder.root)
     })
   })
 })

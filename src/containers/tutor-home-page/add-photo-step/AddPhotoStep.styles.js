@@ -3,17 +3,20 @@ import { fadeAnimation } from '~/styles/app-theme/custom-animations'
 export const style = {
   container: {
     margin: '0 auto',
-    width: '100%',
+    width: { xs: '100%', sm: '100%', md: '800px', lg: '926px' },
+    maxWidth: { xs: '100%', sm: '100%', md: '100%', lg: '926px' },
     display: 'flex',
     gap: '0 77px',
-    minHeight: '462px',
+    minHeight: '485px',
     justifyContent: 'center'
   },
   info: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    maxWidth: { sm: '485px' },
+    maxWidth: { sm: '495px' },
+    width: { sm: '100%' },
+    marginLeft: { sm: '-15px' },
     order: 1
   },
   title: {
@@ -23,7 +26,7 @@ export const style = {
     display: 'flex',
     alignItems: 'center',
     gap: '0 19px',
-    maxWidth: { sm: '267px' },
+    maxWidth: { sm: '100%' },
     marginBottom: '20px'
   },
   clearButton: {

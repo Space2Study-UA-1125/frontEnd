@@ -64,7 +64,7 @@ const FileUploader = ({
         {t('constant.fileSize', { size: '10 Mb' })}
       </Typography>
       {initialError && (
-        <Typography color='error' ml={1} variant='caption'>
+        <Typography color='error' variant='caption'>
           {t(initialError)}
         </Typography>
       )}
