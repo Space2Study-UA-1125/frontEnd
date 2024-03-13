@@ -145,7 +145,6 @@ describe('AddPhotoStep component', () => {
 
     it('should display the image', () => {
       const uploadedImage = screen.getByAltText('becomeTutor.photo.imageAlt')
-      screen.debug()
       expect(uploadedImage).toBeInTheDocument()
     })
 
