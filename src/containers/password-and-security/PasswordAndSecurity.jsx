@@ -24,9 +24,8 @@ const PasswordAndSecurity = () => {
     service: (newPassword) => {
       return userService.updateUser(store.userId, newPassword)
     },
-    onResponseError: (error) => {
+    onResponseError: () => {
       setNewPasswordError(t('common.errorMessages.samePasswords'))
-      console.log(error)
     },
     fetchOnMount: false,
     defaultResponse: null
@@ -38,7 +37,7 @@ const PasswordAndSecurity = () => {
       : emptyField(
           password,
           'common.errorMessages.emptyField',
-          newPasswordError !== '' ? 'common.errorMessages.samePasswords' : ''
+          newPasswordError !== '' ? newPasswordError : ''
         )
   }
 
@@ -57,7 +56,7 @@ const PasswordAndSecurity = () => {
   } = useInputVisibility(errors.oldPassword)
 
   const { inputVisibility: passwordVisibility, showInputText: showPassword } =
-    useInputVisibility(errors.password)
+    useInputVisibility(errors.password || newPasswordError)
 
   const {
     inputVisibility: confirmPasswordVisibility,
