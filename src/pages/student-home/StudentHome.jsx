@@ -1,4 +1,3 @@
-import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import { useEffect } from 'react'
 import UserStepsWrapper from '~/components/user-steps-wrapper/UserStepsWrapper'
@@ -7,6 +6,11 @@ import { useSelector } from 'react-redux'
 import Faq from '~/containers/student-home-page/faq/Faq'
 import StudentHowItWorks from '~/containers/student-home-page/student-how-it-works/StudentHowItWorks'
 import { useModalContext } from '~/context/modal-context'
+import PageWrapper from '~/components/page-wrapper/PageWrapper'
+import AppNetworkCard from '~/components/app-network-card/AppNetworkCard'
+import PopularCategories from '~/components/popular-categories/PopularCategories'
+
+import { styles } from '~/pages/student-home/StudentHome.styles'
 
 const StudentHome = () => {
   const { openModal } = useModalContext()
@@ -29,14 +33,18 @@ const StudentHome = () => {
   }, [openModal, isFirstLogin, userRole])
 
   return (
-    <Box
-      sx={{ backgroundColor: 'backgroundColor', flex: 1, overflowY: 'auto' }}
-    >
-      <Container data-testid='studentHome' sx={{ pt: 6 }}>
+    <PageWrapper>
+      <Container data-testid='studentHome' sx={styles.container}>
+        <AppNetworkCard userRole={userRole} />
+        <PopularCategories
+          description='tutorHomePage.popularCategories.description'
+          limit={6}
+          style={styles.titleWithDescription}
+        />
         <StudentHowItWorks userRole={userRole} />
         <Faq userRole={userRole} />
       </Container>
-    </Box>
+    </PageWrapper>
   )
 }
 
