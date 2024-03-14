@@ -1,5 +1,5 @@
 export const styles = {
-  mainBox: {
+  mainBoxList: {
     display: 'flex',
     flexDirection: { sm: 'row', xs: 'column' },
     width: '100%',
@@ -7,6 +7,18 @@ export const styles = {
     position: 'relative',
     backgroundColor: 'basic.white',
     padding: '31px 20px'
+  },
+  mainBoxGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    position: 'relative',
+    backgroundColor: 'basic.white',
+    padding: '20px',
+    borderRadius: '6px',
+    minHeight: '460px',
+    gap: '24px',
+    justifyContent: 'space-between'
   },
   mobileAuthorName: {
     color: 'primary.900',
@@ -20,6 +32,11 @@ export const styles = {
     overflow: 'hidden',
     textOverflow: 'ellipsis'
   },
+  gridAuthorName: {
+    color: 'primary.500',
+    fontSize: '17px',
+    fontWeight: '500'
+  },
   boxWithPhoto: {
     maxHeight: '170px',
     maxWidth: '108px',
@@ -27,6 +44,18 @@ export const styles = {
     display: 'flex',
     flexDirection: 'column',
     margin: '0 auto'
+  },
+  boxWithPhotoGrid: {
+    color: 'primary.500',
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '20px',
+    alignItems: 'center'
+  },
+  boxWithPhotoInformation: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px'
   },
   starIcon: {
     color: 'basic.yellow'
@@ -50,12 +79,29 @@ export const styles = {
     justifyContent: 'flex-start',
     flex: 1
   },
+  mainInformBoxGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px'
+  },
   chipList: {
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'row',
     my: '10px',
     gap: '4px'
+  },
+  chipListGrid: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    alignItems: 'start',
+    gap: '4px',
+    fontWeight: 400,
+    fontSize: '10px',
+    lineHeight: '15px',
+    letterSpacing: '1.5px',
+    textTransform: 'uppercase'
   },
   mainActionsBox: {
     display: 'flex',
@@ -74,6 +120,16 @@ export const styles = {
     padding: '3px 6px',
     fontWeight: 500
   },
+  offerSubjectNameGrid: {
+    borderRadius: '10px',
+    backgroundColor: ' #79B26099',
+    padding: '3px 6px',
+    fontWeight: 500,
+    fontSize: '11px',
+    lineHeight: '15px',
+    letterSpacing: '1.5px',
+    textTransform: 'uppercase'
+  },
   rating: {
     backgroundColor: 'basic.grey',
     borderRadius: '4px',
@@ -89,9 +145,24 @@ export const styles = {
     color: 'primary.700',
     padding: '3px 6px'
   },
-  languageIcon: {
-    width: '20px',
-    height: '20px'
+  offerLevelGrid: {
+    borderRadius: '10px',
+    backgroundColor: '#79B26033',
+    color: 'primary.700',
+    padding: '3px 6px',
+    fontSize: '11px'
+  },
+  chipsBox: {
+    display: 'flex',
+    gap: '10px'
+  },
+  chipListNames: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px'
+  },
+  chipText: {
+    lineHeight: '28px'
   },
   languagesBox: {
     display: 'flex',

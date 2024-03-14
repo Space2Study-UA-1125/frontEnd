@@ -119,4 +119,17 @@ describe('OfferCard Component', () => {
     const rating = queryByText(offer.author.averageRating.student.toString())
     expect(rating).toBeInTheDocument()
   })
+  it('renders offercard grid view when view is set to "grid"', () => {
+    const { getByText } = renderWithProviders(
+      <OfferCard offer={offer} view='grid' />
+    )
+    expect(getByText('common.labels.subject')).toBeInTheDocument()
+  })
+
+  it('renders offercard list view when view is set to "list"', () => {
+    const { queryByText } = renderWithProviders(
+      <OfferCard offer={offer} view='list' />
+    )
+    expect(queryByText('common.labels.subject')).not.toBeInTheDocument()
+  })
 })
