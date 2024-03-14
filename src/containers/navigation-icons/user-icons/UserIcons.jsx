@@ -9,6 +9,8 @@ import { userIcons } from '~/containers/navigation-icons/NavigationIcons.constan
 import AccountMenu from '~/containers/layout/account-menu/AccountMenu'
 import { styles } from '~/containers/navigation-icons/NavigationIcons.styles'
 
+import AccountIcon from '~/containers/navigation-icons/AccountIcon'
+
 const UserIcons = ({ setSidebarOpen }) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState(null)
   const anchorRef = useRef(null)
@@ -35,6 +37,7 @@ const UserIcons = ({ setSidebarOpen }) => {
   return (
     <Box ref={anchorRef} sx={styles.iconBox}>
       {icons}
+      <AccountIcon openMenu={openMenu} />
       <AccountMenu anchorEl={menuAnchorEl} onClose={closeMenu} />
     </Box>
   )
