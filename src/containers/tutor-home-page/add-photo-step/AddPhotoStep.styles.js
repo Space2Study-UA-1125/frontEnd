@@ -5,7 +5,7 @@ export const style = {
     margin: '0 auto',
     width: { xs: '100%', sm: '100%', md: '800px', lg: '926px' },
     maxWidth: { xs: '100%', sm: '100%', md: '100%', lg: '926px' },
-    display: 'flex',
+    display: { xs: 'block', sm: 'flex' },
     gap: '0 77px',
     minHeight: '485px',
     justifyContent: 'center'
@@ -49,11 +49,13 @@ const baseStyles = {
     alignItems: 'center',
     gap: '40px',
     borderRadius: '20px',
-    width: '100%',
-    height: { xs: '92vw', sm: '72vw', md: '39vw' },
-    maxWidth: { sm: '440px' },
-    maxHeight: { sm: '440px' },
+    width: { xs: '90vw', sm: '100%', md: '100%' },
+    height: { xs: '90vw', sm: '72vw', md: '39vw' },
+    maxWidth: { sm: '270px', md: '440px' },
+    maxHeight: { sm: '270px', md: '370px', lg: '440px' },
+    margin: { xs: '0 auto', sm: '0' },
     marginBottom: { xs: '64px', sm: '20px', lg: '0' },
+
     ...fadeAnimation
   },
   uploadBox: {
@@ -80,7 +82,6 @@ export const dragStylesWithBorder = {
   ...baseStyles,
   root: {
     ...baseStyles.root,
-    border: '1px dashed #02020280',
-    maxWidth: { sm: '438px' }
+    border: '1px dashed #02020280'
   }
 }
