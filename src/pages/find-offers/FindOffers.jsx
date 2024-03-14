@@ -77,6 +77,7 @@ const FindOffers = () => {
         author={author}
         categoryName={categoryName}
         changeFilters={setUrlSearchParams}
+        searchParams={searchParams}
         subjectId={subject}
       />
       <Stack sx={styles.stack}>

@@ -12,6 +12,6 @@ export const styles = {
     gap: '30px'
   },
   switch: {
-    display: { sm: 'none', md: 'flex' }
+    display: { xs: 'none', md: 'flex' }
   }
 }

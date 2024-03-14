@@ -2,9 +2,9 @@ import palette from '~/styles/app-theme/app.pallete'
 
 export const styles = {
   selectContainer: {
-    display: 'flex',
-    flexDirection: { xs: 'column', md: 'row', lg: 'row' },
-    alignItems: { xs: 'start', md: 'center', lg: 'center' }
+    display: { xs: 'none', sm: 'flex' },
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   hetperText: {
     fontSize: '16px',

@@ -15,7 +15,13 @@ import { authRoutes } from '~/router/constants/authRoutes'
 import { useNavigate } from 'react-router-dom'
 import useAxios from '~/hooks/use-axios'
 
-const SearchToolbar = ({ changeFilters, subjectId, categoryName, author }) => {
+const SearchToolbar = ({
+  changeFilters,
+  subjectId,
+  categoryName,
+  author,
+  searchParams
+}) => {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const [authorSearch, setAuthorSearch] = useState('')
@@ -46,9 +52,12 @@ const SearchToolbar = ({ changeFilters, subjectId, categoryName, author }) => {
     : getEmptyArrayData
 
   const handleCategoryChange = (value) => {
+    const queryParams = new URLSearchParams(searchParams)
     const path = value
-      ? `${authRoutes.offersCategoryName.path}/${value.name}/offers`
-      : `${authRoutes.offersCategoryName.path}/offers`
+      ? `${authRoutes.offersCategoryName.path}/${
+          value.name
+        }/offers?${queryParams.toString()}`
+      : `${authRoutes.offersCategoryName.path}/offers?${queryParams.toString()}`
     navigate(path)
   }
 
@@ -80,7 +89,7 @@ const SearchToolbar = ({ changeFilters, subjectId, categoryName, author }) => {
         <ArrowBackIcon fontSize='small' />
         {t('findOffers.backToAllCategories')}
       </Typography>
-      <Grid container spacing={3} sx={styles.toolbar}>
+      <Grid container sx={styles.toolbar}>
         <Grid item lg={3} md={3} sm={6} xs={12}>
           <AsyncAutocomplete
             labelField='name'
