@@ -78,7 +78,7 @@ describe('SubjectsStep renders components', () => {
   })
 
   it('should render image', () => {
-    const img = screen.getByAltText('Subjects')
+    const img = screen.getByAltText('Subject')
 
     expect(img).toBeInTheDocument()
   })
