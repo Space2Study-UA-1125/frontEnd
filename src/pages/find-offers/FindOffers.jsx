@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import Stack from '@mui/material/Stack'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-
 import AppViewSwitcher from '~/components/app-view-switcher/AppViewSwitcher'
 import AppSortMenu from '~/components/app-sort-menu/AppSortMenu'
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
@@ -10,11 +9,10 @@ import useUrlSearchParams from '~/hooks/use-url-search-params'
 import AppContentSwitcher from '~/components/app-content-switcher/AppContentSwitcher'
 import { offerService } from '~/services/offer-service'
 import OfferCard from '~/components/offer-card/OfferCard'
-
 import { styles } from '~/pages/find-offers/FindOffers.styles'
 import Button from '@mui/material/Button'
 import { paginationButtonSx } from '~/pages/find-offers/FindOffers.styles'
-
+import { useLocation, useNavigate } from 'react-router-dom'
 const FindOffers = () => {
   const { t } = useTranslation()
   const { searchParams, setUrlSearchParams } = useUrlSearchParams()
@@ -24,6 +22,13 @@ const FindOffers = () => {
   const [totalOffers, setTotalOffers] = useState(0)
   const limit = 5
   const totalPages = Math.ceil(totalOffers / limit)
+  const location = useLocation()
+  const navigate = useNavigate()
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const pageParam = parseInt(searchParams.get('page') || '1', 10)
+    setCurrentPage(pageParam)
+  }, [location])
   const getPaginationRange = () => {
     let start = Math.max(currentPage - 2, 1)
     let end = Math.min(start + 4, totalPages)
@@ -40,7 +45,12 @@ const FindOffers = () => {
   }
   const handlePageChange = (newPage) => {
     if (newPage === '...') return
-    setCurrentPage(newPage)
+    const searchParams = new URLSearchParams(location.search)
+    searchParams.set('page', newPage)
+    navigate({
+      pathname: location.pathname,
+      search: `?${searchParams.toString()}`
+    })
   }
   const paginationRange = getPaginationRange()
   const handleNextPage = () => {
