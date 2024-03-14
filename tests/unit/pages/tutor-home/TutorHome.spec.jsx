@@ -49,7 +49,7 @@ vi.mock('~/context/modal-context', async () => {
   }
 })
 
-describe('TutorHomePage test', () => {
+describe('StudentHomePage test', () => {
   beforeEach(() => {
     const preloadedState = {
       appMain: { isFirstLogin: false, userRole: 'tutor' }
@@ -72,7 +72,7 @@ describe('TutorHomePage test', () => {
   })
 })
 
-describe('TutorHomePage the modal window test', () => {
+describe('StudentHomePage the modal window test', () => {
   beforeEach(() => {
     const preloadedState = {
       appMain: { isFirstLogin: true, userRole: 'tutor' }
