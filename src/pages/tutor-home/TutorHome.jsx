@@ -28,7 +28,7 @@ const TutorHome = () => {
 
   return (
     <PageWrapper sx={styles.container}>
-      <AppNetworkCard />
+      <AppNetworkCard userRole={userRole} />
       <PopularCategories
         description='tutorHomePage.popularCategories.description'
         limit={6}

@@ -1,7 +1,7 @@
 import { commonShadow } from '~/styles/app-theme/custom-shadows'
 export const styles = {
   mainContainer: {
-    paddingRight: '40px',
+    paddingRight: '24px',
     margin: '30px 0'
   },
   titleWithDescription: {
