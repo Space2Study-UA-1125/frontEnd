@@ -1,8 +1,11 @@
 export const styles = {
   grid: {
+    display: 'grid',
     justifyContent: 'center',
-    gap: '32px 24px',
-    gridTemplateColumns: 'repeat(3, 1fr)'
+    gap: '20px',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    flexGrow: '1',
+    margin: '20px 0px'
   },
   list: {
     justifyContent: 'center',
@@ -10,6 +13,9 @@ export const styles = {
     py: '24px'
   },
   gridItem: {
+    pr: '40px'
+  },
+  listItem: {
     width: '100%',
     pr: '40px'
   }

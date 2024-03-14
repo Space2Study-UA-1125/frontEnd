@@ -6,7 +6,11 @@ const OffersContainer = ({ offers, view = 'list' }) => {
   return (
     <Grid container sx={view === 'grid' ? styles.grid : styles.list}>
       {offers?.map((offer) => (
-        <Grid item key={offer._id} sx={styles.gridItem}>
+        <Grid
+          item
+          key={offer._id}
+          sx={view === 'grid' ? styles.gridItem : styles.listItem}
+        >
           <OfferCard offer={offer} view={view}></OfferCard>
         </Grid>
       ))}
