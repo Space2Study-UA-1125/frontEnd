@@ -37,7 +37,7 @@ const StudentHome = () => {
       <Container data-testid='studentHome' sx={styles.container}>
         <AppNetworkCard userRole={userRole} />
         <PopularCategories
-          description='tutorHomePage.popularCategories.description'
+          description='studentHomePage.popularCategories.description'
           limit={6}
           style={styles.titleWithDescription}
         />
