@@ -1,3 +1,5 @@
+// import { useCallback, useEffect, useState } from 'react'
+
 import { useCallback, useEffect, useState } from 'react'
 import Stack from '@mui/material/Stack'
 import { useSelector } from 'react-redux'
@@ -13,6 +15,7 @@ import OfferCard from '~/components/offer-card/OfferCard'
 
 import { styles } from '~/pages/find-offers/FindOffers.styles'
 import Button from '@mui/material/Button'
+import { paginationButtonSx } from '~/pages/find-offers/FindOffers.styles'
 
 const FindOffers = () => {
   const { t } = useTranslation()
@@ -23,7 +26,55 @@ const FindOffers = () => {
   const [totalOffers, setTotalOffers] = useState(0)
   const limit = 5
   const totalPages = Math.ceil(totalOffers / limit)
+  const getPaginationRange = () => {
+    let start = Math.max(currentPage - 2, 1)
+    let end = Math.min(start + 4, totalPages)
 
+    if (totalPages >= 5 && end >= totalPages) {
+      start = totalPages - 4
+    }
+
+    const range = []
+    for (let i = start; i <= end; i++) {
+      range.push(i)
+    }
+    return range
+  }
+  const handlePageChange = (newPage) => {
+    if (newPage === '...') return
+    setCurrentPage(newPage)
+  }
+  const paginationRange = getPaginationRange()
+  const handleNextPage = () => {
+    setCurrentPage((prevCurrentPage) =>
+      Math.min(prevCurrentPage + 1, totalPages)
+    )
+  }
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevCurrentPage) => Math.max(prevCurrentPage - 1, 1))
+  }
+  const nextPageButton = (
+    <Button
+      disabled={currentPage >= totalPages}
+      key='nextPage'
+      onClick={handleNextPage}
+      sx={paginationButtonSx}
+    >
+      {'>'}
+    </Button>
+  )
+
+  const previousPageButton = (
+    <Button
+      disabled={currentPage <= 1}
+      key='previousPage'
+      onClick={handlePreviousPage}
+      sx={paginationButtonSx}
+    >
+      {'<'}
+    </Button>
+  )
   const authorRole =
     searchParams.get('authorRole') ||
     (userRole === 'student' ? 'tutor' : 'student')
@@ -47,10 +98,6 @@ const FindOffers = () => {
     fetchOffers()
   }, [fetchOffers])
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage)
-  }
-
   const switchOptions = {
     left: { text: t('findOffers.topMenu.tutorsOffers') },
     right: { text: t('findOffers.topMenu.studentsRequests') }
@@ -62,16 +109,62 @@ const FindOffers = () => {
     setCurrentPage(1)
   }
 
-  const pageButtons = []
-  for (let page = 1; page <= totalPages; page++) {
-    pageButtons.push(
+  const pageButtons = [
+    previousPageButton,
+    ...paginationRange.map((page) => {
+      if (page === currentPage - 2 && currentPage > 3) {
+        return (
+          <Button disabled key='startEllipsis' sx={paginationButtonSx}>
+            ...
+          </Button>
+        )
+      } else if (page === currentPage + 2 && currentPage < totalPages - 2) {
+        return (
+          <Button disabled key='endEllipsis' sx={paginationButtonSx}>
+            ...
+          </Button>
+        )
+      } else {
+        return (
+          <Button
+            className={
+              currentPage === page ? 'MuiButton-contained' : 'MuiButton-text'
+            }
+            key={page}
+            onClick={() => handlePageChange(page)}
+            sx={paginationButtonSx}
+          >
+            {page}
+          </Button>
+        )
+      }
+    }),
+    nextPageButton
+  ]
+  if (totalPages > 5 && currentPage < totalPages - 2) {
+    pageButtons.splice(
+      pageButtons.length - 1,
+      0,
       <Button
-        key={page}
-        onClick={() => handlePageChange(page)}
-        sx={{ margin: '0 4px' }}
-        variant={page === currentPage ? 'contained' : 'text'}
+        key={totalPages}
+        onClick={() => handlePageChange(totalPages)}
+        sx={paginationButtonSx}
       >
-        {page}
+        {totalPages}
+      </Button>
+    )
+  }
+
+  if (totalPages > 5 && currentPage > 3) {
+    pageButtons.splice(
+      1,
+      0,
+      <Button
+        key={1}
+        onClick={() => handlePageChange(1)}
+        sx={paginationButtonSx}
+      >
+        {1}
       </Button>
     )
   }
