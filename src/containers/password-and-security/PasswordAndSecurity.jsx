@@ -22,8 +22,8 @@ const PasswordAndSecurity = () => {
   const [oldPasswordError, setOldPasswordError] = useState('')
 
   const { fetchData: sendResetPassword } = useAxios({
-    service: (newPassword) => {
-      return userService.updateUser(store.userId, newPassword)
+    service: (passwords) => {
+      return userService.updateUser(store.userId, passwords)
     },
     onResponseError: (error) => {
       error.code === 'INCORRECT_CREDENTIALS'
