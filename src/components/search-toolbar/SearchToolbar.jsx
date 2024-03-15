@@ -52,6 +52,8 @@ const SearchToolbar = ({
     : getEmptyArrayData
 
   const handleCategoryChange = (value) => {
+    handleSubjectChange(null)
+
     const queryParams = new URLSearchParams(searchParams)
     const path = value
       ? `${authRoutes.offersCategoryName.path}/${
