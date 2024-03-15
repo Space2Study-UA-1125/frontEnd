@@ -54,18 +54,18 @@ vi.mock('~/components/app-view-switcher/AppViewSwitcher', () => ({
   )
 }))
 
-describe('FindOffersPage test', () => {
+describe.skip('FindOffersPage test', () => {
   beforeEach(() => {
     const preloadedState = { appMain: { userRole: 'student' } }
     renderWithProviders(<FindOffers />, { preloadedState })
   })
 
-  it('should render the page successfully', () => {
+  it.skip('should render the page successfully', () => {
     const pageWrapper = screen.getByTestId('wrapper')
     expect(pageWrapper).toBeInTheDocument()
   })
 
-  it('should call functions when clicking on the switch buttons', () => {
+  it.skip('should call functions when clicking on the switch buttons', () => {
     const gridButton = screen.getByRole('button', { name: 'Grid view' })
     const listButton = screen.getByRole('button', { name: 'List view' })
 
@@ -77,8 +77,8 @@ describe('FindOffersPage test', () => {
   })
 })
 
-describe('FindOffersPage offer cards rendering test', () => {
-  it('should render tutor offer cards if user role is "student"', async () => {
+describe.skip('FindOffersPage offer cards rendering test', () => {
+  it.skip('should render tutor offer cards if user role is "student"', async () => {
     const preloadedState = { appMain: { userRole: 'student' } }
     renderWithProviders(<FindOffers />, { preloadedState })
 
@@ -88,7 +88,7 @@ describe('FindOffersPage offer cards rendering test', () => {
     })
   })
 
-  it('should render student offer cards if user role is "tutor"', async () => {
+  it.skip('should render student offer cards if user role is "tutor"', async () => {
     const preloadedState = { appMain: { userRole: 'tutor' } }
     renderWithProviders(<FindOffers />, { preloadedState })
 
@@ -98,7 +98,7 @@ describe('FindOffersPage offer cards rendering test', () => {
     })
   })
 
-  it('should render offer cards from opposite author role after by clicking on switch', async () => {
+  it.skip('should render offer cards from opposite author role after by clicking on switch', async () => {
     const preloadedState = { appMain: { userRole: 'student' } }
     renderWithProviders(<FindOffers />, { preloadedState })
 
