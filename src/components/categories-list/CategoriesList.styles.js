@@ -2,7 +2,6 @@ import palette from '~/styles/app-theme/app.pallete'
 
 export const styles = {
   categoriesContainer: {
-    margin: '0 auto',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
