@@ -5,7 +5,7 @@ export const styles = {
   container: {
     maxWidth: { sm: 'sm', md: 'md', lg: 'lg' },
     display: 'grid',
-    width: '100%',
+    width: { xs: '100%', lg: '949px' },
     gridTemplateColumns: { xs: 'auto', md: 'auto 432px' },
     columnGap: { md: '60px', lg: '114px' },
     rowGap: { xs: '16px', sm: '20px' },

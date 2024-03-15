@@ -3,8 +3,8 @@ import { fadeAnimation } from '~/styles/app-theme/custom-animations'
 export const style = {
   container: {
     margin: '0 auto',
-    width: { xs: '100%', sm: '100%', md: '800px', lg: '926px' },
-    maxWidth: { xs: '100%', sm: '100%', md: '100%', lg: '926px' },
+    width: { xs: '100%', sm: '100%', md: '800px', lg: '949px' },
+    maxWidth: { xs: '100%', sm: '100%', md: '100%', lg: '949px' },
     display: { xs: 'block', sm: 'flex' },
     gap: '0 77px',
     minHeight: '485px',
