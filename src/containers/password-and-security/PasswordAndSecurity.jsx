@@ -18,14 +18,17 @@ import { useState } from 'react'
 const PasswordAndSecurity = () => {
   const { t } = useTranslation()
   const store = useSelector((state) => state.appMain)
-  const [newPasswordError, setNewPasswordError] = useState('')
+  const [samePasswordError, setSamePasswordError] = useState('')
+  const [oldPasswordError, setOldPasswordError] = useState('')
 
   const { fetchData: sendResetPassword } = useAxios({
     service: (newPassword) => {
       return userService.updateUser(store.userId, newPassword)
     },
-    onResponseError: () => {
-      setNewPasswordError(t('common.errorMessages.samePasswords'))
+    onResponseError: (error) => {
+      error.code === 'INCORRECT_CREDENTIALS'
+        ? setSamePasswordError(t('common.errorMessages.samePasswords'))
+        : setOldPasswordError(t('common.errorMessages.currentPassword'))
     },
     fetchOnMount: false,
     defaultResponse: null
@@ -37,14 +40,18 @@ const PasswordAndSecurity = () => {
       : emptyField(
           password,
           'common.errorMessages.emptyField',
-          newPasswordError !== '' ? newPasswordError : ''
+          samePasswordError !== '' ? samePasswordError : ''
         )
   }
 
-  const { handleSubmit, handleInputChange, data, errors, setErrors } = useForm({
+  const { handleSubmit, handleInputChange, data, errors } = useForm({
     onSubmit: () => {
-      setNewPasswordError('')
-      sendResetPassword({ password: data.password })
+      setSamePasswordError('')
+      setOldPasswordError('')
+      sendResetPassword({
+        password: data.password,
+        oldPassword: data.oldPassword
+      })
     },
     initialValues: { oldPassword: '', password: '', confirmPassword: '' },
     validations: { password, confirmPassword }
@@ -53,10 +60,10 @@ const PasswordAndSecurity = () => {
   const {
     inputVisibility: oldPasswordVisibility,
     showInputText: showOldPassword
-  } = useInputVisibility(errors.oldPassword)
+  } = useInputVisibility(oldPasswordError)
 
   const { inputVisibility: passwordVisibility, showInputText: showPassword } =
-    useInputVisibility(errors.password || newPasswordError)
+    useInputVisibility(errors.password || samePasswordError)
 
   const {
     inputVisibility: confirmPasswordVisibility,
@@ -64,16 +71,21 @@ const PasswordAndSecurity = () => {
   } = useInputVisibility(errors.confirmPassword)
 
   const handlePasswordChange = (e) => {
-    setNewPasswordError('')
+    setSamePasswordError('')
     handleInputChange('password')(e)
+  }
+
+  const handleOldPasswordChange = (e) => {
+    setOldPasswordError('')
+    handleInputChange('oldPassword')(e)
   }
 
   const onDiscard = () => {
     handleInputChange('oldPassword')({ target: { value: '' } })
     handleInputChange('password')({ target: { value: '' } })
     handleInputChange('confirmPassword')({ target: { value: '' } })
-    setNewPasswordError('')
-    setErrors('')
+    setSamePasswordError('')
+    setOldPasswordError('')
   }
   return (
     <AppCard sx={{ ...styles.card }}>
@@ -93,11 +105,12 @@ const PasswordAndSecurity = () => {
         </Typography>
         <AppTextField
           InputProps={oldPasswordVisibility}
+          errorMsg={oldPasswordError}
           fullWidth
           label={t(
             'settingsPage.passwordAndSecurityBlock.labels.currentPassword'
           )}
-          onChange={handleInputChange('oldPassword')}
+          onChange={handleOldPasswordChange}
           required
           size='large'
           sx={{ mb: '10px' }}
@@ -106,7 +119,7 @@ const PasswordAndSecurity = () => {
         />
         <AppTextField
           InputProps={passwordVisibility}
-          errorMsg={newPasswordError || t(errors.password)}
+          errorMsg={samePasswordError || t(errors.password)}
           fullWidth
           label={t('settingsPage.passwordAndSecurityBlock.labels.newPassword')}
           onChange={handlePasswordChange}
