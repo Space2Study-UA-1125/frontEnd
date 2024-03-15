@@ -8,8 +8,8 @@ export const authRoutes = {
   chat: { route: 'chat', path: '/chat' },
   userProfile: { route: 'user/:id', path: '/user' },
   findOffers: {
-    route: 'categories/subjects/find-offers',
-    path: '/categories/subjects/find-offers'
+    route: 'categories/offers',
+    path: '/categories/offers'
   },
   offerDetails: { route: 'offer-details/:id', path: '/offer-details' },
   accountMenu: {

@@ -2,7 +2,7 @@ import { toggleButtonGroupClasses } from '@mui/material/ToggleButtonGroup'
 
 export const styles = {
   buttonGroup: {
-    display: 'flex',
+    display: { xs: 'none', md: 'flex' },
     gap: '10px',
 
     [`& .${toggleButtonGroupClasses.firstButton}, & .${toggleButtonGroupClasses.lastButton}`]:

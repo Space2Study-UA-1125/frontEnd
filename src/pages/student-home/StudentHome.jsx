@@ -1,4 +1,3 @@
-import Container from '@mui/material/Container'
 import { useEffect } from 'react'
 import UserStepsWrapper from '~/components/user-steps-wrapper/UserStepsWrapper'
 
@@ -33,17 +32,15 @@ const StudentHome = () => {
   }, [openModal, isFirstLogin, userRole])
 
   return (
-    <PageWrapper>
-      <Container data-testid='studentHome' sx={styles.container}>
-        <AppNetworkCard userRole={userRole} />
-        <PopularCategories
-          description='studentHomePage.popularCategories.description'
-          limit={6}
-          style={styles.titleWithDescription}
-        />
-        <StudentHowItWorks userRole={userRole} />
-        <Faq userRole={userRole} />
-      </Container>
+    <PageWrapper sx={styles.container}>
+      <AppNetworkCard userRole={userRole} />
+      <PopularCategories
+        description='studentHomePage.popularCategories.description'
+        limit={6}
+        style={styles.titleWithDescription}
+      />
+      <StudentHowItWorks userRole={userRole} />
+      <Faq userRole={userRole} />
     </PageWrapper>
   )
 }

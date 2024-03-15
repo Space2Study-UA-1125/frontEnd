@@ -1,6 +1,6 @@
 export const styles = {
   card: {
-    padding: { xs: '20px', sm: '40px 24px', lg: '80px 50px' },
+    padding: { xs: '20px', sm: '40px 24px', lg: '60px 50px' },
     backgroundColor: 'companyBlue',
     textAlign: { xs: 'center', sm: 'left' },
     borderRadius: '16px',
@@ -14,7 +14,7 @@ export const styles = {
   titleWithDescription: {
     title: {
       typography: { xs: 'h6', md: 'h4' },
-      marginBottom: '8px'
+      marginBottom: '14px'
     },
     description: {
       display: 'inline-block',

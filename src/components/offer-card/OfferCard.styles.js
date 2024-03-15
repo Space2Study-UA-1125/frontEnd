@@ -2,16 +2,15 @@ export const styles = {
   mainBoxList: {
     display: 'flex',
     flexDirection: { sm: 'row', xs: 'column' },
-    width: '100%',
     gap: { sm: '24px', md: '40px' },
     position: 'relative',
     backgroundColor: 'basic.white',
-    padding: '31px 20px'
+    padding: '31px 20px',
+    borderRadius: '6px'
   },
   mainBoxGrid: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
     position: 'relative',
     backgroundColor: 'basic.white',
     padding: '20px',
@@ -35,7 +34,10 @@ export const styles = {
   gridAuthorName: {
     color: 'primary.500',
     fontSize: '17px',
-    fontWeight: '500'
+    fontWeight: '500',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   boxWithPhoto: {
     maxHeight: '170px',
@@ -55,7 +57,10 @@ export const styles = {
   boxWithPhotoInformation: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '6px'
+    gap: '6px',
+    flex: '1',
+    minWidth: '0',
+    paddingRight: '28px'
   },
   starIcon: {
     color: 'basic.yellow'

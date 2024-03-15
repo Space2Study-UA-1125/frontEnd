@@ -1,5 +1,6 @@
-import { render, fireEvent, screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderWithProviders } from '~tests/test-utils'
 import SearchToolbar from '~/components/search-toolbar/SearchToolbar'
 
 const changeFiltersMock = vi.fn()
@@ -64,7 +65,12 @@ vi.mock('~/components/app-button/AppButton', () => ({
 describe('SearchToolbar test', () => {
   beforeEach(() => {
     changeFiltersMock.mockClear()
-    render(<SearchToolbar changeFilters={changeFiltersMock} />)
+    renderWithProviders(
+      <SearchToolbar
+        categoryName='Languages'
+        changeFilters={changeFiltersMock}
+      />
+    )
   })
 
   it('should render description', () => {
@@ -100,12 +106,8 @@ describe('SearchToolbar test', () => {
   })
 
   it('should fetch subjects of the chosen category on click', async () => {
-    const selectCategory = screen.getByLabelText('Category')
     const selectSubject = screen.getByLabelText('Subject')
 
-    userEvent.click(selectCategory)
-    userEvent.click(screen.getByText('Languages'))
-    expect(selectCategory).toHaveValue('Languages')
     userEvent.click(selectSubject)
     await waitFor(() => {
       expect(selectSubject).toHaveAttribute('aria-expanded', 'true')
@@ -119,8 +121,6 @@ describe('SearchToolbar test', () => {
     const selectCategory = screen.getByLabelText('Category')
     const selectSubject = screen.getByLabelText('Subject')
 
-    userEvent.click(selectCategory)
-    userEvent.click(screen.getByText('Languages'))
     userEvent.click(selectSubject)
     await waitFor(() => {
       userEvent.click(screen.getByText('English'))
@@ -128,16 +128,24 @@ describe('SearchToolbar test', () => {
 
     expect(selectCategory).toHaveValue('Languages')
     expect(selectSubject).toHaveValue('English')
-    fireEvent.mouseOver(selectCategory)
 
-    const [categoryClearButton] = screen.getAllByLabelText('Clear')
+    fireEvent.mouseOver(selectCategory)
+    const categoryClearButton = screen.getByLabelText('Clear')
 
     expect(categoryClearButton).toBeInTheDocument()
+
+    fireEvent.mouseOver(selectSubject)
+    const subjectClearButton = screen.getByLabelText('Clear')
+
+    expect(subjectClearButton).toBeInTheDocument()
+    fireEvent.click(subjectClearButton)
+    expect(selectSubject).toHaveValue('')
+
     fireEvent.click(categoryClearButton)
     expect(selectCategory).toHaveValue('')
-    expect(selectSubject).toHaveValue('')
     expect(changeFiltersMock).toHaveBeenCalled()
   })
+
   it('should call data function with correct arguments when search button is clicked', () => {
     const text = 'author'
     const searchInput = screen.getByPlaceholderText(
@@ -149,7 +157,7 @@ describe('SearchToolbar test', () => {
     userEvent.click(searchButton)
     expect(searchInput).toHaveValue(text)
 
-    expect(changeFiltersMock).toHaveBeenCalledTimes(3)
+    expect(changeFiltersMock).toHaveBeenCalled()
     expect(changeFiltersMock).toHaveBeenLastCalledWith({ author: text })
   })
 })

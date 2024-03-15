@@ -1,6 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import OffersContainer from '~/containers/offers-container/OffersContainer'
-import { styles } from '~/containers/offers-container/OffersContainer.styles'
 
 vi.mock('~/components/offer-card/OfferCard', () => {
   return {
@@ -37,30 +36,5 @@ describe('OffersContainer test', () => {
     expect(screen.getAllByTestId('mock-offer-card')).toHaveLength(
       mockOffers.length
     )
-  })
-
-  it('applies grid styles for grid view', () => {
-    const { container } = render(<OffersContainer offers={[]} view='grid' />)
-
-    const containerStyles = getComputedStyle(container.firstChild)
-
-    expect(containerStyles.getPropertyValue('grid-template-columns')).toBe(
-      styles.grid.gridTemplateColumns
-    )
-    expect(containerStyles.getPropertyValue('justify-content')).toBe(
-      styles.grid.justifyContent
-    )
-    expect(containerStyles.getPropertyValue('gap')).toBe(styles.grid.gap)
-  })
-
-  it('applies list styles for list view', () => {
-    const { container } = render(<OffersContainer offers={[]} view='list' />)
-
-    const containerStyles = getComputedStyle(container.firstChild)
-
-    expect(containerStyles.getPropertyValue('justify-content')).toBe(
-      styles.list.justifyContent
-    )
-    expect(containerStyles.getPropertyValue('gap')).toBe(styles.list.gap)
   })
 })

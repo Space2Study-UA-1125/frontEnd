@@ -1,8 +1,7 @@
 import { commonShadow } from '~/styles/app-theme/custom-shadows'
 export const styles = {
   mainContainer: {
-    paddingRight: '40px',
-    margin: '30px 0'
+    margin: { xs: '30px 0 0 0', sm: '30px 0' }
   },
   titleWithDescription: {
     wrapper: {
@@ -10,32 +9,31 @@ export const styles = {
       textAlign: 'center'
     },
     title: {
-      typography: 'h4',
-      marginBottom: '20px'
+      typography: { sm: 'h4', xs: 'h5' }
     },
     description: {
       typography: { xs: 'body2', md: 'body1' }
     }
   },
   link: {
-    display: 'flex',
+    marginLeft: { xs: '0', sm: '21px' },
+    display: 'inline-flex',
     justifyContent: 'start',
     alignItems: 'center',
     columnGap: '10px',
     color: 'primary.500',
     textDecoration: 'none',
-    padding: { xs: '0px 24px', sm: '20px 45px 20px 24px' }
+    padding: { xs: '0', sm: '20px 45px 20px 24px' }
   },
   toolbar: {
-    display: 'flex',
-    justifyContent: 'start',
-    padding: { sm: '5px 45px 29px 21px', md: '5px 45px 29px 21px' },
-    margin: '0',
+    padding: { xs: '10px 0 0 0', sm: '29px 25px 29px 45px', md: '29px 45px' },
+    rowGap: '10px',
     backgroundColor: { sm: 'basic.white' },
     boxShadow: { sm: commonShadow },
     borderRadius: { sm: '70px' }
   },
   textField: {
+    marginRight: { xs: '0', sm: '20px' },
     minWidth: '100px',
     flex: 1
   },
@@ -43,7 +41,6 @@ export const styles = {
     display: { xs: 'none', md: 'flex' },
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '0',
     flex: 1
   },
   searchIcon: {

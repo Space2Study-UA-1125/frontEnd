@@ -4,12 +4,14 @@ import OfferCard from '~/components/offer-card/OfferCard'
 
 const OffersContainer = ({ offers, view = 'list' }) => {
   return (
-    <Grid container sx={view === 'grid' ? styles.grid : styles.list}>
+    <Grid container spacing={3} sx={styles.container}>
       {offers?.map((offer) => (
         <Grid
           item
           key={offer._id}
-          sx={view === 'grid' ? styles.gridItem : styles.listItem}
+          lg={view === 'grid' ? 4 : 12}
+          md={view === 'grid' ? 6 : 12}
+          xs={12}
         >
           <OfferCard offer={offer} view={view}></OfferCard>
         </Grid>

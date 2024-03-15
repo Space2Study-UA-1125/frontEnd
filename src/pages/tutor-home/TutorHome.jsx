@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import Container from '@mui/material/Container'
 
 import { useModalContext } from '~/context/modal-context'
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
@@ -28,17 +27,15 @@ const TutorHome = () => {
   }, [openModal, isFirstLogin, userRole])
 
   return (
-    <PageWrapper>
-      <Container sx={styles.container}>
-        <AppNetworkCard />
-        <PopularCategories
-          description='tutorHomePage.popularCategories.description'
-          limit={6}
-          style={styles.titleWithDescription}
-        />
-        <StudentHowItWorks userRole={userRole} />
-        <Faq userRole={userRole} />
-      </Container>
+    <PageWrapper sx={styles.container}>
+      <AppNetworkCard userRole={userRole} />
+      <PopularCategories
+        description='tutorHomePage.popularCategories.description'
+        limit={6}
+        style={styles.titleWithDescription}
+      />
+      <StudentHowItWorks userRole={userRole} />
+      <Faq userRole={userRole} />
     </PageWrapper>
   )
 }

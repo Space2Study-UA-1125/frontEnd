@@ -25,9 +25,9 @@ const tutorOffers = {
 const handleListView = vi.fn()
 const handleGridView = vi.fn()
 
-vi.mock('~/services/offer-service', () => ({
-  offerService: {
-    getOffers: ({ authorRole }) => {
+vi.mock('~/services/category-service', () => ({
+  categoryService: {
+    getOffersByCategoryName: (_category, { authorRole }) => {
       return authorRole === 'tutor' ? tutorOffers : studentOffers
     }
   }
@@ -50,6 +50,24 @@ vi.mock('~/components/app-view-switcher/AppViewSwitcher', () => ({
     <div>
       <button onClick={handleListView}>List view</button>
       <button onClick={handleGridView}>Grid view</button>
+    </div>
+  )
+}))
+
+vi.mock('~/components/offer-request-block/OfferRequestBlock', () => ({
+  default: () => <div data-testid='offerRequestBlock' />
+}))
+
+vi.mock('~/components/popular-categories/PopularCategories', () => ({
+  default: () => <div data-testid='popularCategories' />
+}))
+
+vi.mock('~/containers/offers-container/OffersContainer', () => ({
+  default: ({ offers }) => (
+    <div data-testid='offersContainer'>
+      {offers.map((offer) => (
+        <div key={offer._id}>{offer.title}</div>
+      ))}
     </div>
   )
 }))

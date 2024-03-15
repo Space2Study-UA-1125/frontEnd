@@ -93,6 +93,6 @@ describe('AppNetworkCard test', () => {
 
     const link = screen.getByRole('link')
 
-    expect(link.href).toContain('/categories/subjects/find-offers?subject=1')
+    expect(link.href).toContain('/categories/offers?subject=1')
   })
 })
